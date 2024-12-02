@@ -337,28 +337,41 @@ void main()
 		"void main(){f=vec4(sqrt(fxaa(vec2(1240,800),uv)),1);}", true );
 #endif
 #endif
+	// modified this to make sure the polling of events is done outside the rendering loop
 	float deltaTime = 0;
 	static int frameNr = 0;
 	static Timer timer;
 	while (!glfwWindowShouldClose( window ))
 	{
-		deltaTime = min( 500.0f, 1000.0f * timer.elapsed() );
-		timer.reset();
-		app->Tick( deltaTime );
-		app->Render( screen );
-		// send the rendering result to the screen using OpenGL
-		if (frameNr++ > 1)
+		if (hasFocus)
 		{
-			if (app->screen) renderTarget->CopyFrom( app->screen );
-			shader->Bind();
-			shader->SetInputTexture( 0, "c", renderTarget );
-			DrawQuad();
-			shader->Unbind();
-			glfwSwapBuffers( window );
-			glfwPollEvents();
+			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
+			timer.reset();
+
+			app->Tick(deltaTime);
+			app->Render();
+
+			// send the rendering result to the screen using OpenGL
+			if (frameNr++ > 1)
+			{
+				if (app->screen) renderTarget->CopyFrom(app->screen);
+				shader->Bind();
+				shader->SetInputTexture(0, "c", renderTarget);
+				DrawQuad();
+				shader->Unbind();
+				glfwSwapBuffers(window);
+			}
+			if (!running) break;
 		}
-		if (!running) break;
+		else {
+			timer.reset();
+			deltaTime = 0.f;
+		}
+
+		// poll events outside rendering loop
+		glfwPollEvents();
 	}
+
 	// close down
 	app->Shutdown();
 	Kernel::KillCL();

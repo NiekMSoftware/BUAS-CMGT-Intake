@@ -406,7 +406,7 @@ class TheApp
 public:
 	virtual void Init() = 0;
 	virtual void Tick( float deltaTime ) = 0;
-	virtual void Render(Surface* scr) = 0;
+	virtual void Render() = 0;
 	virtual void Shutdown() = 0;
 	virtual void MouseUp( int button ) = 0;
 	virtual void MouseDown( int button ) = 0;

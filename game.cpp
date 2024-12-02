@@ -18,19 +18,19 @@ void Game::Init()
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
-void Game::Tick( float /* deltaTime */ )
+void Game::Tick( float deltaTime )
 {
-	
+	obj->Update(deltaTime);
 }
 
 // -----------------------------------------------------------
 // Main application render function - Executed once per frame
 // -----------------------------------------------------------
-void Game::Render(Surface* scr)
+void Game::Render()
 {
-	scr->Clear(0);
+	screen->Clear(0);
 
-	obj->Draw(scr);
+	obj->Draw(screen);
 }
 
 // -----------------------------------------------------------
