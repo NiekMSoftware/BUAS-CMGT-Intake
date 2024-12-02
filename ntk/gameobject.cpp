@@ -10,6 +10,8 @@ GameObject::GameObject()
 
 	// init sprite with surface
 	sprite = new Sprite(surface, 1);
+
+	OutputDebugString("[LOG] Successfully created a sprite with the surface.\n");
 }
 
 GameObject::~GameObject()

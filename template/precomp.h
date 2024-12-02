@@ -133,6 +133,9 @@ using namespace Tmpl8;
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+// ntk - utility
+#include "input.h"
+
 // zlib
 #include "zlib.h"
 

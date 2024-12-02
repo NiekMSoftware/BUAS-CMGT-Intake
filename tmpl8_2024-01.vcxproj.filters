@@ -26,6 +26,9 @@
     <ClCompile Include="ntk\gameobject.cpp">
       <Filter>ntk</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\input.cpp">
+      <Filter>ntk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -57,6 +60,9 @@
       <Filter>template</Filter>
     </ClInclude>
     <ClInclude Include="ntk\gameobject.h">
+      <Filter>ntk</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\input.h">
       <Filter>ntk</Filter>
     </ClInclude>
   </ItemGroup>
