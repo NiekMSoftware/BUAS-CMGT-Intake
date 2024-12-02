@@ -1,6 +1,7 @@
 #pragma once
 
-enum Axis {
+enum Axis 
+{
 	Horizontal,
 	Vertical
 };
@@ -8,8 +9,8 @@ enum Axis {
 class Input
 {
 public:
-	static bool Key(int key);
-	static bool KeyDown(int key);
+	static bool GetKey(int key);
+	static bool GetKeyDown(int key);
 	static float GetAxis(Axis axis);
 
 	static void SetCallback(GLFWwindow* window);

@@ -12,20 +12,27 @@ void ResourceHolder::Clean()
 	RemoveResources(spriteContainer);
 }
 
+// -----------------------------------------------------------
+// Meyer's singleton instance, used to manage seversal resources (Sprites, Surfaces etc..).
+// -----------------------------------------------------------
 ResourceHolder& ResourceHolder::Instance()
 {
 	static ResourceHolder s;
 	return s;
 }
 
+// -----------------------------------------------------------
+// Loads in a sprite by assigning a file, id and the number of frames.
+// -----------------------------------------------------------
 bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int numFrames)
 {
+	// Check if the resource already exists
 	if (findResource(spriteContainer, id)) {
 		OutputDebugString(("[WARNING] ResourceHolder::LoadSprite - Resource with id '" + id + "' already exists.\n").c_str());
 		return true;
 	}
 
-	// try to retrieve the surface
+	// Try to retrieve the surface
 	Surface* sfc = GetSurface(fileName);
 	if (!sfc)
 	{
@@ -45,10 +52,13 @@ bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int
 		return true;
 	}
 
-	// by default return false
+	// By default return false
 	return false;
 }
 
+// -----------------------------------------------------------
+// Retrieve the sprite with the ID that was given originally.
+// -----------------------------------------------------------
 Sprite* ResourceHolder::GetSprite(const std::string& id)
 {
 	// Attempt to find the sprite
@@ -63,21 +73,28 @@ Sprite* ResourceHolder::GetSprite(const std::string& id)
 	return sprite;
 }
 
+// -----------------------------------------------------------
+// Retrieve the Surface by using its file path acting as an ID.
+// -----------------------------------------------------------
 Surface* ResourceHolder::GetSurface(const std::string& filePath)
 {
 	return findResource(surfaceContainer, filePath);
 }
 
+// -----------------------------------------------------------
+// Find a resource from the specified container by using its ID.
+// -----------------------------------------------------------
 template<typename T>
 T* ResourceHolder::findResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id)
 {
-	// retrieve resource u sing a predicate, return the pair's id
+	// Retrieve the resource using a predicate, return the pair's id
 	auto it = std::find_if(container.begin(), container.end(),
 		[&](const std::pair<std::string, T*>& pair) {
 			return pair.first == id;
 		}
 	);
 
+	// Return either the resource or nullptr to handle it off properly
 	return it != container.end() ? it->second : nullptr;
 }
 

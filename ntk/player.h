@@ -16,5 +16,5 @@ private:
 private:
 	float2 movementDirection = { 0, 0 };
 
-	float moveSpeed = 0.1f;
+	float moveSpeed = 0.15f;
 };

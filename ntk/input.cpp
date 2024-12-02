@@ -8,7 +8,7 @@ int Input::cachedKey = 0;
 // --------------------------------------------
 // Retrieves the key that is being held down.
 // --------------------------------------------
-bool Input::Key(int key)
+bool Input::GetKey(int key)
 {
     // check for an invalid key
     if (key < 0 || key >= static_cast<int>(keyStates.size())) return false;
@@ -19,7 +19,7 @@ bool Input::Key(int key)
 // --------------------------------------------
 // Retrieves the key that got pressed down just once
 // --------------------------------------------
-bool Input::KeyDown(int key)
+bool Input::GetKeyDown(int key)
 {
     // check for an invalid key
     if (key < 0 || key >= static_cast<int>(keyStates.size())) return false;
@@ -43,14 +43,14 @@ float Input::GetAxis(Axis axis)
     {
         // handle horizontal axis
     case Horizontal:
-        if (Key(GLFW_KEY_A) || Key(GLFW_KEY_LEFT)) return -1.0f;
-        if (Key(GLFW_KEY_D) || Key(GLFW_KEY_RIGHT)) return 1.0f;
+        if (GetKey(GLFW_KEY_A) || GetKey(GLFW_KEY_LEFT)) return -1.0f;
+        if (GetKey(GLFW_KEY_D) || GetKey(GLFW_KEY_RIGHT)) return 1.0f;
         break;
 
         // handle vertical axis
     case Vertical:
-        if (Key(GLFW_KEY_W) || Key(GLFW_KEY_UP)) return -1.0f;
-        if (Key(GLFW_KEY_S) || Key(GLFW_KEY_DOWN)) return 1.0f;
+        if (GetKey(GLFW_KEY_W) || GetKey(GLFW_KEY_UP)) return -1.0f;
+        if (GetKey(GLFW_KEY_S) || GetKey(GLFW_KEY_DOWN)) return 1.0f;
         break;
     }
 
