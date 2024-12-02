@@ -32,7 +32,7 @@
     <ClCompile Include="ntk\gameobject.cpp">
       <Filter>ntk\core</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="ntk\player.cpp">
       <Filter>ntk\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="ntk\gameobject.h">
       <Filter>ntk\core</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
+    <ClInclude Include="ntk\player.h">
       <Filter>ntk\core</Filter>
     </ClInclude>
   </ItemGroup>
