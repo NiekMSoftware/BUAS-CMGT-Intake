@@ -23,11 +23,14 @@
     <ClCompile Include="template\scene.cpp">
       <Filter>template</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\gameobject.cpp">
-      <Filter>ntk</Filter>
+    <ClCompile Include="ntk\resourceholder.cpp">
+      <Filter>ntk\management</Filter>
     </ClCompile>
     <ClCompile Include="ntk\input.cpp">
-      <Filter>ntk</Filter>
+      <Filter>ntk\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\gameobject.cpp">
+      <Filter>ntk\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +62,14 @@
     <ClInclude Include="template\scene.h">
       <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\gameobject.h">
-      <Filter>ntk</Filter>
+    <ClInclude Include="ntk\resourceholder.h">
+      <Filter>ntk\management</Filter>
     </ClInclude>
     <ClInclude Include="ntk\input.h">
-      <Filter>ntk</Filter>
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\gameobject.h">
+      <Filter>ntk\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +89,15 @@
     </Filter>
     <Filter Include="ntk">
       <UniqueIdentifier>{ebb21856-0b49-49cb-9b27-bed467e4798a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\management">
+      <UniqueIdentifier>{6cf054b3-e4f3-45b1-a564-c7e4b4fb8918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\utility">
+      <UniqueIdentifier>{0c10c572-106e-4f4d-96d0-0bdc2777e62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\core">
+      <UniqueIdentifier>{5f3e3bab-49c3-43f2-ad81-43ef94702437}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

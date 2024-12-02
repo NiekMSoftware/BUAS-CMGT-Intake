@@ -124,6 +124,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ntk\input.cpp" />
     <ClCompile Include="ntk\gameobject.cpp" />
+    <ClCompile Include="ntk\resourceholder.cpp" />
     <ClCompile Include="template\opencl.cpp" />
     <ClCompile Include="template\opengl.cpp" />
     <ClCompile Include="template\scene.cpp">
@@ -145,6 +146,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="ntk\input.h" />
     <ClInclude Include="ntk\gameobject.h" />
+    <ClInclude Include="ntk\resourceholder.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />
