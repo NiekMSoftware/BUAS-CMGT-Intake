@@ -5,16 +5,38 @@
 #include "precomp.h"
 #include "game.h"
 
+GameObject* obj;
+
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
-{ }
+{ 
+	obj = new GameObject();
+}
 
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
 void Game::Tick( float /* deltaTime */ )
 {
-	screen->Clear(0);
+	
+}
+
+// -----------------------------------------------------------
+// Main application render function - Executed once per frame
+// -----------------------------------------------------------
+void Game::Render(Surface* scr)
+{
+	scr->Clear(0);
+
+	obj->Draw(scr);
+}
+
+// -----------------------------------------------------------
+// Shutdown application and cleanup
+// -----------------------------------------------------------
+void Game::Shutdown()
+{
+	delete obj;
 }

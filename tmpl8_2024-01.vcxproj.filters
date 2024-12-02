@@ -23,6 +23,9 @@
     <ClCompile Include="template\scene.cpp">
       <Filter>template</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\gameobject.cpp">
+      <Filter>ntk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -53,6 +56,9 @@
     <ClInclude Include="template\scene.h">
       <Filter>template</Filter>
     </ClInclude>
+    <ClInclude Include="ntk\gameobject.h">
+      <Filter>ntk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cl\kernels.cl">
@@ -68,6 +74,9 @@
     </Filter>
     <Filter Include="kernels">
       <UniqueIdentifier>{96ad1716-f468-46c6-8f16-5accbc19d76c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk">
+      <UniqueIdentifier>{ebb21856-0b49-49cb-9b27-bed467e4798a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

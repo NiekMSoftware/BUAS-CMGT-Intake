@@ -13,7 +13,8 @@ public:
 	// game flow methods
 	void Init();
 	void Tick( float deltaTime );
-	void Shutdown() { /* implement if you want to do something on exit */ }
+	void Render(Surface* scr);
+	void Shutdown();
 	// input handling
 	void MouseUp( int ) { /* implement if you want to detect mouse button presses */ }
 	void MouseDown( int ) { /* implement if you want to detect mouse button presses */ }

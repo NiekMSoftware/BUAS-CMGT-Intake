@@ -335,6 +335,7 @@ void main()
 		deltaTime = min( 500.0f, 1000.0f * timer.elapsed() );
 		timer.reset();
 		app->Tick( deltaTime );
+		app->Render( screen );
 		// send the rendering result to the screen using OpenGL
 		if (frameNr++ > 1)
 		{
