@@ -5,14 +5,14 @@
 #include "precomp.h"
 #include "game.h"
 
-GameObject* obj;
+Player* player;
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 { 
-	obj = new GameObject();
+	player = new Player();
 }
 
 // -----------------------------------------------------------
@@ -20,7 +20,7 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick( float deltaTime )
 {
-	obj->Update(deltaTime);
+	player->Update(deltaTime);
 }
 
 // -----------------------------------------------------------
@@ -30,7 +30,7 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-	obj->Draw(screen);
+	player->Draw(screen);
 }
 
 // -----------------------------------------------------------
@@ -38,5 +38,5 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
-	delete obj;
+	delete player;
 }

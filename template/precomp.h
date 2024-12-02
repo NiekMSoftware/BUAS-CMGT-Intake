@@ -61,8 +61,8 @@ using namespace std;
 
 // niek's tool kit - common
 #include "resourceholder.h"
-
 #include "gameobject.h"
+#include "player.h"
 
 // namespaces
 using namespace Tmpl8;
