@@ -22,7 +22,10 @@ Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
 // destructor
 Sprite::~Sprite()
 {
-	delete surface;
+	if (ownership) {
+		delete surface;
+	}
+
 	for (unsigned int i = 0; i < numFrames; i++) delete start[i];
 	delete start;
 }

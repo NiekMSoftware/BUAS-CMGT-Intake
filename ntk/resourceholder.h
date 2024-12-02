@@ -22,10 +22,10 @@ private:
 	void Clean();
 
 	// getters
-	Surface* getSurface(const std::string& filePath);
+	Surface* GetSurface(const std::string& filePath);
 
 	template <typename T>
-	T* FindResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
+	T* findResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
 
 	template <typename T>
 	void RemoveResources(std::vector<std::pair<std::string, T*>>& container);

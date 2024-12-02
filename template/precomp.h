@@ -8,6 +8,7 @@
 // www.codeproject.com/Articles/1188975/How-to-Optimize-Compilation-Times-with-Precompil
 
 // common C++ headers
+#include <iostream>
 #include <chrono>				// timing: struct Timer depends on this
 #include <fstream>				// file i/o
 #include <vector>				// standard template library std::vector
@@ -59,6 +60,8 @@ using namespace std;
 #include "sprite.h"
 
 // niek's tool kit - common
+#include "resourceholder.h"
+
 #include "gameobject.h"
 
 // namespaces

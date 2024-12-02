@@ -26,6 +26,10 @@ public:
 	unsigned int Frames() { return numFrames; }
 	Surface* GetSurface() { return surface; }
 	void InitializeStartData();
+
+public:
+	bool ownership = true;
+
 private:
 	// attributes
 	int width, height;

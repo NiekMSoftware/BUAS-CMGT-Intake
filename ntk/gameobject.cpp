@@ -3,15 +3,11 @@
 
 GameObject::GameObject()
 {
-	// create a 32x32 square by default
-	Surface* surface = new Surface(32, 32);
-	surface->ownBuffer = false;
-	surface->Bar(32, 32, 32, 32, 0xffffff);
+	auto& rh = ResourceHolder::Instance();
+	rh.LoadSprite("assets/tmpl8/ctankbase.tga", "player", 16);
 
 	// init sprite with surface
-	sprite = new Sprite(surface, 1);
-
-	OutputDebugString("[LOG] Successfully created a sprite with the surface.\n");
+	sprite = rh.GetSprite("player");
 
 	position = { SCRWIDTH / 2, SCRHEIGHT / 2 };
 }
@@ -38,12 +34,12 @@ void GameObject::Update(float deltaTime)
 
 GameObject::~GameObject()
 {
-	delete sprite;
+	/** Delete any remaining resources. */
 }
 
 void GameObject::Draw(Surface* screen)
 {
-	sprite->DrawScaled((int)position.x, (int)position.y, sprite->GetWidth(), sprite->GetHeight(), screen);
+	sprite->Draw(screen, (int)position.x, (int)position.y);
 }
 
 void GameObject::SetPosition(float2 newPos)
