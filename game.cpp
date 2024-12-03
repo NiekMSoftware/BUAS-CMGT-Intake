@@ -5,8 +5,10 @@
 #include "precomp.h"
 #include "game.h"
 
+CollisionEventManager* colManager;
+
 Player* player;
-Ground* ground;
+GameObject* object;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -15,11 +17,31 @@ void Game::Init()
 { 
 	center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
 
-	player = new Player();
-	ground = new Ground();
+	colManager = new CollisionEventManager();
 
-	ground->SetPosition(center);
-	player->SetPosition(center);
+	player = new Player();
+	object = new GameObject();
+
+	// set ids
+	player->GetCollider()->id = 1;
+	object->GetCollider()->id = 2;
+
+	// setup events
+	/*player->GetCollider()->OnCollisionEnter = [](const Collider* other) {
+		printf("Player entered collision with object %i\n", other->id);
+	};
+
+	ground->GetCollider()->OnCollisionStay = [](const Collider* other) {
+		printf("Woah collision with: %i!!!!!\n", other->id);
+	};
+
+	ground->GetCollider()->OnCollisionExit = [](const Collider* other) {
+		printf("I am all alone now D:\n");
+	};*/
+
+	// setup collision events
+	colManager->AddCollider(player->GetCollider());
+	colManager->AddCollider(object->GetCollider());
 }
 
 // -----------------------------------------------------------
@@ -27,6 +49,8 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick( float deltaTime )
 {
+	colManager->UpdateCollisions();
+
 	player->Update(deltaTime);
 }
 
@@ -37,7 +61,7 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-	ground->Draw(screen);
+	object->Draw(screen);
 	player->Draw(screen);
 }
 
@@ -46,6 +70,8 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
+	delete colManager;
+
+	delete object;
 	delete player;
-	delete ground;
 }

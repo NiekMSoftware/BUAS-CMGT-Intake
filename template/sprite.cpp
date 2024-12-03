@@ -16,7 +16,8 @@ Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
 	start( new unsigned int* [frameCount] ),
 	surface( surface ),
 	originX( surface->width * 0.5f ),
-	originY( surface->height * 0.5f )
+	originY( surface->height * 0.5f ),
+	ownership(surface->ownBuffer)
 {
 	InitializeStartData();
 }

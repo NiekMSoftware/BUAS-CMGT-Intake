@@ -8,8 +8,9 @@ ResourceHolder::~ResourceHolder()
 
 void ResourceHolder::Clean()
 {
-	RemoveResources(surfaceContainer);
-	RemoveResources(spriteContainer);
+	RemoveResources(surfaceContainer, "Surface Container");
+	RemoveResources(spriteContainer, "Sprite Container");
+	OutputDebugString("Cleaned up all of the containers.\n\n");
 }
 
 // -----------------------------------------------------------
@@ -19,6 +20,54 @@ ResourceHolder& ResourceHolder::Instance()
 {
 	static ResourceHolder s;
 	return s;
+}
+
+Surface* ResourceHolder::CreateSurface(const std::string& id, int width, int height)
+{
+	Surface* surface = GetSurface(id);
+
+	// Check if the surface already exists if so use that one to avoid duplicates
+	if (surface != nullptr)
+	{
+		OutputDebugString(std::format("[WARNING] Surface with ID '{}' already exists, using that one.\n", id).c_str());
+		return surface;
+	}
+
+	// Create a new surface
+	OutputDebugString(std::format("\n[LOG] Surface with ID '{}' doesn't exist, creating a new one.\n", id).c_str());
+	surface = new Surface(width, height);
+	surface->ownBuffer = false;
+	
+	// Add to container with given ID
+	surfaceContainer.emplace_back(id, surface);
+
+	return surface;
+}
+
+Sprite* ResourceHolder::CreateSprite(const std::string& id, Surface* surface, int numFrames)
+{
+	Sprite* sprite = GetSprite(id);
+
+	// Check if sprite with this ID already exists
+	if (sprite != nullptr)
+	{
+		// return the already existing sprite to avoid duplicates
+		OutputDebugString(std::format("[WARNING] Sprite with ID '{}' already exists, using that one.\n", id).c_str());
+		return sprite;
+	}
+	else {
+		// Create a new sprite
+		OutputDebugString(std::format("[LOG] Sprite with ID '{}' doesn't exist, creating a new one.\n", id).c_str());
+		sprite = new Sprite(surface, numFrames);
+		sprite->ownership = false;
+
+		// Add to container
+		spriteContainer.emplace_back(id, sprite);
+
+		return sprite;
+	}
+
+	return nullptr;
 }
 
 // -----------------------------------------------------------
@@ -62,16 +111,7 @@ bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int
 // -----------------------------------------------------------
 Sprite* ResourceHolder::GetSprite(const std::string& id)
 {
-	// Attempt to find the sprite
-	Sprite* sprite = findResource(spriteContainer, id);
-	if (!sprite)
-	{
-		// return null and show the user an error
-		std::cerr << "[ERROR] Sprite with ID: '" << id << "' not found.\n";
-		return nullptr;
-	}
-
-	return sprite;
+	return findResource(spriteContainer, id);
 }
 
 // -----------------------------------------------------------
@@ -100,8 +140,9 @@ T* ResourceHolder::findResource(const std::vector<std::pair<std::string, T*>>& c
 }
 
 template<typename T>
-void ResourceHolder::RemoveResources(std::vector<std::pair<std::string, T*>>& container)
+void ResourceHolder::RemoveResources(std::vector<std::pair<std::string, T*>>& container, const std::string& containerName)
 {
+	OutputDebugString(std::format("\n[LOG] Removing resources from container '{}'\n", containerName).c_str());
 	for (auto& pair : container)
 	{
 		OutputDebugString(("[LOG] ResourceHolder::RemoveResources() - Removing resource: " + pair.first + "\n").c_str());
@@ -109,4 +150,6 @@ void ResourceHolder::RemoveResources(std::vector<std::pair<std::string, T*>>& co
 		pair.second = nullptr;
 	}
 	container.clear();
+
+	OutputDebugString(std::format("[LOG] Cleaned up container '{}'!\n", containerName).c_str());
 }

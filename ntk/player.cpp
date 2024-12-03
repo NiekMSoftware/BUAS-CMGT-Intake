@@ -10,6 +10,9 @@ Player::Player()
 
 	// center the origin
 	CenterOrigin();
+
+	InitializeCollider();
+	UpdateColliderPosition();
 }
 
 Player::~Player()
@@ -22,10 +25,14 @@ void Player::Update(float deltaTime)
 	HandleInput();
 
 	position += movementDirection * moveSpeed * deltaTime;
+	UpdateColliderPosition();
 }
 
 void Player::Draw(Surface* screen)
 {
+#if _DEBUG
+	collider->Render(screen);
+#endif
 	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
 }
 

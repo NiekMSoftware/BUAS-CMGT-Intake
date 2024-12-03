@@ -38,7 +38,7 @@
     <ClCompile Include="ntk\collider.cpp">
       <Filter>ntk\core\collision</Filter>
     </ClCompile>
-    <ClCompile Include="collisioneventmanager.cpp">
+    <ClCompile Include="ntk\collisioneventmanager.cpp">
       <Filter>ntk\core\collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClInclude Include="ntk\collider.h">
       <Filter>ntk\core\collision</Filter>
     </ClInclude>
-    <ClInclude Include="collisioneventmanager.h">
+    <ClInclude Include="ntk\collisioneventmanager.h">
       <Filter>ntk\core\collision</Filter>
     </ClInclude>
   </ItemGroup>

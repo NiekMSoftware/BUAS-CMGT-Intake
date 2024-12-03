@@ -8,6 +8,10 @@ public:
 	ResourceHolder(const ResourceHolder&) = delete;
 	ResourceHolder& operator=(const ResourceHolder&) = delete;
 
+	// creating custom resources
+	Surface* CreateSurface(const std::string& id, int width, int height);
+	Sprite* CreateSprite(const std::string& id, Surface* surface, int numFrames);
+
 	// loading
 	bool LoadSprite(const char* fileName, const std::string& id, int numFrames);
 
@@ -28,7 +32,7 @@ private:
 	T* findResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
 
 	template <typename T>
-	void RemoveResources(std::vector<std::pair<std::string, T*>>& container);
+	void RemoveResources(std::vector<std::pair<std::string, T*>>& container, const std::string& containerName);
 
 private:
 	std::vector<std::pair<std::string, Surface*>> surfaceContainer;

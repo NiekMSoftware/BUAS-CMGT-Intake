@@ -3,16 +3,29 @@
 
 // Game object logic
 GameObject::GameObject()
+:collider(nullptr)
 {
-	sprite = nullptr;
+	ResourceHolder& rh = ResourceHolder::Instance();
 
+	// Create a custom surface
+	Surface* surface = rh.CreateSurface("square", 32, 32);
+	surface->Bar(0, 0, 32, 32, 0xFFFFFF);
+
+	// Create a sprite from the surface
+	sprite = rh.CreateSprite("square", surface, 1);
+
+	// Initialize collider based on sprite dimensions
+	InitializeCollider();
+
+	// Default position at screen center
 	position = { SCRWIDTH / 2, SCRHEIGHT / 2 };
+
+	// Update collider position to match object position
+	UpdateColliderPosition();
 }
 
 void GameObject::Update(float)
-{
-	
-}
+{ }
 
 GameObject::~GameObject()
 {
@@ -21,9 +34,15 @@ GameObject::~GameObject()
 
 void GameObject::Draw(Surface* screen)
 {
-	// Only draw the sprite if it exists
+	if (collider)
+		collider->Render(screen);
 	if (sprite)
 		sprite->Draw(screen, (int)position.x, (int)position.y);
+}
+
+void GameObject::SetPosition(float2 newPos)
+{
+	position = newPos;
 }
 
 void GameObject::CenterOrigin()
@@ -34,20 +53,34 @@ void GameObject::CenterOrigin()
 	}
 }
 
-// Ground logic
-Ground::Ground()
-: width(600),
-height(400)
+void GameObject::InitializeCollider()
 {
-	// Initialize ground with a green sprite
-	Surface* surface = new Surface(width, height);
-	surface->Bar(0, 0, width, height, 0x228B22);
+	// Calculate bounding box based on sprite size
+	float3 bmin = { 0.0f, 0.0f, 0.0f };
+	float3 bmax = {
+		static_cast<float>(sprite->GetWidth()),
+		static_cast<float>(sprite->GetHeight()),
+		0.0f
+	};
 
-	sprite = new Sprite(surface, 1);
-	sprite->ownership = true;
+	// Create collider with these bounds
+	collider = new Collider(bmin, bmax);
 }
 
-Ground::~Ground()
+void GameObject::UpdateColliderPosition()
 {
-	delete sprite;
+	if (collider)
+	{
+		// Update collider position to match object's current position
+		float halfWidth = sprite->GetWidth() / 2.0f;
+		float halfHeight = sprite->GetHeight() / 2.0f;
+
+		collider->bounds.bmin[0] = position.x - halfWidth;
+		collider->bounds.bmin[1] = position.y - halfHeight;
+		collider->bounds.bmin[2] = 0.0f;
+
+		collider->bounds.bmax[0] = position.x + halfWidth;
+		collider->bounds.bmax[1] = position.y + halfHeight;
+		collider->bounds.bmax[2] = 0.0f;
+	}
 }

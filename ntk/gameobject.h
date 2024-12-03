@@ -9,23 +9,20 @@ public:
 	virtual void Draw(Surface* screen);
 
 	// position getter & setter
-	void SetPosition(float2 newPos) { position = newPos; }
+	void SetPosition(float2 newPos);
 	float2 GetPosition() const { return position; }
 
+	Collider* GetCollider() { return collider; }
+
 	void CenterOrigin();
+
+protected:
+	void InitializeCollider();
+	void UpdateColliderPosition();
 
 protected:
 	// key components of game objects
 	float2 position;
 	Sprite* sprite;
-};
-
-class Ground : public GameObject
-{
-public: 
-	Ground();
-	~Ground() override;
-
-private:
-	int width, height;
+	Collider* collider;
 };
