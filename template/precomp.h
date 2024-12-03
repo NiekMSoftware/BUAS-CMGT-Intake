@@ -17,6 +17,7 @@
 #include <string>				// strings
 
 #include <functional>
+#include <set>
 
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library

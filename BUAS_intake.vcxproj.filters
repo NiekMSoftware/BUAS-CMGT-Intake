@@ -35,7 +35,10 @@
     <ClCompile Include="ntk\player.cpp">
       <Filter>ntk\core</Filter>
     </ClCompile>
-    <ClCompile Include="collider.cpp">
+    <ClCompile Include="ntk\collider.cpp">
+      <Filter>ntk\core\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="collisioneventmanager.cpp">
       <Filter>ntk\core\collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,7 +83,10 @@
     <ClInclude Include="ntk\player.h">
       <Filter>ntk\core</Filter>
     </ClInclude>
-    <ClInclude Include="collider.h">
+    <ClInclude Include="ntk\collider.h">
+      <Filter>ntk\core\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="collisioneventmanager.h">
       <Filter>ntk\core\collision</Filter>
     </ClInclude>
   </ItemGroup>
