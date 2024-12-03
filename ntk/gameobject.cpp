@@ -34,3 +34,26 @@ float2 GameObject::GetPosition() const
 {
 	return position;
 }
+
+void GameObject::CenterOrigin()
+{
+	if (sprite)
+	{
+		sprite->SetOrigin(sprite->GetWidth() * 0.5f, sprite->GetHeight() * 0.5f);
+	}
+}
+
+Ground::Ground()
+{
+	// Initialize ground with a green sprite
+	Surface* surface = new Surface(400, 300);
+	surface->Bar(400, 300, 0, 0, 0x22BB22);
+
+	sprite = new Sprite(surface, 1);
+	sprite->ownership = true;
+}
+
+Ground::~Ground()
+{
+	delete sprite;
+}

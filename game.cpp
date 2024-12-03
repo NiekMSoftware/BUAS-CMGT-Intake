@@ -6,6 +6,7 @@
 #include "game.h"
 
 Player* player;
+Ground* ground;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -13,6 +14,11 @@ Player* player;
 void Game::Init()
 { 
 	player = new Player();
+	ground = new Ground();
+
+	float2 center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
+	ground->SetPosition(center);
+	player->SetPosition(center);
 }
 
 // -----------------------------------------------------------
@@ -30,6 +36,7 @@ void Game::Render()
 {
 	screen->Clear(0);
 
+	ground->Draw(screen);
 	player->Draw(screen);
 }
 
@@ -39,4 +46,5 @@ void Game::Render()
 void Game::Shutdown()
 {
 	delete player;
+	delete ground;
 }

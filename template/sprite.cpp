@@ -14,7 +14,9 @@ Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
 	currentFrame( 0 ),
 	flags( 0 ),
 	start( new unsigned int* [frameCount] ),
-	surface( surface )
+	surface( surface ),
+	originX( surface->width * 0.5f ),
+	originY( surface->height * 0.5f )
 {
 	InitializeStartData();
 }
@@ -33,6 +35,9 @@ Sprite::~Sprite()
 // draw sprite to target surface
 void Sprite::Draw( Surface* target, int x, int y )
 {
+	x -= static_cast<int>(originX);
+	y -= static_cast<int>(originY);
+
 	if (x < -width || x >( target->width + width )) return;
 	if (y < -height || y >( target->height + height )) return;
 	int x1 = x, x2 = x + width;
@@ -68,6 +73,10 @@ void Sprite::Draw( Surface* target, int x, int y )
 // draw scaled sprite
 void Sprite::DrawScaled( int x1, int y1, int w, int h, Surface* target )
 {
+	// Adjust drawing position by subtracting the scaled origin offset
+	x1 -= static_cast<int>(originX * (static_cast<float>(w) / width));
+	y1 -= static_cast<int>(originY * (static_cast<float>(h) / height));
+
 	if (width == 0 || height == 0) return;
 	for (int x = 0; x < w; x++) for (int y = 0; y < h; y++)
 	{

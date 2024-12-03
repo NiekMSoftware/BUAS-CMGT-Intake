@@ -12,8 +12,17 @@ public:
 	void SetPosition(float2 newPos);
 	float2 GetPosition() const;
 
+	void CenterOrigin();
+
 protected:
 	// key components of game objects
 	float2 position;
 	Sprite* sprite;
+};
+
+class Ground : public GameObject
+{
+public: 
+	Ground();
+	~Ground() override;
 };

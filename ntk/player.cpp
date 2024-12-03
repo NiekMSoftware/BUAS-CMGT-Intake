@@ -6,8 +6,10 @@ Player::Player()
 	// Initialize sprite
 	auto& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/tmpl8/ctankbase.tga", "player", 16);
-
 	sprite = rh.GetSprite("player");
+
+	// center the origin
+	CenterOrigin();
 }
 
 Player::~Player()

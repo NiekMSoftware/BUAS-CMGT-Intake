@@ -27,8 +27,9 @@ ResourceHolder& ResourceHolder::Instance()
 bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int numFrames)
 {
 	// Check if the resource already exists
-	if (findResource(spriteContainer, id)) {
-		OutputDebugString(("[WARNING] ResourceHolder::LoadSprite - Resource with id '" + id + "' already exists.\n").c_str());
+	if (findResource(spriteContainer, fileName)) 
+	{
+		OutputDebugString(std::format("[WARNING] ResourceHolder::LoadSprite - Resource with filePath '{}' already exists.\n", fileName).c_str());
 		return true;
 	}
 
