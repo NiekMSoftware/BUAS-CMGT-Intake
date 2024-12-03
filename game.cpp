@@ -13,10 +13,11 @@ Ground* ground;
 // -----------------------------------------------------------
 void Game::Init()
 { 
+	center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
+
 	player = new Player();
 	ground = new Ground();
 
-	float2 center = { SCRWIDTH / 2, SCRHEIGHT / 2 };
 	ground->SetPosition(center);
 	player->SetPosition(center);
 }

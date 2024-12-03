@@ -44,10 +44,12 @@ void GameObject::CenterOrigin()
 }
 
 Ground::Ground()
+: width(600),
+height(400)
 {
 	// Initialize ground with a green sprite
-	Surface* surface = new Surface(400, 300);
-	surface->Bar(400, 300, 0, 0, 0x22BB22);
+	Surface* surface = new Surface(width, height);
+	surface->Bar(0, 0, width, height, 0x228B22);
 
 	sprite = new Sprite(surface, 1);
 	sprite->ownership = true;

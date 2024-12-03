@@ -25,4 +25,7 @@ class Ground : public GameObject
 public: 
 	Ground();
 	~Ground() override;
+
+private:
+	int width, height;
 };

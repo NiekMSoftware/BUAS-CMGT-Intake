@@ -85,7 +85,8 @@ void Surface::Bar( int x1, int y1, int x2, int y2, uint c )
 	if (x1 < 0) x1 = 0;
 	if (x2 >= width) x2 = width - 1;
 	if (y1 < 0) y1 = 0;
-	if (y2 >= height) y2 = width - 1;
+	if (y2 >= height) y2 = height - 1;
+
 	// draw clipped bar
 	uint* a = x1 + y1 * width + pixels;
 	for (int y = y1; y <= y2; y++)
@@ -104,14 +105,18 @@ void Surface::Print( const char* s, int x1, int y1, uint c )
 		InitCharset();
 		fontInitialized = true;
 	}
+
 	uint* t = pixels + x1 + y1 * width;
 	for (int i = 0; i < (int)(strlen( s )); i++, t += 6)
 	{
 		int pos = 0;
+
 		if ((s[i] >= 'A') && (s[i] <= 'Z')) pos = transl[(unsigned short)(s[i] - ('A' - 'a'))];
 		else pos = transl[(unsigned short)s[i]];
+
 		uint* a = t;
 		const char* u = (const char*)font[pos];
+
 		for (int v = 0; v < 5; v++, u++, a += width)
 			for (int h = 0; h < 5; h++) if (*u++ == 'o') *(a + h) = c, * (a + h + width) = 0;
 	}
