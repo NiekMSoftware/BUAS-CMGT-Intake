@@ -67,6 +67,8 @@ using namespace std;
 
 // niek's took kit - core
 #include "collider.h"
+#include "collisioneventmanager.h"
+
 #include "gameobject.h"
 #include "player.h"
 

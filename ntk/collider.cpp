@@ -2,7 +2,7 @@
 #include "collider.h"
 
 Collider::Collider(float3 bmin, float3 bmax)
-: bounds(bmin, bmax)
+: id(0), bounds(bmin, bmax)
 { }
 
 bool Collider::CheckCollision(const Collider* other) const
