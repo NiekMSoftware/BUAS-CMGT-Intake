@@ -13,6 +13,9 @@ public:
 	float2 GetPosition() const { return position; }
 
 	Collider* GetCollider() { return collider; }
+	virtual void OnCollisionEnter(const Collider* other);
+	virtual void OnCollisionStay(const Collider* other);
+	virtual void OnCollisionExit(const Collider* other);
 
 	void CenterOrigin();
 

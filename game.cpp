@@ -27,17 +27,9 @@ void Game::Init()
 	object->GetCollider()->id = 2;
 
 	// setup events
-	/*player->GetCollider()->OnCollisionEnter = [](const Collider* other) {
-		printf("Player entered collision with object %i\n", other->id);
-	};
-
-	ground->GetCollider()->OnCollisionStay = [](const Collider* other) {
-		printf("Woah collision with: %i!!!!!\n", other->id);
-	};
-
-	ground->GetCollider()->OnCollisionExit = [](const Collider* other) {
-		printf("I am all alone now D:\n");
-	};*/
+	player->GetCollider()->OnCollisionEnter = [](const Collider* other) { player->OnCollisionEnter(other); };
+	player->GetCollider()->OnCollisionStay = [](const Collider* other) { player->OnCollisionStay(other); };
+	player->GetCollider()->OnCollisionExit = [](const Collider* other) { player->OnCollisionExit(other); };
 
 	// setup collision events
 	colManager->AddCollider(player->GetCollider());

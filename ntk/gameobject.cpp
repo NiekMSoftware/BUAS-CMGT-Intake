@@ -8,8 +8,8 @@ GameObject::GameObject()
 	ResourceHolder& rh = ResourceHolder::Instance();
 
 	// Create a custom surface
-	Surface* surface = rh.CreateSurface("square", 32, 32);
-	surface->Bar(0, 0, 32, 32, 0xFFFFFF);
+	Surface* surface = rh.CreateSurface("square", 128, 128);
+	surface->Bar(0, 0, 128, 128, 0xFFFFFF);
 
 	// Create a sprite from the surface
 	sprite = rh.CreateSprite("square", surface, 1);
@@ -44,6 +44,15 @@ void GameObject::SetPosition(float2 newPos)
 {
 	position = newPos;
 }
+
+void GameObject::OnCollisionEnter(const Collider*)
+{ }
+
+void GameObject::OnCollisionStay(const Collider*)
+{ }
+
+void GameObject::OnCollisionExit(const Collider*)
+{ }
 
 void GameObject::CenterOrigin()
 {

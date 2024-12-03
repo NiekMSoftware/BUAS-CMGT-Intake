@@ -8,6 +8,8 @@
 // default screen resolution
 #define SCRWIDTH	800
 #define SCRHEIGHT	600
+#define CONSOLEWIDTH 800
+#define CONSOLEHEIGHT 600
 // #define FULLSCREEN
 
 // constants
