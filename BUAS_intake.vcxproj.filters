@@ -35,6 +35,9 @@
     <ClCompile Include="ntk\player.cpp">
       <Filter>ntk\core</Filter>
     </ClCompile>
+    <ClCompile Include="collider.cpp">
+      <Filter>ntk\core\collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -77,6 +80,9 @@
     <ClInclude Include="ntk\player.h">
       <Filter>ntk\core</Filter>
     </ClInclude>
+    <ClInclude Include="collider.h">
+      <Filter>ntk\core\collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cl\kernels.cl">
@@ -104,6 +110,9 @@
     </Filter>
     <Filter Include="ntk\core">
       <UniqueIdentifier>{5f3e3bab-49c3-43f2-ad81-43ef94702437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\core\collision">
+      <UniqueIdentifier>{d2ca6c14-55c5-47ff-ac9f-f3dbd44434ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

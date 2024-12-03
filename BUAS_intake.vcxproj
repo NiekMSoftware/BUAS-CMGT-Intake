@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>
+    <ClCompile Include="collider.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ntk\input.cpp" />
     <ClCompile Include="ntk\gameobject.cpp" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="collider.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ntk\input.h" />
     <ClInclude Include="ntk\gameobject.h" />

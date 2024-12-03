@@ -15,6 +15,9 @@
 #include <list>					// standard template library std::list
 #include <algorithm>			// standard algorithms for stl containers
 #include <string>				// strings
+
+#include <functional>
+
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
@@ -61,6 +64,9 @@ using namespace std;
 
 // niek's tool kit - common
 #include "resourceholder.h"
+
+// niek's took kit - core
+#include "collider.h"
 #include "gameobject.h"
 #include "player.h"
 

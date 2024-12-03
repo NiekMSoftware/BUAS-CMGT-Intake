@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "gameobject.h"
 
+// Game object logic
 GameObject::GameObject()
 {
 	sprite = nullptr;
@@ -25,16 +26,6 @@ void GameObject::Draw(Surface* screen)
 		sprite->Draw(screen, (int)position.x, (int)position.y);
 }
 
-void GameObject::SetPosition(float2 newPos)
-{
-	position = newPos;
-}
-
-float2 GameObject::GetPosition() const 
-{
-	return position;
-}
-
 void GameObject::CenterOrigin()
 {
 	if (sprite)
@@ -43,6 +34,7 @@ void GameObject::CenterOrigin()
 	}
 }
 
+// Ground logic
 Ground::Ground()
 : width(600),
 height(400)

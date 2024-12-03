@@ -9,8 +9,8 @@ public:
 	virtual void Draw(Surface* screen);
 
 	// position getter & setter
-	void SetPosition(float2 newPos);
-	float2 GetPosition() const;
+	void SetPosition(float2 newPos) { position = newPos; }
+	float2 GetPosition() const { return position; }
 
 	void CenterOrigin();
 
