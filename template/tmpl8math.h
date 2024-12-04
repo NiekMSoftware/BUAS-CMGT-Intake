@@ -943,7 +943,20 @@ public:
 	__inline void Grow( const float3& p ) { __m128 p4 = _mm_setr_ps( p.x, p.y, p.z, 0 ); Grow( p4 ); }
 	aabb Union( const aabb& bb ) const { aabb r; r.bmin4 = _mm_min_ps( bmin4, bb.bmin4 ), r.bmax4 = _mm_max_ps( bmax4, bb.bmax4 ); return r; }
 	static aabb Union( const aabb& a, const aabb& b ) { aabb r; r.bmin4 = _mm_min_ps( a.bmin4, b.bmin4 ), r.bmax4 = _mm_max_ps( a.bmax4, b.bmax4 ); return r; }
-	aabb Intersection( const aabb& bb ) const { aabb r; r.bmin4 = _mm_max_ps( bmin4, bb.bmin4 ), r.bmax4 = _mm_min_ps( bmax4, bb.bmax4 ); return r; }
+	
+	aabb Intersection( const aabb& bb ) const { 
+		aabb r;
+		r.bmin4 = _mm_max_ps( bmin4, bb.bmin4 ), r.bmax4 = _mm_min_ps( bmax4, bb.bmax4 );
+		return r;
+	}
+
+	bool Intersects2D(const aabb& bb) const
+	{
+		bool overlapX = !(bmax[0] < bb.bmin[0] || bmin[0] > bb.bmax[0]);
+		bool overlapY = !(bmax[1] < bb.bmin[1] || bmin[1] > bb.bmax[1]);
+		return overlapX && overlapY;
+	}
+
 	__inline float Extend( const int axis ) const { return bmax[axis] - bmin[axis]; }
 	__inline float Minimum( const int axis ) const { return bmin[axis]; }
 	__inline float Maximum( const int axis ) const { return bmax[axis]; }

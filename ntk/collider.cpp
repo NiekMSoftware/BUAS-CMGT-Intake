@@ -7,8 +7,8 @@ Collider::Collider(float3 bmin, float3 bmax)
 
 bool Collider::CheckCollision(const Collider* other) const
 {
-	aabb intersection = bounds.Intersection(other->bounds);
-	return (intersection.Area() > 0);
+    bool intersects = bounds.Intersects2D(other->bounds);
+    return intersects;
 }
 
 void Collider::InitializeCollider(const float2& objectPosition, float w, float h, const float2& customOffset)

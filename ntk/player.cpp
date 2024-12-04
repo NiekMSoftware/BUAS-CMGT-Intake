@@ -38,7 +38,8 @@ void Player::Draw(Surface* screen)
 
 void Player::OnCollisionEnter(const Collider* other)
 {
-	printf(std::format("{}, entered Player collider.\n", other->id).c_str());
+	//printf(std::format("{}, entered Player collider.\n", other->id).c_str());
+	OutputDebugString("Entered\n");
 }
 
 void Player::OnCollisionStay(const Collider*)
@@ -48,7 +49,8 @@ void Player::OnCollisionStay(const Collider*)
 
 void Player::OnCollisionExit(const Collider* other)
 {
-	printf(std::format("{}, exited out of  collider.\n", other->id).c_str());
+	//printf(std::format("{}, exited out of  collider.\n", other->id).c_str());
+	OutputDebugString("Exit\n");
 }
 
 void Player::HandleInput()
