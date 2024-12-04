@@ -12,6 +12,8 @@ Player::Player()
 	CenterOrigin();
 
 	InitializeCollider();
+	collider->trigger = true;
+
 	UpdateColliderPosition();
 }
 
@@ -36,7 +38,7 @@ void Player::Draw(Surface* screen)
 	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
 }
 
-void Player::OnCollisionEnter(const Collider* other)
+void Player::OnCollisionEnter(const Collider*)
 {
 	//printf(std::format("{}, entered Player collider.\n", other->id).c_str());
 	OutputDebugString("Entered\n");
@@ -47,7 +49,7 @@ void Player::OnCollisionStay(const Collider*)
 	//printf(std::format("{}, staying inside the Player collider.\n", other->id).c_str());
 }
 
-void Player::OnCollisionExit(const Collider* other)
+void Player::OnCollisionExit(const Collider*)
 {
 	//printf(std::format("{}, exited out of  collider.\n", other->id).c_str());
 	OutputDebugString("Exit\n");

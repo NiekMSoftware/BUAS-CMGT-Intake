@@ -2,8 +2,24 @@
 #include "collider.h"
 
 Collider::Collider(float3 bmin, float3 bmax)
-: id(0), bounds(bmin, bmax), colliderOffset(0, 0)
+: id(0), bounds(bmin, bmax), colliderOffset(0, 0), trigger(false)
 { }
+
+Collider::~Collider()
+{
+	Unsubscribe();
+}
+
+void Collider::Unsubscribe()
+{
+	OnCollisionEnter = nullptr;
+	OnCollisionStay = nullptr;
+	OnCollisionStay = nullptr;
+
+	OnTriggerEnter = nullptr;
+	OnTriggerStay = nullptr;
+	OnTriggerExit = nullptr;
+}
 
 bool Collider::CheckCollision(const Collider* other) const
 {

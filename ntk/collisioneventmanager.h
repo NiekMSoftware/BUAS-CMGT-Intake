@@ -14,6 +14,8 @@ public:
 
 	void UpdateCollisions();
 
+	void DetermineCollision(Collider* a, Collider* b, std::pair<Collider*, Collider*>& collisionPair);
+
 private:
 	std::vector<Collider*> colliders;
 

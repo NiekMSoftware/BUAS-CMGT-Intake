@@ -3,11 +3,18 @@ class Collider
 {
 public:
 	Collider(float3 bmin, float3 bmax);
+	~Collider();
 
 	// Collision event callbacks
 	std::function<void(const Collider*)> OnCollisionEnter;
 	std::function<void(const Collider*)> OnCollisionStay;
 	std::function<void(const Collider*)> OnCollisionExit;
+
+	std::function<void(const Collider*)> OnTriggerEnter;
+	std::function<void(const Collider*)> OnTriggerStay;
+	std::function<void(const Collider*)> OnTriggerExit;
+
+	void Unsubscribe();
 
 	bool CheckCollision(const Collider* other) const;
 
@@ -20,4 +27,6 @@ public:
 
 	aabb bounds;
 	float2 colliderOffset;
+
+	bool trigger;
 };

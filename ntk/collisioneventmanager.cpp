@@ -39,21 +39,11 @@ void CollisionEventManager::UpdateCollisions()
 
 			if (a->CheckCollision(b))
 			{
+				// Determine the collision logic
 				auto collisionPair = std::make_pair(a, b);
 				currentCollisions.insert(collisionPair);
 
-				// Trigger events based on collision state
-				if (activeCollisions.find(collisionPair) == activeCollisions.end())
-				{
-					// New Collision - Trigger Enter event
-					if (a->OnCollisionEnter) a->OnCollisionEnter(b);
-					if (b->OnCollisionEnter) b->OnCollisionEnter(a);
-				}
-				else {
-					// Continueing collision - Trigger Stay event
-					if (a->OnCollisionStay) a->OnCollisionStay(b);
-					if (b->OnCollisionStay) b->OnCollisionStay(a);
-				}
+				DetermineCollision(a, b, collisionPair);
 			}
 		}
 	}
@@ -63,13 +53,37 @@ void CollisionEventManager::UpdateCollisions()
 	{
 		if (currentCollisions.find(prevCollision) == currentCollisions.end()) {
 			// Collision ended - Trigger Exit event
-			if (prevCollision.first->OnCollisionExit) 
-				prevCollision.first->OnCollisionExit(prevCollision.second);
-			if (prevCollision.second->OnCollisionExit)
-				prevCollision.second->OnCollisionExit(prevCollision.first);
+			if (prevCollision.first->trigger || prevCollision.second->trigger) {
+				if (prevCollision.first->OnCollisionExit)
+					prevCollision.first->OnCollisionExit(prevCollision.second);
+				if (prevCollision.second->OnCollisionExit)
+					prevCollision.second->OnCollisionExit(prevCollision.first);
+			}
+			else {
+				if (prevCollision.first->OnCollisionExit)
+					prevCollision.first->OnCollisionExit(prevCollision.second);
+				if (prevCollision.second->OnCollisionExit)
+					prevCollision.second->OnCollisionExit(prevCollision.first);
+			}	
 		}
 	}
 
 	// Update active collisions for next frame
 	activeCollisions = currentCollisions;
+}
+
+void CollisionEventManager::DetermineCollision(Collider* a, Collider* b, std::pair<Collider*, Collider*>& collisionPair)
+{
+	// Activate events based on collision state
+	if (activeCollisions.find(collisionPair) == activeCollisions.end())
+	{
+		// New Collision - Collision enter event
+		if (a->OnCollisionEnter) a->OnCollisionEnter(b);
+		if (b->OnCollisionEnter) b->OnCollisionEnter(a);
+	}
+	else {
+		// Continueing collision - Collision stay event
+		if (a->OnCollisionStay) a->OnCollisionStay(b);
+		if (b->OnCollisionStay) b->OnCollisionStay(a);
+	}
 }
