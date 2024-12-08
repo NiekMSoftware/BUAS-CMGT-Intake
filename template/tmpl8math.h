@@ -46,6 +46,8 @@ struct ALIGN( 8 ) float2
 	float2( const float a, const float b ) : x( a ), y( b ) {}
 	float2( const float a ) : x( a ), y( a ) {}
 	float2( const int2 a ) : x( (float)a.x ), y( (float)a.y ) {}
+	float magnitude() const { return sqrt(x * x + y * y); }
+	float2 normalized() const { float mag = magnitude(); if (mag < 1e-6f) { return { 0, 0 }; } return { x / mag, y / mag }; }
 	union { struct { float x, y; }; float cell[2]; };
 	float& operator [] ( const int n ) { return cell[n]; }
 };

@@ -31,6 +31,7 @@ void Player::Update(float deltaTime)
 
 	velocity += movementDirection * (moveSpeed * deltaTime);
 	ClampSpeed(deltaTime);
+	ApplyDrag();
 
 	UpdateColliderPosition();
 }

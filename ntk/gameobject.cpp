@@ -2,7 +2,7 @@
 #include "gameobject.h"
 
 GameObject::GameObject()
-:collider(nullptr)
+:collider(nullptr), mass(1)
 {
 	ResourceHolder& rh = ResourceHolder::Instance();
 
@@ -21,6 +21,8 @@ GameObject::GameObject()
 
 	// Update collider position to match object position
 	UpdateColliderPosition();
+
+	dragCoefficient = 0.05f;
 }
 
 /*
@@ -138,10 +140,7 @@ void GameObject::UpdateColliderPosition()
 void GameObject::ClampSpeed(float deltaTime)
 {
 	// Get the magnitude of the current velocity
-	float currentSpeed = std::sqrt(
-		velocity.x * velocity.x +
-		velocity.y * velocity.y
-	);
+	float currentSpeed = velocity.magnitude();
 
 	// Check if the currentSpeed is higher than the maxSpeed if so clamp it
 	if (currentSpeed > maxSpeed)
@@ -157,7 +156,25 @@ void GameObject::ClampSpeed(float deltaTime)
 /**
  * @brief Applies a continous drag to gain a better control of the Game Object.
 */
-void GameObject::ApplyDrag(float deltaTime)
+void GameObject::ApplyDrag()
 {
+	float velocityMagnitude = velocity.magnitude();
 
+	// if the object is moving very slowly stop it
+	if (velocityMagnitude < 0.01f) {
+		velocity = { 0, 0 };
+		return;
+	}
+
+	// Calculate drag force
+	float2 dragDirection = -velocity.normalized();
+
+	// Calc drag force magnitude
+	// Quadtratic drag: F = 0.5 * density * velocity2 * drag coefficient * area
+	float dragForceMagnitude = 0.5f * velocityMagnitude * dragCoefficient;
+
+	// Apply force
+	float2 dragForce = dragDirection * dragForceMagnitude;
+
+	velocity += dragForce / mass;
 }

@@ -15,6 +15,8 @@ public:
 	void SetVelocity(float2 v) { velocity = v; }
 	float2 GetVelocity() const { return velocity; }
 
+	float2 GetForce() const { return force; }
+
 	Collider* GetCollider() { return collider; }
 	virtual void OnCollisionEnter(const Collider* other);
 	virtual void OnCollisionStay(const Collider* other);
@@ -27,15 +29,20 @@ protected:
 	void UpdateColliderPosition();
 
 	void ClampSpeed(float deltaTime);
-	void ApplyDrag(float deltaTime);
+	void ApplyDrag();
 
 protected:
 	// key components of game objects
 	float2 position;
-
+	
+	// physics
 	float2 velocity;
-	float maxSpeed;
+	float2 force;
+	float dragCoefficient;
+	float mass;
 
 	Sprite* sprite;
 	Collider* collider;
+
+	float maxSpeed;
 };
