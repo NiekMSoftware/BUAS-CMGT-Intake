@@ -8,11 +8,7 @@ public:
 
 	// methods
 	void Update(float deltaTime) override;
-	void Draw(Surface* screen) override;
-
-	void OnCollisionEnter(const Collider* other) override;
-	void OnCollisionStay(const Collider* other) override;
-	void OnCollisionExit(const Collider* other) override;
+	//void Draw(Surface* screen) override;
 
 private:
 	void HandleInput();

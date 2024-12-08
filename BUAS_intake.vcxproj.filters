@@ -41,6 +41,9 @@
     <ClCompile Include="ntk\collisioneventmanager.cpp">
       <Filter>ntk\core\collision</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\wall.cpp">
+      <Filter>ntk\core\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -89,6 +92,9 @@
     <ClInclude Include="ntk\collisioneventmanager.h">
       <Filter>ntk\core\collision</Filter>
     </ClInclude>
+    <ClInclude Include="ntk\wall.h">
+      <Filter>ntk\core\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cl\kernels.cl">
@@ -119,6 +125,9 @@
     </Filter>
     <Filter Include="ntk\core\collision">
       <UniqueIdentifier>{d2ca6c14-55c5-47ff-ac9f-f3dbd44434ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\core\objects">
+      <UniqueIdentifier>{7f4bcc61-1059-441c-a5db-47c71d87507d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -19,6 +19,8 @@ Player::Player()
 	velocity = { 0, 0 };
 	maxSpeed = 0.25f;
 
+	// setup physic attributes
+	dragCoefficient = 1.f;
 	mass = 50.f;
 }
 
@@ -38,30 +40,13 @@ void Player::Update(float deltaTime)
 	UpdateColliderPosition();
 }
 
-void Player::Draw(Surface* screen)
-{
-#if _DEBUG
-	collider->Render(screen);
-#endif
-	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
-}
-
-void Player::OnCollisionEnter(const Collider*)
-{
-	//printf(std::format("{}, entered Player collider.\n", other->id).c_str());
-	OutputDebugString("Entered\n");
-}
-
-void Player::OnCollisionStay(const Collider*)
-{
-	//printf(std::format("{}, staying inside the Player collider.\n", other->id).c_str());
-}
-
-void Player::OnCollisionExit(const Collider*)
-{
-	//printf(std::format("{}, exited out of  collider.\n", other->id).c_str());
-	OutputDebugString("Exit\n");
-}
+//void Player::Draw(Surface* screen)
+//{
+//#if _DEBUG
+//	collider->Render(screen);
+//#endif
+//	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
+//}
 
 void Player::HandleInput()
 {

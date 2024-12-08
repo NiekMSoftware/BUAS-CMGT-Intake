@@ -8,7 +8,7 @@
 CollisionEventManager* colManager;
 
 Player* player;
-GameObject* object;
+Wall* wall;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -20,20 +20,21 @@ void Game::Init()
 	colManager = new CollisionEventManager();
 
 	player = new Player();
-	object = new GameObject();
+	wall = new Wall(32, 32);
 
 	// set ids
 	player->GetCollider()->id = 1;
-	object->GetCollider()->id = 2;
-
-	// setup events
-	player->GetCollider()->OnCollisionEnter = [](const Collider* other) { player->OnCollisionEnter(other); };
-	player->GetCollider()->OnCollisionStay = [](const Collider* other) { player->OnCollisionStay(other); };
-	player->GetCollider()->OnCollisionExit = [](const Collider* other) { player->OnCollisionExit(other); };
+	wall->GetCollider()->id = 2;
 
 	// setup collision events
+	wall->GetCollider()->OnCollisionEnter = [&](const Collider* other) {
+		// TODO: Stop the player and actually handle collisions accordingly
+		player->SetVelocity(make_float2(0, 0));
+	};
+
+	// Add colliders to manager
 	colManager->AddCollider(player->GetCollider());
-	colManager->AddCollider(object->GetCollider());
+	colManager->AddCollider(wall->GetCollider());
 }
 
 // -----------------------------------------------------------
@@ -53,7 +54,7 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-	object->Draw(screen);
+	wall->Draw(screen);
 	player->Draw(screen);
 }
 
@@ -64,6 +65,6 @@ void Game::Shutdown()
 {
 	delete colManager;
 
-	delete object;
 	delete player;
+	delete wall;
 }

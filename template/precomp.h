@@ -73,6 +73,7 @@ using namespace std;
 // niek's tool kit - Core
 #include "gameobject.h"
 #include "player.h"
+#include "wall.h"
 
 // namespaces
 using namespace Tmpl8;
