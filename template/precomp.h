@@ -63,13 +63,14 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 
-// niek's tool kit - common
+// niek's tool kit - management
 #include "resourceholder.h"
 
-// niek's took kit - core
+// niek's took kit - Collision
 #include "collider.h"
 #include "collisioneventmanager.h"
 
+// niek's tool kit - Core
 #include "gameobject.h"
 #include "player.h"
 

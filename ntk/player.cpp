@@ -12,9 +12,12 @@ Player::Player()
 	CenterOrigin();
 
 	InitializeCollider();
-	collider->trigger = true;
 
 	UpdateColliderPosition();
+
+	// Physics
+	velocity = { 0, 0 };
+	maxSpeed = 0.5f;
 }
 
 Player::~Player()
@@ -26,7 +29,9 @@ void Player::Update(float deltaTime)
 {
 	HandleInput();
 
-	position += movementDirection * moveSpeed * deltaTime;
+	velocity += movementDirection * (moveSpeed * deltaTime);
+	ClampSpeed(deltaTime);
+
 	UpdateColliderPosition();
 }
 
