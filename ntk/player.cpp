@@ -17,7 +17,9 @@ Player::Player()
 
 	// Physics
 	velocity = { 0, 0 };
-	maxSpeed = 0.5f;
+	maxSpeed = 0.25f;
+
+	mass = 50.f;
 }
 
 Player::~Player()

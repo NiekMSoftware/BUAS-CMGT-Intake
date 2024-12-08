@@ -22,7 +22,7 @@ GameObject::GameObject()
 	// Update collider position to match object position
 	UpdateColliderPosition();
 
-	dragCoefficient = 0.05f;
+	dragCoefficient = 0.1f;
 }
 
 /*
