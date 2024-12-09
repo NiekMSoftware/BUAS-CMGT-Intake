@@ -55,3 +55,12 @@ void Collider::Render(Surface* screen, uint color)
 	// Draw the box outline
 	screen->Box(x1, y1, x2, y2, color);
 }
+
+float2 Collider::GetCenter() const
+{
+	float2 center = {
+		(bounds.bmin[0] + bounds.bmax[0]) / 2.0f,
+		(bounds.bmin[1] + bounds.bmax[1]) / 2.0f
+	};
+	return center;
+}

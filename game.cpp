@@ -20,16 +20,15 @@ void Game::Init()
 	colManager = new CollisionEventManager();
 
 	player = new Player();
-	wall = new Wall(32, 32);
+	wall = new Wall(64, 64);
 
 	// set ids
 	player->GetCollider()->id = 1;
 	wall->GetCollider()->id = 2;
 
 	// setup collision events
-	wall->GetCollider()->OnCollisionEnter = [&](const Collider*) {
-		// TODO: Stop the player and actually handle collisions accordingly
-		player->SetVelocity(make_float2(0, 0));
+	wall->GetCollider()->OnCollisionEnter = [&](const Collider* other) {
+		printf("Woahza, collision!\n");
 	};
 
 	// Add colliders to manager

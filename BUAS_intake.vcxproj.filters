@@ -129,5 +129,8 @@
     <Filter Include="ntk\core\objects">
       <UniqueIdentifier>{7f4bcc61-1059-441c-a5db-47c71d87507d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ntk\core\items">
+      <UniqueIdentifier>{025526a4-7866-4a10-aa64-d3a1899966c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

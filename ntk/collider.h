@@ -21,6 +21,8 @@ public:
 	void InitializeCollider(const float2& objectPosition, float w, float h, const float2& customOffset = {0, 0});
 	void Render(Surface* screen, uint color = 0xFF0000);
 
+	float2 GetCenter() const;
+
 public:
 	// unique identifier for this collider
 	uint32_t id;

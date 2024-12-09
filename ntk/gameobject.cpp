@@ -60,6 +60,11 @@ void GameObject::Draw(Surface* screen)
 		sprite->Draw(screen, (int)position.x, (int)position.y);
 }
 
+void GameObject::Translate(const float2& translation)
+{
+	position += translation;
+}
+
 /**
  * Set the new position of the Game Object.
  * @param newPos The new position that should be set.

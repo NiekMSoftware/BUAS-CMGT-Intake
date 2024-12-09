@@ -9,6 +9,8 @@ public:
 	virtual void FixedUpdate(float fixedDeltaTime);
 	virtual void Draw(Surface* screen);
 
+	void Translate(const float2& translation);
+
 	// getters & setters
 	void SetPosition(float2 newPos);
 	float2 GetPosition() const { return position; }
