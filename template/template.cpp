@@ -100,7 +100,7 @@ void main()
 #ifdef FULLSCREEN
 	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT, "Tmpl8-2024", glfwGetPrimaryMonitor(), 0 );
 #else
-	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT, "Mom, look! I'm colliding!", 0, 0 );
+	window = glfwCreateWindow( SCRWIDTH, SCRHEIGHT, APPNAME, 0, 0 );
 #endif
 	if (!window) FatalError( "glfwCreateWindow failed." );
 	glfwMakeContextCurrent( window );
@@ -337,10 +337,14 @@ void main()
 		"void main(){f=vec4(sqrt(fxaa(vec2(1240,800),uv)),1);}", true );
 #endif
 #endif
-	// modified this to make sure the polling of events is done outside the rendering loop
+	// Modified the tick to include a fixed tick for physics related handling, thank you Jeremiah for mentioning this.
 	float deltaTime = 0;
+	float fixedDeltaTime = 1 / 30.f;
+	float accumulator = 0.f;
+
 	static int frameNr = 0;
 	static Timer timer;
+
 	while (!glfwWindowShouldClose( window ))
 	{
 		if (hasFocus)
@@ -348,6 +352,16 @@ void main()
 			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
 			timer.reset();
 
+			// Add to accumulator
+			accumulator += deltaTime;
+
+			// Fixed tick loop
+			while (accumulator >= fixedDeltaTime) {
+				app->FixedTick(fixedDeltaTime);
+				accumulator -= fixedDeltaTime;
+			}
+
+			// Regular tick
 			app->Tick(deltaTime);
 			app->Render();
 
@@ -365,7 +379,7 @@ void main()
 		}
 		else {
 			timer.reset();
-			deltaTime = 0.f;
+			accumulator = 0.f;
 		}
 
 		// poll events outside rendering loop

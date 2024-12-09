@@ -34,19 +34,9 @@ void Player::Update(float deltaTime)
 	HandleInput();
 
 	velocity += movementDirection * (moveSpeed * deltaTime);
-	ClampSpeed(deltaTime);
-	ApplyDrag();
 
 	UpdateColliderPosition();
 }
-
-//void Player::Draw(Surface* screen)
-//{
-//#if _DEBUG
-//	collider->Render(screen);
-//#endif
-//	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
-//}
 
 void Player::HandleInput()
 {

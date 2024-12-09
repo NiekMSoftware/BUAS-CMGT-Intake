@@ -12,6 +12,9 @@
 #define CONSOLEHEIGHT 600
 // #define FULLSCREEN
 
+// application naming
+#define APPNAME "Woah, dragging and bragging!"
+
 // constants
 #define PI			3.14159265358979323846264f
 #define INVPI		0.31830988618379067153777f

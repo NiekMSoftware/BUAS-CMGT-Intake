@@ -32,6 +32,12 @@ GameObject::GameObject()
 void GameObject::Update(float)
 { }
 
+void GameObject::FixedUpdate(float fixedDeltaTime)
+{ 
+	ClampSpeed(fixedDeltaTime);
+	ApplyDrag(fixedDeltaTime);
+}
+
 GameObject::~GameObject()
 {
 	/** Delete any remaining resources. (Resource Holder manages the sprite) */
@@ -156,7 +162,7 @@ void GameObject::ClampSpeed(float deltaTime)
 /**
  * @brief Applies a continous drag to gain a better control of the Game Object.
 */
-void GameObject::ApplyDrag()
+void GameObject::ApplyDrag(float fixedDeltaTime)
 {
 	float velocityMagnitude = velocity.magnitude();
 
@@ -176,5 +182,5 @@ void GameObject::ApplyDrag()
 	// Apply force
 	float2 dragForce = dragDirection * dragForceMagnitude;
 
-	velocity += dragForce / mass;
+	velocity += (dragForce / mass) * fixedDeltaTime;
 }

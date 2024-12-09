@@ -6,6 +6,7 @@ public:
 	virtual ~GameObject();
 
 	virtual void Update(float deltaTime);
+	virtual void FixedUpdate(float fixedDeltaTime);
 	virtual void Draw(Surface* screen);
 
 	// getters & setters
@@ -29,7 +30,7 @@ protected:
 	void UpdateColliderPosition();
 
 	void ClampSpeed(float deltaTime);
-	void ApplyDrag();
+	void ApplyDrag(float fixedDeltaTime);
 
 protected:
 	// key components of game objects

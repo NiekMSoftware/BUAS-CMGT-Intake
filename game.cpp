@@ -27,7 +27,7 @@ void Game::Init()
 	wall->GetCollider()->id = 2;
 
 	// setup collision events
-	wall->GetCollider()->OnCollisionEnter = [&](const Collider* other) {
+	wall->GetCollider()->OnCollisionEnter = [&](const Collider*) {
 		// TODO: Stop the player and actually handle collisions accordingly
 		player->SetVelocity(make_float2(0, 0));
 	};
@@ -45,6 +45,14 @@ void Game::Tick( float deltaTime )
 	colManager->UpdateCollisions();
 
 	player->Update(deltaTime);
+}
+
+// -----------------------------------------------------------
+// Main application fixed tick function - Executed once per interval
+// -----------------------------------------------------------
+void Game::FixedTick(float fixedDeltaTime)
+{
+	player->FixedUpdate(fixedDeltaTime);
 }
 
 // -----------------------------------------------------------
