@@ -44,6 +44,9 @@
     <ClCompile Include="ntk\wall.cpp">
       <Filter>ntk\core\objects</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\item.cpp">
+      <Filter>ntk\core\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="ntk\wall.h">
       <Filter>ntk\core\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\item.h">
+      <Filter>ntk\core\items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

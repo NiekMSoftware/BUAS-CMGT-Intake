@@ -72,6 +72,7 @@ using namespace std;
 
 // niek's tool kit - Core
 #include "gameobject.h"
+#include "item.h"
 #include "player.h"
 #include "wall.h"
 

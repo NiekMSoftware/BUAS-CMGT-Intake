@@ -22,6 +22,9 @@ Player::Player()
 	// setup physic attributes
 	dragCoefficient = 1.f;
 	mass = 50.f;
+
+	// setup data
+	currentHealth = 3;
 }
 
 Player::~Player()
@@ -38,6 +41,25 @@ void Player::Update(float deltaTime)
 	UpdateColliderPosition();
 }
 
+void Player::Draw(Surface* screen) 
+{
+	sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
+	PrintHealth(screen);
+}
+
+void Player::TakeDamage(int damage)
+{
+	currentHealth -= damage;
+	if (currentHealth < 0) {
+		currentHealth = 0;
+	}
+}
+
+void Player::RecoverHealth(int value)
+{
+	currentHealth += value;
+}
+
 void Player::HandleInput()
 {
 	movementDirection = { Input::GetAxis(Axis::Horizontal), Input::GetAxis(Axis::Vertical) };
@@ -49,4 +71,12 @@ void Player::HandleInput()
 		movementDirection.x /= length;
 		movementDirection.y /= length;
 	}
+}
+
+void Player::PrintHealth(Surface* screen)
+{
+	char buffer[50];
+	snprintf(buffer, sizeof(buffer), "Player Health: %i", currentHealth);
+	const char* format = buffer;
+	screen->Print(format, 10, 10, 0xffffffff);
 }

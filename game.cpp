@@ -9,6 +9,7 @@ CollisionEventManager* colManager;
 
 Player* player;
 Wall* wall;
+Item* item;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -20,20 +21,30 @@ void Game::Init()
 	colManager = new CollisionEventManager();
 
 	player = new Player();
+	item = new Item(16, 16);
 	wall = new Wall(64, 64);
 
 	// set ids
 	player->GetCollider()->id = 1;
 	wall->GetCollider()->id = 2;
+	item->GetCollider()->id = 3;
 
 	// setup collision events
-	wall->GetCollider()->OnCollisionEnter = [&](const Collider* other) {
+	wall->GetCollider()->OnCollisionEnter = [&](const Collider*) {
 		printf("Woahza, collision!\n");
+	};
+
+	item->GetCollider()->OnCollisionEnter = [&](const Collider*) {
+		player->TakeDamage(1);
+		colManager->RemoveCollider(item->GetCollider());
+		delete item;
+		item = nullptr;
 	};
 
 	// Add colliders to manager
 	colManager->AddCollider(player->GetCollider());
 	colManager->AddCollider(wall->GetCollider());
+	colManager->AddCollider(item->GetCollider());
 }
 
 // -----------------------------------------------------------
@@ -62,6 +73,10 @@ void Game::Render()
 	screen->Clear(0);
 
 	wall->Draw(screen);
+
+	if (item)
+		item->Draw(screen);
+
 	player->Draw(screen);
 }
 
@@ -74,4 +89,6 @@ void Game::Shutdown()
 
 	delete player;
 	delete wall;
+
+	if (item) delete item;
 }
