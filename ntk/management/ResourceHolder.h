@@ -25,7 +25,7 @@ private:
 	Surface* GetSurface(const std::string& filePath);
 
 	template<typename T>
-	T* FindResource(const std::vector<std::pair<std::string, T*>>& container);
+	T* FindComponent(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
 
 	template<typename T>
 	void RemoveResource(std::vector<std::pair<std::string, T*>>& container);
