@@ -59,6 +59,9 @@ using namespace std;
 #include "surface.h"
 #include "sprite.h"
 
+// ntk - management
+#include "ResourceHolder.h"
+
 // namespaces
 using namespace Tmpl8;
 

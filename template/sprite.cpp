@@ -14,7 +14,8 @@ Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
 	currentFrame( 0 ),
 	flags( 0 ),
 	start( new unsigned int* [frameCount] ),
-	surface( surface )
+	surface( surface ),
+	ownership(surface->ownBuffer)
 {
 	InitializeStartData();
 }
@@ -22,9 +23,11 @@ Sprite::Sprite( Surface* surface, unsigned int frameCount ) :
 // destructor
 Sprite::~Sprite()
 {
-	delete surface;
+	if (ownership)
+		delete surface;
+
 	for (unsigned int i = 0; i < numFrames; i++) delete start[i];
-	delete start;
+	delete[] start;
 }
 
 // draw sprite to target surface
