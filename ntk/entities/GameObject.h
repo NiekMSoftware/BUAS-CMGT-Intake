@@ -7,6 +7,7 @@ public:
 	virtual ~GameObject();
 
 	virtual void update(float deltaTime);
+	virtual void fixedUpdate(float fixedDeltaTime);
 	virtual void render(Surface* screen);
 
 	float2 getPosition() const;
@@ -17,8 +18,19 @@ public:
 	void rotate(const float& a);
 
 protected:
+	float calculateDragForce() const;
+	void applyDrag(float fixedDeltaTime);
+
+protected:
 	float2 position;
 	float angle;
+
+	// physics
+	float mass = 1.f;
+	float2 velocity;
+	float dragCoefficient;
+	const float FLUID_DENSITY = 1.225f;
+	const float EPSILON = 0.01f;
 
 	Sprite* m_sprite;
 	aabb collider;

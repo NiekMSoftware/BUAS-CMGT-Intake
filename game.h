@@ -13,6 +13,7 @@ public:
 	// game flow methods
 	void Init();
 	void Tick( float deltaTime );
+	void FixedTick(float fixedDeltaTime);
 	void Render();
 	void Shutdown();
 	// input handling

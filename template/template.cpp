@@ -334,6 +334,10 @@ void main()
 		"void main(){f=vec4(sqrt(fxaa(vec2(1240,800),uv)),1);}", true );
 #endif
 #endif
+
+	const float FIXED_TIMESTEP = 1.0f / 24.0f;
+	static float accumulator = 0.0f;
+
 	float deltaTime = 0;
 	static int frameNr = 0;
 	static Timer timer;
@@ -343,23 +347,38 @@ void main()
 		{
 			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
 			timer.reset();
-			app->Tick(deltaTime);
+
+			// accumulate frame time
+			accumulator += deltaTime / 1000.0f;
+
+			while (accumulator >= FIXED_TIMESTEP)
+			{
+				app->FixedTick(FIXED_TIMESTEP);
+				accumulator -= FIXED_TIMESTEP;
+			}
+
+			app->Tick(deltaTime / 1000.0f);
 			app->Render();
+
 			// send the rendering result to the screen using OpenGL
 			if (frameNr++ > 1)
 			{
 				if (app->screen) renderTarget->CopyFrom(app->screen);
+
 				shader->Bind();
 				shader->SetInputTexture(0, "c", renderTarget);
 				DrawQuad();
 				shader->Unbind();
+
 				glfwSwapBuffers(window);
 			}
+
 			if (!running) break;
 		}
 
 		glfwPollEvents();
 	}
+
 	// close down
 	app->Shutdown();
 	Kernel::KillCL();

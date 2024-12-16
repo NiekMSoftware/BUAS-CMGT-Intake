@@ -45,8 +45,8 @@ float Input::getAxis(const Axis axis)
 
 		// handle vertical axis
 	case Vertical:
-		if (getKey(GLFW_KEY_W) || getKey(GLFW_KEY_UP)) return -1.0f;
-		if (getKey(GLFW_KEY_S) || getKey(GLFW_KEY_DOWN)) return 1.0f;
+		if (getKey(GLFW_KEY_W) || getKey(GLFW_KEY_UP)) return 1.0f;
+		if (getKey(GLFW_KEY_S) || getKey(GLFW_KEY_DOWN)) return -1.0f;
 		break;
 	}
 

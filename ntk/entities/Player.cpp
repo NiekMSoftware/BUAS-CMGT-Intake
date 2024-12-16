@@ -8,23 +8,67 @@ Player::Player()
 	m_sprite = rh.GetSprite("player");
 
 	position = { 0, 0 };
+
+	thrustInput = 0.f;
 	angle = 0.f;
 
-	speed = 1.f;
+	speedMod = 2.4f;
+	rotationMod = 1.2f;
+
+	speed = 100.f * speedMod;
+	maxSpeed = 150.f;
+	rotationSpeed = 90.f * rotationMod;
+
+	dragCoefficient = 0.7f;
+	mass = 10.f;
 }
 
 void Player::update(float deltaTime)
 {
-	float2 movement = { Input::getAxis(Input::Horizontal) * speed, Input::getAxis(Input::Vertical) * speed};
-	translate(movement * deltaTime);
+	GameObject::update(deltaTime);
 
-	if (Input::getKey(GLFW_KEY_E))
+	retrieveInput(deltaTime);
+
+	std::println("Velocity: ({}, {})", velocity.x, velocity.y);
+}
+
+void Player::fixedUpdate(float fixedDeltaTime)
+{
+	thrust(fixedDeltaTime);
+
+	// only apply drag if no input is given
+	if (thrustInput == 0.f)
+		applyDrag(fixedDeltaTime);
+}
+
+void Player::retrieveInput(float dt)
+{
+	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * dt);
+	rotate(rotationValue);
+
+	float thrustValue = Input::getKey(GLFW_KEY_W);
+	if (thrustValue != 0.f)
 	{
-		rotate(0.1f * deltaTime);
+		float forwardMovement = speed * thrustValue;
+		thrustInput = forwardMovement;
 	}
-
-	if (Input::getKey(GLFW_KEY_Q))
+	else
 	{
-		rotate(-0.1f * deltaTime);
+		thrustInput = 0.f;
+	}
+}
+
+void Player::thrust(float fixedDeltaTime)
+{
+	if (thrustInput != 0.f)
+	{
+		if (length(velocity) > maxSpeed)
+		{
+			velocity = normalize(velocity) * maxSpeed;
+		}
+
+		// apply velocity in the direction of the angle (forward motion)
+		velocity.x += std::cos(angle * (PI / 180.f)) * thrustInput * fixedDeltaTime;
+		velocity.y += std::sin(angle * (PI / 180.f)) * thrustInput * fixedDeltaTime;
 	}
 }
