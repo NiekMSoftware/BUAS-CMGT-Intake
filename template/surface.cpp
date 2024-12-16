@@ -86,6 +86,8 @@ void Surface::Bar( int x1, int y1, int x2, int y2, uint c )
 	if (x2 >= width) x2 = width - 1;
 	if (y1 < 0) y1 = 0;
 	if (y2 >= height) y2 = width - 1;
+	if (x1 > x2 || y1 > y2) return;
+
 	// draw clipped bar
 	uint* a = x1 + y1 * width + pixels;
 	for (int y = y1; y <= y2; y++)

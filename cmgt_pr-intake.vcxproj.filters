@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="template\opencl.cpp">
       <Filter>template</Filter>
     </ClCompile>
@@ -22,9 +23,19 @@
     <ClCompile Include="template\tmpl8math.cpp">
       <Filter>template</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\entities\GameObject.cpp">
+      <Filter>ntk\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\entities\Player.cpp">
+      <Filter>ntk\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\ResourceHolder.cpp">
+      <Filter>ntk\managment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cl\tools.cl" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="template\common.h">
       <Filter>template</Filter>
     </ClInclude>
@@ -49,19 +60,33 @@
     <ClInclude Include="template\tmpl8math.h">
       <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="cl\tools.cl">
-      <Filter>template</Filter>
+    <ClInclude Include="ntk\entities\GameObject.h">
+      <Filter>ntk\entities</Filter>
     </ClInclude>
-    <ClInclude Include="game.h" />
+    <ClInclude Include="ntk\entities\Player.h">
+      <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\ResourceHolder.h">
+      <Filter>ntk\managment</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="template">
+      <UniqueIdentifier>{da12c93d-5b5b-4ede-8645-f895ce5b2563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk">
+      <UniqueIdentifier>{dc969167-4578-4527-879f-beba299aa129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\entities">
+      <UniqueIdentifier>{7eac4abd-766b-4c9f-8479-2e003e6092fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\managment">
+      <UniqueIdentifier>{ac7c9bab-86ed-4981-8339-27cca4b716b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="cl\kernels.cl">
       <Filter>template</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="template">
-      <UniqueIdentifier>{33812844-3621-42fa-881f-cf78c3bbdffe}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>
