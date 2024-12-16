@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -122,6 +122,7 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\utility\Input.cpp" />
     <ClCompile Include="ntk\entities\GameObject.cpp" />
     <ClCompile Include="ntk\entities\Player.cpp" />
     <ClCompile Include="ntk\management\ResourceHolder.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="ntk\utility\Input.h" />
     <ClInclude Include="ntk\entities\GameObject.h" />
     <ClInclude Include="ntk\entities\Player.h" />
     <ClInclude Include="ntk\management\ResourceHolder.h" />
