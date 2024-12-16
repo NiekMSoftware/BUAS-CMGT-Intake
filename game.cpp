@@ -5,12 +5,16 @@
 #include "precomp.h"
 #include "game.h"
 
+Player* player;
+GameObject* obj;
+
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-	// anything that happens only once at application start goes here
+	player = new Player();
+	obj = new GameObject();
 }
 
 // -----------------------------------------------------------
@@ -18,6 +22,29 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick( float /* deltaTime */ )
 {
+	
+}
+
+// -----------------------------------------------------------
+// Main application render function - Executed once per frame
+// -----------------------------------------------------------
+void Game::Render()
+{
 	screen->Clear(0);
+
+	// entities
+	obj->render(screen);
+	player->render(screen);
+
+	// template ui
 	screen->Print("Hello, World!\n", 10, 10, 0xFFFFFFFF);
+}
+
+// -----------------------------------------------------------
+// Main application shutdown function - Executed at the end of the application.
+// -----------------------------------------------------------
+void Game::Shutdown()
+{
+	delete player;
+	delete obj;
 }

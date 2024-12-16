@@ -9,7 +9,7 @@ public:
 	ResourceHolder(const ResourceHolder&) = delete;
 	ResourceHolder& operator=(const ResourceHolder&) = delete;
 
-	// Loading
+	Sprite* CreateSquare(const std::string& id, int w, int h);
 	bool LoadSprite(const char* filePath, const std::string& id, int numFrames);
 
 	// retrieving
@@ -25,7 +25,7 @@ private:
 	Surface* GetSurface(const std::string& filePath);
 
 	template<typename T>
-	T* FindComponent(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
+	T* FindExistingResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id);
 
 	template<typename T>
 	void RemoveResource(std::vector<std::pair<std::string, T*>>& container);

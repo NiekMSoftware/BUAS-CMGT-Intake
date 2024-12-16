@@ -15,6 +15,7 @@
 #include <algorithm>			// standard algorithms for stl containers
 #include <string>				// strings
 #include <iostream>
+#include <print>
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
@@ -62,6 +63,10 @@ using namespace std;
 
 // ntk - management
 #include "ResourceHolder.h"
+
+// ntk - entities
+#include "GameObject.h"
+#include "Player.h"
 
 // namespaces
 using namespace Tmpl8;
@@ -402,6 +407,7 @@ class TheApp
 public:
 	virtual void Init() = 0;
 	virtual void Tick( float deltaTime ) = 0;
+	virtual void Render() = 0;
 	virtual void Shutdown() = 0;
 	virtual void MouseUp( int button ) = 0;
 	virtual void MouseDown( int button ) = 0;
