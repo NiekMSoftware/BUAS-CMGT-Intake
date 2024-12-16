@@ -332,21 +332,26 @@ void main()
 	static Timer timer;
 	while (!glfwWindowShouldClose( window ))
 	{
-		deltaTime = min( 500.0f, 1000.0f * timer.elapsed() );
-		timer.reset();
-		app->Tick( deltaTime );
-		// send the rendering result to the screen using OpenGL
-		if (frameNr++ > 1)
+		if (hasFocus)
 		{
-			if (app->screen) renderTarget->CopyFrom( app->screen );
-			shader->Bind();
-			shader->SetInputTexture( 0, "c", renderTarget );
-			DrawQuad();
-			shader->Unbind();
-			glfwSwapBuffers( window );
-			glfwPollEvents();
+			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
+			timer.reset();
+			app->Tick(deltaTime);
+			app->Render();
+			// send the rendering result to the screen using OpenGL
+			if (frameNr++ > 1)
+			{
+				if (app->screen) renderTarget->CopyFrom(app->screen);
+				shader->Bind();
+				shader->SetInputTexture(0, "c", renderTarget);
+				DrawQuad();
+				shader->Unbind();
+				glfwSwapBuffers(window);
+			}
+			if (!running) break;
 		}
-		if (!running) break;
+
+		glfwPollEvents();
 	}
 	// close down
 	app->Shutdown();
