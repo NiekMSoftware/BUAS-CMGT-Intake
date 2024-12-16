@@ -42,15 +42,14 @@ bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int
 	}
 
 	// Allocate memory to a new sprite
-	Sprite* sprite = new Sprite(sfc, numFrames);
-	if (sprite)
+	if (Sprite* sprite = new Sprite(sfc, numFrames))
 	{
 		sprite->ownership = false;
 		spriteContainer.emplace_back(id, sprite);
 		return true;
 	}
 
-	// By default return false
+	// By default, return false
 	return false;
 }
 
@@ -99,6 +98,7 @@ T* ResourceHolder::FindComponent(const std::vector<std::pair<std::string, T*>>& 
 template<typename T>
 void ResourceHolder::RemoveResource(std::vector<std::pair<std::string, T*>>& container)
 {
+	// remove allocated memory to ensure cleanup
 	for (auto& pair : container)
 	{
 		OutputDebugString(("[LOG] ResourceHolder::RemoveResources() - Removing resource: " + pair.first + "\n").c_str());
