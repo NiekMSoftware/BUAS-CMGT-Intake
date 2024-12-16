@@ -18,7 +18,7 @@ void ResourceHolder::Clean()
 	RemoveResource(spriteContainer);
 }
 
-Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h)
+Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h, uint c)
 {
 	// Check if the sprite originally exists
 	if (Sprite* existingSprite = FindExistingResource(spriteContainer, id))
@@ -33,6 +33,7 @@ Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h)
 
 	// Mark that we own this buffer and need to manage its memory
 	sqrSurface->ownBuffer = false;
+	sqrSurface->Bar(0, 0, w, h, c);
 	surfaceContainer.emplace_back(id + "_surface", sqrSurface);
 
 	// Create a single-frame sprite form this surface

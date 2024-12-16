@@ -9,7 +9,7 @@ public:
 	ResourceHolder(const ResourceHolder&) = delete;
 	ResourceHolder& operator=(const ResourceHolder&) = delete;
 
-	Sprite* CreateSquare(const std::string& id, int w, int h);
+	Sprite* CreateSquare(const std::string& id, int w, int h, uint c = 0xFFFFFFFF);
 	bool LoadSprite(const char* filePath, const std::string& id, int numFrames);
 
 	// retrieving

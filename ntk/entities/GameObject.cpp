@@ -6,7 +6,7 @@ GameObject::GameObject()
 	ResourceHolder& rh = ResourceHolder::Instance();
 
 	m_sprite = rh.CreateSquare("square", 32, 32);
-	position = { 0, 0 };
+	position = { 100, 0 };
 }
 
 GameObject::~GameObject()
