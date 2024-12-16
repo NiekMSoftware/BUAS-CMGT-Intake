@@ -4,8 +4,9 @@
 Player::Player()
 {
 	ResourceHolder& rh = ResourceHolder::Instance();
+	rh.LoadSprite("assets/playership.png", "player", 9);
+	m_sprite = rh.GetSprite("player");
 
-	m_sprite = rh.CreateSquare("player", 32, 32, 0x256913);
 	position = { 0, 0 };
 	angle = 0.f;
 

@@ -32,6 +32,9 @@
     <ClCompile Include="ntk\management\ResourceHolder.cpp">
       <Filter>ntk\managment</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\utility\Input.cpp">
+      <Filter>ntk\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
@@ -69,6 +72,9 @@
     <ClInclude Include="ntk\management\ResourceHolder.h">
       <Filter>ntk\managment</Filter>
     </ClInclude>
+    <ClInclude Include="ntk\utility\Input.h">
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template">
@@ -82,6 +88,9 @@
     </Filter>
     <Filter Include="ntk\managment">
       <UniqueIdentifier>{ac7c9bab-86ed-4981-8339-27cca4b716b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\utility">
+      <UniqueIdentifier>{0e757ad0-195b-4568-95d1-f3e501af06d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
