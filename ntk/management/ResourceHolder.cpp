@@ -18,27 +18,52 @@ void ResourceHolder::Clean()
 	RemoveResource(spriteContainer);
 }
 
+Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h)
+{
+	// Check if the sprite originally exists
+	if (Sprite* existingSprite = FindExistingResource(spriteContainer, id))
+	{
+		// Log a warning and return the original sprite
+		OutputDebugString(std::format("[WARNING] Sprite with ID '{}' already exists. Returning existing sprite.\n", id).c_str());
+		return existingSprite;
+	}
+
+	// Create a surface filled with a specific color
+	Surface* sqrSurface = new Surface(w, h);
+
+	// Mark that we own this buffer and need to manage its memory
+	sqrSurface->ownBuffer = false;
+	surfaceContainer.emplace_back(id + "_surface", sqrSurface);
+
+	// Create a single-frame sprite form this surface
+	Sprite* sqrSprite = new Sprite(sqrSurface, 1);
+	sqrSprite->ownership = false;
+	spriteContainer.emplace_back(id, sqrSprite);
+
+	return sqrSprite;
+}
+
 // -----------------------------------------------------------
 // Loads in a sprite by assigning a file, id and the number of frames.
 // -----------------------------------------------------------
-bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int numFrames)
+bool ResourceHolder::LoadSprite(const char* filePath, const std::string& id, int numFrames)
 {
 	// Check if the resource already exists
-	if (FindComponent(spriteContainer, fileName))
+	if (FindExistingResource(spriteContainer, filePath))
 	{
-		OutputDebugString(std::format("[WARNING] ResourceHolder::LoadSprite - Resource with filePath '{}' already exists.\n", fileName).c_str());
+		OutputDebugString(std::format("[WARNING] ResourceHolder::LoadSprite - Resource with filePath '{}' already exists.\n", filePath).c_str());
 		return true;
 	}
 
 	// Try to retrieve the surface
-	Surface* sfc = GetSurface(fileName);
+	Surface* sfc = GetSurface(filePath);
 	if (!sfc)
 	{
 		// If none is found, create a new one
-		Surface* newSurface = new Surface(fileName);
+		Surface* newSurface = new Surface(filePath);
 		sfc = newSurface;
 		sfc->ownBuffer = false;
-		surfaceContainer.emplace_back(fileName, newSurface);
+		surfaceContainer.emplace_back(filePath, newSurface);
 	}
 
 	// Allocate memory to a new sprite
@@ -59,7 +84,7 @@ bool ResourceHolder::LoadSprite(const char* fileName, const std::string& id, int
 Sprite* ResourceHolder::GetSprite(const std::string& id)
 {
 	// Attempt to find the sprite
-	Sprite* sprite = FindComponent(spriteContainer, id);
+	Sprite* sprite = FindExistingResource(spriteContainer, id);
 	if (!sprite)
 	{
 		// return null and show the user an error
@@ -75,14 +100,14 @@ Sprite* ResourceHolder::GetSprite(const std::string& id)
 // -----------------------------------------------------------
 Surface* ResourceHolder::GetSurface(const std::string& filePath)
 {
-	return FindComponent(surfaceContainer, filePath);
+	return FindExistingResource(surfaceContainer, filePath);
 }
 
 // -----------------------------------------------------------
 // Find a resource from the specified container by using its ID.
 // -----------------------------------------------------------
 template<typename T>
-T* ResourceHolder::FindComponent(const std::vector<std::pair<std::string, T*>>& container, const std::string& id)
+T* ResourceHolder::FindExistingResource(const std::vector<std::pair<std::string, T*>>& container, const std::string& id)
 {
 	// Retrieve the resource using a predicate, return the pair's id
 	auto it = std::find_if(container.begin(), container.end(),

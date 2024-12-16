@@ -5,6 +5,7 @@
 #include "precomp.h"
 #include "game.h"
 
+Player* player;
 GameObject* obj;
 
 // -----------------------------------------------------------
@@ -12,6 +13,7 @@ GameObject* obj;
 // -----------------------------------------------------------
 void Game::Init()
 {
+	player = new Player();
 	obj = new GameObject();
 }
 
@@ -32,6 +34,7 @@ void Game::Render()
 
 	// entities
 	obj->render(screen);
+	player->render(screen);
 
 	// template ui
 	screen->Print("Hello, World!\n", 10, 10, 0xFFFFFFFF);
@@ -42,5 +45,6 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
+	delete player;
 	delete obj;
 }

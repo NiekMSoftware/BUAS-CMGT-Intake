@@ -15,6 +15,7 @@
 #include <algorithm>			// standard algorithms for stl containers
 #include <string>				// strings
 #include <iostream>
+#include <print>
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
@@ -65,6 +66,7 @@ using namespace std;
 
 // ntk - entities
 #include "GameObject.h"
+#include "Player.h"
 
 // namespaces
 using namespace Tmpl8;
