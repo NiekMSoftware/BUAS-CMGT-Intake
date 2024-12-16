@@ -13,8 +13,12 @@ public:
 	aabb getCollider() const;
 	Sprite* getSprite() const;
 
+	void translate(const float2& translation);
+	void rotate(const float& a);
+
 protected:
 	float2 position;
+	float angle;
 
 	Sprite* m_sprite;
 	aabb collider;

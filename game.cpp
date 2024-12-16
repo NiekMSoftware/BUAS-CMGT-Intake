@@ -20,9 +20,9 @@ void Game::Init()
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
-void Game::Tick( float /* deltaTime */ )
+void Game::Tick( float deltaTime )
 {
-	
+	player->update(deltaTime);
 }
 
 // -----------------------------------------------------------

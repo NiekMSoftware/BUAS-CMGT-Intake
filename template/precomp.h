@@ -64,10 +64,6 @@ using namespace std;
 // ntk - management
 #include "ResourceHolder.h"
 
-// ntk - entities
-#include "GameObject.h"
-#include "Player.h"
-
 // namespaces
 using namespace Tmpl8;
 
@@ -141,6 +137,10 @@ using namespace Tmpl8;
 #include <GLFW/glfw3native.h>
 
 #include "Input.h"
+
+// ntk - entities
+#include "GameObject.h"
+#include "Player.h"
 
 // zlib
 #include "zlib.h"
