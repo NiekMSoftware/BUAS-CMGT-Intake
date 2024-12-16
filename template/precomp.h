@@ -63,6 +63,9 @@ using namespace std;
 // ntk - management
 #include "ResourceHolder.h"
 
+// ntk - entities
+#include "GameObject.h"
+
 // namespaces
 using namespace Tmpl8;
 
