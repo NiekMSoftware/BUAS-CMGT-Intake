@@ -56,12 +56,16 @@ void ReshapeWindowCallback( GLFWwindow*, int w, int h )
 {
 	glViewport( 0, 0, w, h );
 }
-void KeyEventCallback( GLFWwindow*, int key, int, int action, int )
+
+// Disabled this due to my Input static class.
+/* void KeyEventCallback( GLFWwindow*, int key, int, int action, int )
 {
 	if (key == GLFW_KEY_ESCAPE) running = false;
 	if (action == GLFW_PRESS) { if (app) if (key >= 0) app->KeyDown( key ); keystate[key & 255] = 1; }
 	else if (action == GLFW_RELEASE) { if (app) if (key >= 0) app->KeyUp( key ); keystate[key & 255] = 0; }
 }
+*/
+
 void CharEventCallback( GLFWwindow*, uint ) { /* nothing here yet */ }
 void WindowFocusCallback( GLFWwindow*, int focused ) { hasFocus = (focused == GL_TRUE); }
 void MouseButtonCallback( GLFWwindow*, int button, int action, int )
@@ -102,7 +106,10 @@ void main()
 	glfwMakeContextCurrent( window );
 	// register callbacks
 	glfwSetWindowSizeCallback( window, ReshapeWindowCallback );
-	glfwSetKeyCallback( window, KeyEventCallback );
+
+	//glfwSetKeyCallback( window, KeyEventCallback );
+	Input::setCallback(window);
+
 	glfwSetWindowFocusCallback( window, WindowFocusCallback );
 	glfwSetMouseButtonCallback( window, MouseButtonCallback );
 	glfwSetScrollCallback( window, MouseScrollCallback );
