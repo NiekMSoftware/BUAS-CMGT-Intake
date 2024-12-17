@@ -32,8 +32,10 @@ void GameObject::fixedUpdate(float)
 
 void GameObject::render(Surface* screen)
 {
-	//m_sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y));
-	m_sprite->Draw(screen, static_cast<int>(position.x), static_cast<int>(position.y), 1.f, angle);
+	// Calculate center-based coordinates of the sprite
+	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
+	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
+	m_sprite->Draw(screen, centerX, centerY, 1.f, angle);
 }
 
 float2 GameObject::getPosition() const
