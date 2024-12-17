@@ -62,6 +62,7 @@ using namespace std;
 #include "sprite.h"
 
 // ntk - management
+#include "GameTime.h"
 #include "ResourceHolder.h"
 
 // namespaces
@@ -408,8 +409,8 @@ class TheApp
 {
 public:
 	virtual void Init() = 0;
-	virtual void Tick( float deltaTime ) = 0;
-	virtual void FixedTick(float fixedDeltaTime) = 0;
+	virtual void Tick() = 0;
+	virtual void FixedTick() = 0;
 	virtual void Render() = 0;
 	virtual void Shutdown() = 0;
 	virtual void MouseUp( int button ) = 0;

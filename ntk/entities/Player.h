@@ -6,14 +6,14 @@ public:
 	explicit Player();
 	~Player() override = default;
 
-	void update(float deltaTime) override;
-	void fixedUpdate(float fixedDeltaTime) override;
+	void update() override;
+	void fixedUpdate() override;
 
 private:
-	void applySpaceBraking(float brakeForce, float fixedDeltaTime);
+	void applySpaceBraking(float brakeForce);
 
-	void retrieveInput(float dt);
-	void thrust(float fixedDeltaTime);
+	void retrieveInput();
+	void thrust();
 
 private:
 	float thrustInput;

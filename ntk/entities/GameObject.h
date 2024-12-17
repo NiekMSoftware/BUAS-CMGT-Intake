@@ -7,8 +7,8 @@ public:
 	virtual ~GameObject();
 
 	// rendering and functional computing
-	virtual void update(float deltaTime);
-	virtual void fixedUpdate(float fixedDeltaTime);
+	virtual void update();
+	virtual void fixedUpdate();
 	virtual void render(Surface* screen);
 
 	// getters

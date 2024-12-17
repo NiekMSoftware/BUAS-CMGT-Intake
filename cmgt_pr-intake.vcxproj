@@ -122,6 +122,7 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\utility\GameTime.cpp" />
     <ClCompile Include="ntk\utility\Input.cpp" />
     <ClCompile Include="ntk\entities\GameObject.cpp" />
     <ClCompile Include="ntk\entities\Player.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="ntk\entities\GameObject.h" />
     <ClInclude Include="ntk\entities\Player.h" />
     <ClInclude Include="ntk\management\ResourceHolder.h" />
+    <ClInclude Include="ntk\utility\GameTime.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

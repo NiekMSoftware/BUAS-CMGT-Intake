@@ -23,42 +23,41 @@ Player::Player()
 	rotationSpeed = 90.f * rotationMod;
 }
 
-void Player::update(float deltaTime)
+void Player::update()
 {
-	GameObject::update(deltaTime);
+	GameObject::update();
 
-	retrieveInput(deltaTime);
+	retrieveInput();
 	keepInView();
 }
 
-void Player::fixedUpdate(float fixedDeltaTime)
+void Player::fixedUpdate()
 {
-	thrust(fixedDeltaTime);
+	thrust();
 
 	// only apply drag if no input is given
 	if (thrustInput == 0.f)
-		applySpaceBraking(50.f, fixedDeltaTime);
+		applySpaceBraking(50.f);
 }
 
 /**
  * Applies a continuous force to slow down the ship.
  * @param brakeForce The force that will be applied each frame.
- * @param fixedDeltaTime The fixed time interval computed inside the fixedTick method.
  */
-void Player::applySpaceBraking(float brakeForce, float fixedDeltaTime)
+void Player::applySpaceBraking(float brakeForce)
 {
 	float currentSpeed = length(velocity);
 	if (currentSpeed > 0.f)
 	{
-		float reductionAmount = std::min(brakeForce * fixedDeltaTime, currentSpeed);
+		float reductionAmount = std::min(brakeForce * Time::fixedDeltaTime, currentSpeed);
 		velocity = normalize(velocity) * (currentSpeed - reductionAmount);
 	}
 }
 
 /** Retrieves the input and computes the thrust input based on speed. */
-void Player::retrieveInput(float dt)
+void Player::retrieveInput()
 {
-	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * dt);
+	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * Time::deltaTime);
 	rotate(rotationValue);
 
 	float thrustValue = Input::getKey(GLFW_KEY_W);
@@ -74,7 +73,7 @@ void Player::retrieveInput(float dt)
 }
 
 /** Computes a forward direction and applies thrust to that direction. */
-void Player::thrust(float fixedDeltaTime)
+void Player::thrust()
 {
 	if (thrustInput != 0.f)
 	{
@@ -84,7 +83,7 @@ void Player::thrust(float fixedDeltaTime)
 		}
 
 		// apply velocity in the direction of the angle (forward motion)
-		velocity.x += std::cos(angle * (PI / 180.f)) * thrustInput * fixedDeltaTime;
-		velocity.y += std::sin(angle * (PI / 180.f)) * thrustInput * fixedDeltaTime;
+		velocity.x += std::cos(angle * (PI / 180.f)) * thrustInput * Time::fixedDeltaTime;
+		velocity.y += std::sin(angle * (PI / 180.f)) * thrustInput * Time::fixedDeltaTime;
 	}
 }

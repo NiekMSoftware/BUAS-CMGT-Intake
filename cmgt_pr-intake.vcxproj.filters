@@ -35,6 +35,9 @@
     <ClCompile Include="ntk\utility\Input.cpp">
       <Filter>ntk\utility</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\utility\GameTime.cpp">
+      <Filter>ntk\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
@@ -73,6 +76,9 @@
       <Filter>ntk\managment</Filter>
     </ClInclude>
     <ClInclude Include="ntk\utility\Input.h">
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\utility\GameTime.h">
       <Filter>ntk\utility</Filter>
     </ClInclude>
   </ItemGroup>
