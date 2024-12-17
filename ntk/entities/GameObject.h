@@ -18,8 +18,7 @@ public:
 	void rotate(const float& a);
 
 protected:
-	float calculateDragForce() const;
-	void applyDrag(float fixedDeltaTime);
+	void applySpaceBraking(float brakeForce, float fixedDeltaTime);
 
 protected:
 	float2 position;

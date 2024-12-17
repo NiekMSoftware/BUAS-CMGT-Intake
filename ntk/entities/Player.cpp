@@ -19,7 +19,7 @@ Player::Player()
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
 
-	dragCoefficient = 0.7f;
+	dragCoefficient = 1.0f;
 	mass = 10.f;
 }
 
@@ -38,7 +38,7 @@ void Player::fixedUpdate(float fixedDeltaTime)
 
 	// only apply drag if no input is given
 	if (thrustInput == 0.f)
-		applyDrag(fixedDeltaTime);
+		applySpaceBraking(100.f, fixedDeltaTime);
 }
 
 void Player::retrieveInput(float dt)

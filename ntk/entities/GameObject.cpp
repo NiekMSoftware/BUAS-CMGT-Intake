@@ -25,7 +25,7 @@ void GameObject::update(float deltaTime)
 
 void GameObject::fixedUpdate(float fixedDeltaTime)
 {
-	applyDrag(fixedDeltaTime);
+	/* Incorporate any related physics updates */
 }
 
 void GameObject::render(Surface* screen)
@@ -59,33 +59,12 @@ Sprite* GameObject::getSprite() const
 	return m_sprite;
 }
 
-float GameObject::calculateDragForce() const
+void GameObject::applySpaceBraking(float brakeForce, float fixedDeltaTime)
 {
-	float speedSquared = length(velocity);
-
-	float dragForce = 0.5f *
-					  FLUID_DENSITY *
-					  speedSquared * speedSquared * 
-					  dragCoefficient;
-
-	return dragForce;
-}
-
-void GameObject::applyDrag(float fixedDeltaTime)
-{
-	if (length(velocity) == 0.f) return;
-
-	float dragForce = calculateDragForce();
-	float dragAcceleration = dragForce / mass;
-
-	// Get direction of velocity (opposite to motion)
-	float2 dragDirection = normalize(velocity) * -1;
-
-	// Apply drag force directly to each velocity component
-	velocity.x += dragDirection.x * dragAcceleration * fixedDeltaTime;
-	velocity.y += dragDirection.y * dragAcceleration * fixedDeltaTime;
-
-	// Prevent velocity from being too small and stopping too slowly
-	if (std::abs(velocity.x) < EPSILON) velocity.x = 0;
-	if (std::abs(velocity.y) < EPSILON) velocity.y = 0;
+	float currentSpeed = length(velocity);
+	if (currentSpeed > 0.f)
+	{
+		float reductionAmount = std::min(brakeForce * fixedDeltaTime, currentSpeed);
+		velocity = normalize(velocity) * (currentSpeed - reductionAmount);
+	}
 }
