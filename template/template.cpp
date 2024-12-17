@@ -338,14 +338,13 @@ void main()
 	const float FIXED_TIMESTEP = 1.0f / 60.0f;
 	static float accumulator = 0.0f;
 
-	float deltaTime = 0;
 	static int frameNr = 0;
 	static Timer timer;
 	while (!glfwWindowShouldClose( window ))
 	{
 		if (hasFocus)
 		{
-			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
+			float deltaTime = min(500.0f, 1000.0f * timer.elapsed());
 			timer.reset();
 
 			// accumulate frame time

@@ -21,6 +21,8 @@ Player::Player()
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
+
+	timeSinceLastShot = 0.0f;
 }
 
 void Player::update()
@@ -29,6 +31,14 @@ void Player::update()
 
 	retrieveInput();
 	keepInView();
+
+	// shooting logic
+	timeSinceLastShot += Time::deltaTime;
+	if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
+	{
+		fireProjectile();
+		timeSinceLastShot = 0.0f;
+	}
 }
 
 void Player::fixedUpdate()
@@ -86,4 +96,20 @@ void Player::thrust()
 		velocity.x += std::cos(angle * (PI / 180.f)) * thrustInput * Time::fixedDeltaTime;
 		velocity.y += std::sin(angle * (PI / 180.f)) * thrustInput * Time::fixedDeltaTime;
 	}
+}
+
+void Player::fireProjectile()
+{
+	// create or instantiate projectile
+	float2 projectileStart = position +
+		float2(std::cos(angle * (PI / 180.f)) * 20.f,
+			std::sin(angle * (PI / 180.f)) * 20.f);
+
+	Projectile* newProjectile = new Projectile(projectileStart, angle);
+
+	// apply correct rotation based on player angle to fire to
+
+	// fire projectile
+
+	std::println("Firing projectile!");
 }
