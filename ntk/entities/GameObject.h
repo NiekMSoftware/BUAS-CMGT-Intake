@@ -6,30 +6,30 @@ public:
 	explicit GameObject();
 	virtual ~GameObject();
 
+	// rendering and functional computing
 	virtual void update(float deltaTime);
 	virtual void fixedUpdate(float fixedDeltaTime);
 	virtual void render(Surface* screen);
 
+	// getters
 	float2 getPosition() const;
 	aabb getCollider() const;
 	Sprite* getSprite() const;
 
+	// transformation updates
 	void translate(const float2& translation);
 	void rotate(const float& a);
 
-private:
+protected:
 	void keepInView();
 
 protected:
-	void applySpaceBraking(float brakeForce, float fixedDeltaTime);
-
-protected:
+	// attributes
 	float2 position;
+	float2 velocity;
 	float angle;
 
-	// physics
-	float2 velocity;
-
+	// components
 	Sprite* m_sprite;
 	aabb collider;
 };

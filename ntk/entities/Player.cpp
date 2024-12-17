@@ -3,15 +3,18 @@
 
 Player::Player()
 {
+	// set a unique sprite to the player
 	ResourceHolder& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
 
-	position = { 0, 0 };
+	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f};
 
+	// initialize computable attributes
 	thrustInput = 0.f;
 	angle = 0.f;
 
+	// initialize speeds
 	speedMod = 2.4f;
 	rotationMod = 1.2f;
 
@@ -25,6 +28,7 @@ void Player::update(float deltaTime)
 	GameObject::update(deltaTime);
 
 	retrieveInput(deltaTime);
+	keepInView();
 }
 
 void Player::fixedUpdate(float fixedDeltaTime)
@@ -36,6 +40,22 @@ void Player::fixedUpdate(float fixedDeltaTime)
 		applySpaceBraking(50.f, fixedDeltaTime);
 }
 
+/**
+ * Applies a continuous force to slow down the ship.
+ * @param brakeForce The force that will be applied each frame.
+ * @param fixedDeltaTime The fixed time interval computed inside the fixedTick method.
+ */
+void Player::applySpaceBraking(float brakeForce, float fixedDeltaTime)
+{
+	float currentSpeed = length(velocity);
+	if (currentSpeed > 0.f)
+	{
+		float reductionAmount = std::min(brakeForce * fixedDeltaTime, currentSpeed);
+		velocity = normalize(velocity) * (currentSpeed - reductionAmount);
+	}
+}
+
+/** Retrieves the input and computes the thrust input based on speed. */
 void Player::retrieveInput(float dt)
 {
 	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * dt);
@@ -53,6 +73,7 @@ void Player::retrieveInput(float dt)
 	}
 }
 
+/** Computes a forward direction and applies thrust to that direction. */
 void Player::thrust(float fixedDeltaTime)
 {
 	if (thrustInput != 0.f)

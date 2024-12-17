@@ -10,6 +10,8 @@ public:
 	void fixedUpdate(float fixedDeltaTime) override;
 
 private:
+	void applySpaceBraking(float brakeForce, float fixedDeltaTime);
+
 	void retrieveInput(float dt);
 	void thrust(float fixedDeltaTime);
 

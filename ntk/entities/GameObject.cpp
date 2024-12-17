@@ -21,8 +21,6 @@ void GameObject::update(float deltaTime)
 {
 	position.x += velocity.x * deltaTime;
 	position.y += velocity.y * deltaTime;
-
-	keepInView();
 }
 
 void GameObject::fixedUpdate(float)
@@ -35,34 +33,50 @@ void GameObject::render(Surface* screen)
 	// Calculate center-based coordinates of the sprite
 	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
 	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
+
 	m_sprite->Draw(screen, centerX, centerY, 1.f, angle);
 }
 
-float2 GameObject::getPosition() const
-{
-	return position;
-}
-
+/**
+ * Moves the position to a new position by translating it (make sure to multiply by delta time).
+ * @param translation The translation to compute to.
+ */
 void GameObject::translate(const float2& translation)
 {
 	position += translation;
 }
 
+/**
+ * Rotates the game object around in 2D space with a value.
+ * @param a The angular rotation value.
+ */
 void GameObject::rotate(const float& a)
 {
 	angle += a;
 }
 
+/** Returns the position of the game object. */
+float2 GameObject::getPosition() const
+{
+	return position;
+}
+
+/** Returns the collider of the game object. */
 aabb GameObject::getCollider() const
 {
 	return collider;
 }
 
+/** Returns the sprite of the game object as a pointer. */
 Sprite* GameObject::getSprite() const
 {
 	return m_sprite;
 }
 
+/**
+ * Constraints the game object within the boundaries of the screen by seamlessly "wrapping" around
+ * the object.
+ */
 void GameObject::keepInView()
 {
 	// constraint the object to the screen's width and height
@@ -82,15 +96,5 @@ void GameObject::keepInView()
 	else if (position.y < 0.0f)
 	{
 		position.y = SCRHEIGHT;
-	}
-}
-
-void GameObject::applySpaceBraking(float brakeForce, float fixedDeltaTime)
-{
-	float currentSpeed = length(velocity);
-	if (currentSpeed > 0.f)
-	{
-		float reductionAmount = std::min(brakeForce * fixedDeltaTime, currentSpeed);
-		velocity = normalize(velocity) * (currentSpeed - reductionAmount);
 	}
 }
