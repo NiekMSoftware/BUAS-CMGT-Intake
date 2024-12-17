@@ -17,6 +17,9 @@ public:
 	void translate(const float2& translation);
 	void rotate(const float& a);
 
+private:
+	void keepInView();
+
 protected:
 	void applySpaceBraking(float brakeForce, float fixedDeltaTime);
 
@@ -25,11 +28,7 @@ protected:
 	float angle;
 
 	// physics
-	float mass = 1.f;
 	float2 velocity;
-	float dragCoefficient;
-	const float FLUID_DENSITY = 1.225f;
-	const float EPSILON = 0.01f;
 
 	Sprite* m_sprite;
 	aabb collider;

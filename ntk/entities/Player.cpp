@@ -18,9 +18,6 @@ Player::Player()
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
-
-	dragCoefficient = 1.0f;
-	mass = 10.f;
 }
 
 void Player::update(float deltaTime)
@@ -28,8 +25,6 @@ void Player::update(float deltaTime)
 	GameObject::update(deltaTime);
 
 	retrieveInput(deltaTime);
-
-	std::println("Velocity: ({}, {})", velocity.x, velocity.y);
 }
 
 void Player::fixedUpdate(float fixedDeltaTime)
@@ -38,7 +33,7 @@ void Player::fixedUpdate(float fixedDeltaTime)
 
 	// only apply drag if no input is given
 	if (thrustInput == 0.f)
-		applySpaceBraking(100.f, fixedDeltaTime);
+		applySpaceBraking(50.f, fixedDeltaTime);
 }
 
 void Player::retrieveInput(float dt)

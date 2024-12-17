@@ -6,7 +6,7 @@ GameObject::GameObject()
 	ResourceHolder& rh = ResourceHolder::Instance();
 
 	velocity = { 0, 0 };
-	dragCoefficient = 0.05f;
+	
 	m_sprite = rh.CreateSquare("square", 32, 32);
 	position = { 100, 100 };
 	angle = 0.0f;
@@ -21,9 +21,11 @@ void GameObject::update(float deltaTime)
 {
 	position.x += velocity.x * deltaTime;
 	position.y += velocity.y * deltaTime;
+
+	keepInView();
 }
 
-void GameObject::fixedUpdate(float fixedDeltaTime)
+void GameObject::fixedUpdate(float)
 {
 	/* Incorporate any related physics updates */
 }
@@ -57,6 +59,28 @@ aabb GameObject::getCollider() const
 Sprite* GameObject::getSprite() const
 {
 	return m_sprite;
+}
+
+void GameObject::keepInView()
+{
+	// constraint the object to the screen's width and height
+	if (position.x > SCRWIDTH)
+	{
+		position.x = 0.0f;
+	}
+	else if (position.x < 0.0f)
+	{
+		position.x = SCRWIDTH;
+	}
+
+	if (position.y > SCRHEIGHT)
+	{
+		position.y = 0.0f;
+	}
+	else if (position.y < 0.0f)
+	{
+		position.y = SCRHEIGHT;
+	}
 }
 
 void GameObject::applySpaceBraking(float brakeForce, float fixedDeltaTime)
