@@ -110,6 +110,4 @@ void Player::fireProjectile() const
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
 
 	GameWorld::instance().addObject(newProjectile);
-
-	std::println("Firing projectile!");
 }

@@ -30,22 +30,23 @@ void GameWorld::clean()
 
 void GameWorld::update()
 {
+	// TODO: Change this to an event
+	// Remove inactive objects during update
+	std::erase_if(worldObjects, [](const GameObject* obj) {
+		    if (!obj || !obj->isActive()) {
+			    delete obj; 
+		    	return true;
+		    }
+
+			return false;
+	    }
+	);
+
 	for (GameObject* obj : worldObjects)
 	{
 		if (obj && obj->isActive())
 			obj->update();
 	}
-
-	// TODO: Change this to an event
-	// Remove inactive objects during update
-	std::erase_if(worldObjects,
-	              [](const GameObject* obj) {
-		              if (!obj || !obj->isActive()) {
-			              delete obj;
-			              return true;
-		              }
-		              return false;
-	              });
 }
 
 void GameWorld::fixedUpdate() const
@@ -70,17 +71,42 @@ void GameWorld::render(Surface* screen) const
 
 void GameWorld::addObject(GameObject* go)
 {
+	// Validate input pointer
+	if (!go) {
+		OutputDebugString("[ERROR] Attempting to add null GameObject!\n");
+		return;
+	}
+
+	// Debug: Print pointer address before insertion
+	OutputDebugString(std::format("[DEBUG] Adding object at address: {}\n",
+		reinterpret_cast<uintptr_t>(go)).c_str());
+
 	// increase the capacity if more objects would be needed
 	if (count >= capacity)
 	{
 		capacity *= 2;
-		worldObjects.resize(capacity);
-		OutputDebugString("[LOG] No more room, making some more capacity!\n");
+		try
+		{
+			worldObjects.reserve(capacity);
+			OutputDebugString("[LOG] Increased object capacity safely!\n");
+		}
+		catch (const std::bad_alloc&)
+		{
+			OutputDebugString("[CRITICAL] Failed to allocate memory!\n");
+			return;
+		}
 	}
 
 	// add the new game object
 	worldObjects.push_back(go);
 	count++;
+
+	// validate insertion
+	if (worldObjects.back() != go) 
+	{
+		OutputDebugString("[ERROR] Object insertion failed!\n");
+	}
+
 	OutputDebugString(std::format("[LOG] Added game object '{}' to the list.\n", go->getName()).c_str());
 }
 
