@@ -64,6 +64,7 @@ using namespace std;
 // ntk - management
 #include "GameTime.h"
 #include "ResourceHolder.h"
+#include "GameWorld.h"
 
 // namespaces
 using namespace Tmpl8;

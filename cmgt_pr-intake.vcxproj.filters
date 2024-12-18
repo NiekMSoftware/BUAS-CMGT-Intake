@@ -41,6 +41,9 @@
     <ClCompile Include="ntk\entities\Projectile.cpp">
       <Filter>ntk\entities</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\management\GameWorld.cpp">
+      <Filter>ntk\managment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="ntk\entities\Projectile.h">
       <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\GameWorld.h">
+      <Filter>ntk\managment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ntk\entities\Projectile.cpp" />
+    <ClCompile Include="ntk\management\GameWorld.cpp" />
     <ClCompile Include="ntk\utility\GameTime.cpp" />
     <ClCompile Include="ntk\utility\Input.cpp" />
     <ClCompile Include="ntk\entities\GameObject.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ntk\entities\Projectile.h" />
+    <ClInclude Include="ntk\management\GameWorld.h" />
     <ClInclude Include="ntk\utility\Input.h" />
     <ClInclude Include="ntk\entities\GameObject.h" />
     <ClInclude Include="ntk\entities\Player.h" />

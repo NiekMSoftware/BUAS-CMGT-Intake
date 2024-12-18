@@ -98,7 +98,7 @@ void Player::thrust()
 	}
 }
 
-void Player::fireProjectile()
+void Player::fireProjectile() const
 {
 	// create or instantiate projectile
 	float2 projectileStart = position +
@@ -106,10 +106,6 @@ void Player::fireProjectile()
 			std::sin(angle * (PI / 180.f)) * 20.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
-
-	// apply correct rotation based on player angle to fire to
-
-	// fire projectile
 
 	std::println("Firing projectile!");
 }

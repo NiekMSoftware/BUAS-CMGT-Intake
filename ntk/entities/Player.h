@@ -14,7 +14,7 @@ private:
 
 	void retrieveInput();
 	void thrust();
-	void fireProjectile();
+	void fireProjectile() const;
 
 private:
 	float thrustInput;
