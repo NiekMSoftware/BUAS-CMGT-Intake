@@ -102,12 +102,14 @@ void Player::thrust()
 
 void Player::fireProjectile() const
 {
-	//// create or instantiate projectile
-	//float2 projectileStart = position +
-	//	float2(std::cos(angle * (PI / 180.f)) * 20.f,
-	//		std::sin(angle * (PI / 180.f)) * 20.f);
+	// create or instantiate projectile
+	float2 projectileStart = position +
+		float2(std::cos(angle * (PI / 180.f)) * 20.f,
+			std::sin(angle * (PI / 180.f)) * 20.f);
 
-	//Projectile* newProjectile = new Projectile(projectileStart, angle);
+	Projectile* newProjectile = new Projectile(projectileStart, angle);
+
+	GameWorld::instance().addObject(newProjectile);
 
 	std::println("Firing projectile!");
 }

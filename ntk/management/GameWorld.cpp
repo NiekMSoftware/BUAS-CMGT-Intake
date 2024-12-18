@@ -16,15 +16,13 @@ void GameWorld::initialize()
 
 	worldObjects.clear();
 	worldObjects.reserve(capacity);
-
-	std::println("Initialized GameWorld.");
 }
 
 void GameWorld::clean()
 {
 	for (GameObject* obj : worldObjects)
 	{
-		OutputDebugString(std::format("Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
+		OutputDebugString(std::format("[LOG] Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
 		delete obj;
 	}
 	worldObjects.clear();
@@ -41,7 +39,7 @@ void GameWorld::update()
 	// TODO: Change this to an event
 	// Remove inactive objects during update
 	std::erase_if(worldObjects,
-	              [](GameObject* obj) {
+	              [](const GameObject* obj) {
 		              if (!obj || !obj->isActive()) {
 			              delete obj;
 			              return true;
@@ -77,13 +75,13 @@ void GameWorld::addObject(GameObject* go)
 	{
 		capacity *= 2;
 		worldObjects.resize(capacity);
-		OutputDebugString("No more room, making some more capacity!\n");
+		OutputDebugString("[LOG] No more room, making some more capacity!\n");
 	}
 
 	// add the new game object
 	worldObjects.push_back(go);
 	count++;
-	OutputDebugString(std::format("Added game object '{}' to the list.\n", go->getName()).c_str());
+	OutputDebugString(std::format("[LOG] Added game object '{}' to the list.\n", go->getName()).c_str());
 }
 
 void GameWorld::removeObject(GameObject* go)
@@ -91,6 +89,6 @@ void GameWorld::removeObject(GameObject* go)
 	if (go) {
 		go->markForRemoval();
 		count--;
-		OutputDebugString(std::format("Marked object '{}' for removal.\n", go->getName()).c_str());
+		OutputDebugString(std::format("[LOG] Marked object '{}' for removal.\n", go->getName()).c_str());
 	}
 }
