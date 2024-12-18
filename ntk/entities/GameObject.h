@@ -15,12 +15,13 @@ public:
 	float2 getPosition() const;
 	aabb getCollider() const;
 	Sprite* getSprite() const;
+	std::string getName() const { return name; }
+	bool isActive() const { return m_active; }
 
 	// transformation updates
 	void translate(const float2& translation);
 	void rotate(const float& a);
 
-	bool isActive() const { return m_active; }
 	virtual void markForRemoval() { m_active = false; }
 
 protected:
@@ -35,6 +36,8 @@ protected:
 	// components
 	Sprite* m_sprite;
 	aabb collider;
+
+	std::string name;
 
 private:
 	bool m_active = true;

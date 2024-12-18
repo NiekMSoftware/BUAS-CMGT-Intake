@@ -4,16 +4,16 @@ class GameWorld
 {
 public:
 	static GameWorld& instance();
-	~GameWorld();
 
 	GameWorld(const GameWorld&) = delete;
 	GameWorld& operator=(const GameWorld&) = delete;
 
 	void initialize();
+	void clean();
 
 	void update();
-	void fixedUpdate();
-	void render(Surface* screen);
+	void fixedUpdate() const;
+	void render(Surface* screen) const;
 
 	void addObject(GameObject* go);
 	void removeObject(GameObject* go);

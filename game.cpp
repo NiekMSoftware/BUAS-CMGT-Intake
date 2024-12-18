@@ -55,5 +55,5 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
-	
+	GameWorld::instance().clean();
 }

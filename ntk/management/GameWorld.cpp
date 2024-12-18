@@ -9,16 +9,6 @@ GameWorld& GameWorld::instance()
 	return s;
 }
 
-GameWorld::~GameWorld()
-{
-	for (GameObject* obj : worldObjects)
-	{
-		OutputDebugString("Removed game object from the vector.\n");
-		delete obj;
-	}
-	worldObjects.clear();
-}
-
 void GameWorld::initialize()
 {
 	count = 0;
@@ -28,6 +18,16 @@ void GameWorld::initialize()
 	worldObjects.reserve(capacity);
 
 	std::println("Initialized GameWorld.");
+}
+
+void GameWorld::clean()
+{
+	for (GameObject* obj : worldObjects)
+	{
+		OutputDebugString(std::format("Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
+		delete obj;
+	}
+	worldObjects.clear();
 }
 
 void GameWorld::update()
@@ -50,7 +50,7 @@ void GameWorld::update()
 	              });
 }
 
-void GameWorld::fixedUpdate()
+void GameWorld::fixedUpdate() const
 {
 	for (GameObject* obj : worldObjects)
 	{
@@ -60,7 +60,7 @@ void GameWorld::fixedUpdate()
 	}
 }
 
-void GameWorld::render(Surface* screen)
+void GameWorld::render(Surface* screen) const
 {
 	for (GameObject* obj : worldObjects) {
 		// Double-check object state before rendering
@@ -77,13 +77,13 @@ void GameWorld::addObject(GameObject* go)
 	{
 		capacity *= 2;
 		worldObjects.resize(capacity);
-		std::println("No more room, making some more capacity!");
+		OutputDebugString("No more room, making some more capacity!\n");
 	}
 
 	// add the new game object
 	worldObjects.push_back(go);
 	count++;
-	std::println("Added the game object.");
+	OutputDebugString(std::format("Added game object '{}' to the list.\n", go->getName()).c_str());
 }
 
 void GameWorld::removeObject(GameObject* go)
@@ -91,6 +91,6 @@ void GameWorld::removeObject(GameObject* go)
 	if (go) {
 		go->markForRemoval();
 		count--;
-		std::println("Marked game object for removal.");
+		OutputDebugString(std::format("Marked object '{}' for removal.\n", go->getName()).c_str());
 	}
 }

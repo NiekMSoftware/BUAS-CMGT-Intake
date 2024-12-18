@@ -10,6 +10,7 @@ GameObject::GameObject()
 	m_sprite = rh.CreateSquare("square", 32, 32);
 	position = { 100, 100 };
 	angle = 0.0f;
+	name = "Game Object";
 }
 
 GameObject::~GameObject()

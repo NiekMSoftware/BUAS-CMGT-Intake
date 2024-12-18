@@ -23,6 +23,8 @@ Player::Player()
 	rotationSpeed = 90.f * rotationMod;
 
 	timeSinceLastShot = 0.0f;
+
+	name = "Player";
 }
 
 void Player::update()
