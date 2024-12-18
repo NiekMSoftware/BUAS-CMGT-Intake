@@ -20,6 +20,9 @@ public:
 	void translate(const float2& translation);
 	void rotate(const float& a);
 
+	bool isActive() const { return m_active; }
+	virtual void markForRemoval() { m_active = false; }
+
 protected:
 	void keepInView();
 
@@ -32,4 +35,7 @@ protected:
 	// components
 	Sprite* m_sprite;
 	aabb collider;
+
+private:
+	bool m_active = true;
 };

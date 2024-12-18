@@ -64,7 +64,6 @@ using namespace std;
 // ntk - management
 #include "GameTime.h"
 #include "ResourceHolder.h"
-#include "GameWorld.h"
 
 // namespaces
 using namespace Tmpl8;
@@ -140,6 +139,8 @@ using namespace Tmpl8;
 
 // ntk - entities
 #include "GameObject.h"
+#include "GameWorld.h"
+
 #include "Projectile.h"
 #include "Player.h"
 
