@@ -4,6 +4,7 @@ class GameObject
 {
 public:
 	virtual void initialize();
+	virtual ~GameObject() = default;
 
 	// rendering and functional computing
 	virtual void update();

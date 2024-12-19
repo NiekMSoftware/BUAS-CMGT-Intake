@@ -9,6 +9,12 @@ GameWorld& GameWorld::instance()
 	return s;
 }
 
+/**
+ * Initializes the entire game world, it sets a fixed number as initial capacity and reserves
+ * elements for the GameObjects with the explicit capacity.
+ *
+ * @remark Explicitly call this upon the Game's initialization.
+ */
 void GameWorld::initialize()
 {
 	count = 0;
@@ -16,16 +22,25 @@ void GameWorld::initialize()
 
 	worldObjects.clear();
 	worldObjects.reserve(capacity);
+
+	OutputDebugString("\n[LOG] GameWorld::initialize - Successfully initialized the Game World.\n\n");
 }
 
+/**
+ * Cleans up all the game objects of the world, freeing all previously allocated memory.
+ *
+ * @remark Explicitly call this upon the Game's shutdown.
+ */
 void GameWorld::clean()
 {
 	for (GameObject* obj : worldObjects)
 	{
-		OutputDebugString(std::format("[LOG] Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
+		OutputDebugString(std::format("[LOG] GameWorld::clean - Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
 		delete obj;
 	}
 	worldObjects.clear();
+
+	OutputDebugString("[LOG] GameWorld::clean - Successfully cleaned up the Game World.\n\n");
 }
 
 void GameWorld::update()
@@ -44,6 +59,7 @@ void GameWorld::update()
 
 	for (GameObject* obj : worldObjects)
 	{
+		// Double-check object state before updating
 		if (obj && obj->isActive())
 			obj->update();
 	}
@@ -53,7 +69,7 @@ void GameWorld::fixedUpdate() const
 {
 	for (GameObject* obj : worldObjects)
 	{
-		// Double-check object state before rendering
+		// Double-check object state before updating
 		if (obj && obj->isActive())
 			obj->fixedUpdate();
 	}
@@ -69,17 +85,18 @@ void GameWorld::render(Surface* screen) const
 	}
 }
 
+/** Adds a game object to the game world. */
 void GameWorld::addObject(GameObject* go)
 {
 	// Validate input pointer
 	if (!go)
 	{
-		OutputDebugString("[ERROR] Attempting to add null GameObject!\n");
+		OutputDebugString("[ERROR] GameWorld::addObject - Attempting to add null GameObject!\n");
 		return;
 	}
 
 	// Debug: Print pointer address before insertion
-	OutputDebugString(std::format("[DEBUG] Adding object at address: {}\n",
+	OutputDebugString(std::format("[DEBUG] GameWorld::addObject - Adding object at address: {}\n",
 		reinterpret_cast<uintptr_t>(go)).c_str());
 
 	// increase the capacity if more objects would be needed
@@ -89,11 +106,11 @@ void GameWorld::addObject(GameObject* go)
 		try
 		{
 			worldObjects.reserve(capacity);
-			OutputDebugString("[LOG] Increased object capacity safely!\n");
+			OutputDebugString("[LOG] GameWorld::addObject - Increased object capacity safely!\n");
 		}
 		catch (const std::bad_alloc&)
 		{
-			OutputDebugString("[CRITICAL] Failed to allocate memory!\n");
+			OutputDebugString("[CRITICAL] GameWorld::addObject - Failed to allocate memory!\n");
 			return;
 		}
 	}
@@ -106,18 +123,19 @@ void GameWorld::addObject(GameObject* go)
 	// validate insertion
 	if (worldObjects.back() != go) 
 	{
-		OutputDebugString("[ERROR] Object insertion failed!\n");
+		OutputDebugString("[ERROR] GameWorld::addObject - Object insertion failed!\n");
 	}
 
-	OutputDebugString(std::format("[LOG] Added game object '{}' to the list.\n", go->getName()).c_str());
+	OutputDebugString(std::format("[LOG] GameWorld::addObject - Added game object '{}' to the list.\n\n", go->getName()).c_str());
 }
 
+/** Remove any game object existing in the world. This also decreases the count of the container. */
 void GameWorld::removeObject(GameObject* go)
 {
-	if (go)
+	if (go && go->isActive())
 	{
 		go->markForRemoval();
 		count--;
-		OutputDebugString(std::format("[LOG] Marked object '{}' for removal.\n", go->getName()).c_str());
+		OutputDebugString(std::format("[LOG] GameWorld::removeObject - Marked the Game Object for removal '{}'.\n\n", go->getName()).c_str());
 	}
 }

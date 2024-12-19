@@ -12,9 +12,10 @@ Player* player;
 // -----------------------------------------------------------
 void Game::Init()
 {
+	GameWorld::instance().initialize();
+
 	player = new Player();
 
-	GameWorld::instance().initialize();
 	GameWorld::instance().addObject(player);
 }
 
