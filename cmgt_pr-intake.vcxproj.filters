@@ -29,34 +29,93 @@
     <ClCompile Include="ntk\entities\Player.cpp">
       <Filter>ntk\entities</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\management\ResourceHolder.cpp">
-      <Filter>ntk\managment</Filter>
-    </ClCompile>
-    <ClCompile Include="ntk\utility\Input.cpp">
-      <Filter>ntk\utility</Filter>
+    <ClCompile Include="ntk\entities\Projectile.cpp">
+      <Filter>ntk\entities</Filter>
     </ClCompile>
     <ClCompile Include="ntk\utility\GameTime.cpp">
       <Filter>ntk\utility</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\entities\Projectile.cpp">
-      <Filter>ntk\entities</Filter>
+    <ClCompile Include="ntk\utility\Input.cpp">
+      <Filter>ntk\utility</Filter>
     </ClCompile>
     <ClCompile Include="ntk\management\GameWorld.cpp">
-      <Filter>ntk\managment</Filter>
+      <Filter>ntk\management</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\management\ResourceHolder.cpp">
+      <Filter>ntk\management</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h" />
+    <ClInclude Include="template\common.h">
+      <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\utility\Input.h">
-      <Filter>ntk\utility</Filter>
+    <ClInclude Include="template\opencl.h">
+      <Filter>template</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\utility\GameTime.h">
-      <Filter>ntk\utility</Filter>
+    <ClInclude Include="template\opengl.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="template\precomp.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="template\scene.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="template\sprite.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="template\surface.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="template\tmpl8math.h">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="cl\tools.cl">
+      <Filter>template</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\entities\GameObject.h">
+      <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\entities\Player.h">
+      <Filter>ntk\entities</Filter>
     </ClInclude>
     <ClInclude Include="ntk\entities\Projectile.h">
       <Filter>ntk\entities</Filter>
     </ClInclude>
+    <ClInclude Include="ntk\utility\GameTime.h">
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\utility\Input.h">
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
     <ClInclude Include="ntk\management\GameWorld.h">
-      <Filter>ntk\managment</Filter>
-    <Filter Include="ntk\utility">
-      <UniqueIdentifier>{0e757ad0-195b-4568-95d1-f3e501af06d0}</UniqueIdentifier>
+      <Filter>ntk\management</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\ResourceHolder.h">
+      <Filter>ntk\management</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="template">
+      <UniqueIdentifier>{5b8b8a3c-e61e-44ba-8106-f1c2fac45b5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ntk">
+      <UniqueIdentifier>{88b43a17-b028-4782-a16a-2b40f869e6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\entities">
+      <UniqueIdentifier>{ae5d0aca-4433-4697-9a1b-dfe0d93ad320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\utility">
+      <UniqueIdentifier>{ac65968c-c9be-48c3-9a65-0d8506bd5449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\management">
+      <UniqueIdentifier>{d9adb2e5-687b-4c75-81f3-a186eecd1c61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cl\kernels.cl">
+      <Filter>template</Filter>
+    </None>
+  </ItemGroup>
 </Project>
