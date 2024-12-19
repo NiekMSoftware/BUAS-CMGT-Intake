@@ -2,14 +2,17 @@
 #include "Projectile.h"
 
 Projectile::Projectile(float2 startPosition, float initialAngle)
+: projectileSpeed(500.f)
 {
 	position = startPosition;
 	angle = initialAngle;
+}
 
+void Projectile::initialize()
+{
 	ResourceHolder& rh = ResourceHolder::Instance();
 	m_sprite = rh.CreateSquare("projectile", 16, 16, 0xFFFF0000);
 
-	projectileSpeed = 500.f;
 	velocity.x = std::cos(angle * (PI / 180.f)) * projectileSpeed;
 	velocity.y = std::sin(angle * (PI / 180.f)) * projectileSpeed;
 

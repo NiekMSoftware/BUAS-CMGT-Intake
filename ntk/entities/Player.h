@@ -3,8 +3,7 @@
 class Player : public GameObject
 {
 public:
-	explicit Player();
-	~Player() override = default;
+	void initialize() override;
 
 	void update() override;
 	void fixedUpdate() override;
@@ -17,16 +16,16 @@ private:
 	void fireProjectile() const;
 
 private:
-	float thrustInput;
+	float thrustInput = 0;
 
-	float speed;
-	float maxSpeed;
-	float rotationSpeed;
+	float speed = 0;
+	float maxSpeed = 0;
+	float rotationSpeed = 0;
 
-	float speedMod;
-	float rotationMod;
+	float speedMod = 0;
+	float rotationMod = 0;
 
 	// firing variables
-	float timeSinceLastShot;
+	float timeSinceLastShot = 0;
 	const float firingInterval = 0.25f;  // firing 4 times per second 
 };

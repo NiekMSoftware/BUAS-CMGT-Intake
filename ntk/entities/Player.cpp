@@ -1,14 +1,14 @@
 ﻿#include "precomp.h"
 #include "Player.h"
 
-Player::Player()
+void Player::initialize()
 {
 	// set a unique sprite to the player
 	ResourceHolder& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
 
-	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f};
+	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
 
 	// initialize computable attributes
 	thrustInput = 0.f;

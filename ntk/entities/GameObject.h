@@ -3,8 +3,7 @@
 class GameObject
 {
 public:
-	explicit GameObject();
-	virtual ~GameObject();
+	virtual void initialize();
 
 	// rendering and functional computing
 	virtual void update();
@@ -29,12 +28,12 @@ protected:
 
 protected:
 	// attributes
-	float2 position;
-	float2 velocity;
-	float angle;
+	float2 position = 0;
+	float2 velocity = 0;
+	float angle = 0;
 
 	// components
-	Sprite* m_sprite;
+	Sprite* m_sprite = nullptr;
 	aabb collider;
 
 	std::string name;

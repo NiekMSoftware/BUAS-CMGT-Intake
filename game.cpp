@@ -6,7 +6,6 @@
 #include "game.h"
 
 Player* player;
-GameObject* obj;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -14,11 +13,9 @@ GameObject* obj;
 void Game::Init()
 {
 	player = new Player();
-	obj = new GameObject();
 
 	GameWorld::instance().initialize();
 	GameWorld::instance().addObject(player);
-	GameWorld::instance().addObject(obj);
 }
 
 // -----------------------------------------------------------

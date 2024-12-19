@@ -12,7 +12,7 @@ GameWorld& GameWorld::instance()
 void GameWorld::initialize()
 {
 	count = 0;
-	capacity = 10;
+	capacity = 25;
 
 	worldObjects.clear();
 	worldObjects.reserve(capacity);
@@ -72,7 +72,8 @@ void GameWorld::render(Surface* screen) const
 void GameWorld::addObject(GameObject* go)
 {
 	// Validate input pointer
-	if (!go) {
+	if (!go)
+	{
 		OutputDebugString("[ERROR] Attempting to add null GameObject!\n");
 		return;
 	}
@@ -97,7 +98,8 @@ void GameWorld::addObject(GameObject* go)
 		}
 	}
 
-	// add the new game object
+	// initialize and add the new game object
+	go->initialize();
 	worldObjects.push_back(go);
 	count++;
 
@@ -112,7 +114,8 @@ void GameWorld::addObject(GameObject* go)
 
 void GameWorld::removeObject(GameObject* go)
 {
-	if (go) {
+	if (go)
+	{
 		go->markForRemoval();
 		count--;
 		OutputDebugString(std::format("[LOG] Marked object '{}' for removal.\n", go->getName()).c_str());

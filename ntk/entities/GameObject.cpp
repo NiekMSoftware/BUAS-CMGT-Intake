@@ -1,21 +1,16 @@
 ﻿#include "precomp.h"
 #include "GameObject.h"
 
-GameObject::GameObject()
+void GameObject::initialize()
 {
 	ResourceHolder& rh = ResourceHolder::Instance();
 
 	velocity = { 0, 0 };
-	
+
 	m_sprite = rh.CreateSquare("square", 32, 32);
 	position = { 100, 100 };
 	angle = 0.0f;
 	name = "Game Object";
-}
-
-GameObject::~GameObject()
-{
-	// [READ ME] - Sprite won't be deleted from here, the resource holder makes sure the allocated memory gets safely removed.
 }
 
 void GameObject::update()
