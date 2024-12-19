@@ -47,6 +47,9 @@
     <ClCompile Include="ntk\entities\Asteroid.cpp">
       <Filter>ntk\entities</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\management\AsteroidPool.cpp">
+      <Filter>ntk\management</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="ntk\entities\Asteroid.h">
       <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\AsteroidPool.h">
+      <Filter>ntk\management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

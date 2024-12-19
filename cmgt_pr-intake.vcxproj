@@ -124,6 +124,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ntk\entities\Asteroid.cpp" />
     <ClCompile Include="ntk\entities\Projectile.cpp" />
+    <ClCompile Include="ntk\management\AsteroidPool.cpp" />
     <ClCompile Include="ntk\management\GameWorld.cpp" />
     <ClCompile Include="ntk\utility\GameTime.cpp" />
     <ClCompile Include="ntk\utility\Input.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="ntk\entities\Asteroid.h" />
     <ClInclude Include="ntk\entities\Projectile.h" />
+    <ClInclude Include="ntk\management\AsteroidPool.h" />
     <ClInclude Include="ntk\management\GameWorld.h" />
     <ClInclude Include="ntk\utility\Input.h" />
     <ClInclude Include="ntk\entities\GameObject.h" />
