@@ -782,6 +782,50 @@ public:
 		if (w == 1) return res;
 		return res * (1.f / w);
 	}
+
+	static mat4 Translate2D(float x, float y)
+	{
+		mat4 r = Identity();
+		r[3] = x;
+		r[7] = y;
+		return r;
+	}
+	static mat4 Rotate2D(float angle)
+	{
+		mat4 r = Identity();
+		r[0] = cosf(angle);
+		r[1] = -sinf(angle);
+		r[4] = sinf(angle);
+		r[5] = cosf(angle);
+		return r;
+	}
+	static mat4 Scale2D(float sx, float sy)
+	{
+		mat4 r = Identity();
+		r[0] = sx;
+		r[5] = sy;
+		return r;
+	}
+
+	static mat4 CreateViewMatrix2D(float camX, float camY)
+	{
+		return Translate2D(-camX, camY);
+	}
+
+	static mat4 CreateOrthoProjection2D(float left, float right, float bottom, float top)
+	{
+		mat4 projection = Identity();
+
+		// Setting the orthographic projection
+		projection[0] = 2.0f / (right - left);  // Scale in the X axis
+		projection[5] = 2.0f / (top - bottom);  // Scale in the Y axis
+		projection[10] = -1.0f;  // Depth scaling (for 2D it’s often -1)
+		projection[3] = -(right + left) / (right - left);  // Translate X
+		projection[7] = -(top + bottom) / (top - bottom);  // Translate Y
+		projection[15] = 1.0f;  // Homogeneous coordinate
+
+		return projection;
+	}
 };
 
 mat4 operator * ( const mat4& a, const mat4& b );

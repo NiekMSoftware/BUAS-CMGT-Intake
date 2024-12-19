@@ -12,7 +12,8 @@ class Game : public TheApp
 public:
 	// game flow methods
 	void Init();
-	void Tick( float deltaTime );
+	void Tick();
+	void FixedTick();
 	void Render();
 	void Shutdown();
 	// input handling

@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -122,6 +122,10 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\entities\Projectile.cpp" />
+    <ClCompile Include="ntk\management\GameWorld.cpp" />
+    <ClCompile Include="ntk\utility\GameTime.cpp" />
+    <ClCompile Include="ntk\utility\Input.cpp" />
     <ClCompile Include="ntk\entities\GameObject.cpp" />
     <ClCompile Include="ntk\entities\Player.cpp" />
     <ClCompile Include="ntk\management\ResourceHolder.cpp" />
@@ -144,9 +148,13 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="ntk\entities\Projectile.h" />
+    <ClInclude Include="ntk\management\GameWorld.h" />
+    <ClInclude Include="ntk\utility\Input.h" />
     <ClInclude Include="ntk\entities\GameObject.h" />
     <ClInclude Include="ntk\entities\Player.h" />
     <ClInclude Include="ntk\management\ResourceHolder.h" />
+    <ClInclude Include="ntk\utility\GameTime.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />

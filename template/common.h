@@ -8,8 +8,8 @@
 #pragma once
 
 // default screen resolution
-#define SCRWIDTH	1280
-#define SCRHEIGHT	720
+#define SCRWIDTH	800
+#define SCRHEIGHT	600
 
 // #define FULLSCREEN
 
@@ -20,4 +20,4 @@
 #define TWOPI		6.28318530717958647692528f
 #define SQRT_PI_INV	0.56418958355f
 #define LARGE_FLOAT	1e34f
-#define APP_NAME "CMGT PR Intake 2025"
+#define APP_NAME "WEEEEE, LOOK MOM I'M FLYING!"
