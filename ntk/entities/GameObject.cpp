@@ -10,6 +10,7 @@ GameObject::GameObject()
 	m_sprite = rh.CreateSquare("square", 32, 32);
 	position = { 100, 100 };
 	angle = 0.0f;
+	name = "Game Object";
 }
 
 GameObject::~GameObject()
@@ -17,13 +18,13 @@ GameObject::~GameObject()
 	// [READ ME] - Sprite won't be deleted from here, the resource holder makes sure the allocated memory gets safely removed.
 }
 
-void GameObject::update(float deltaTime)
+void GameObject::update()
 {
-	position.x += velocity.x * deltaTime;
-	position.y += velocity.y * deltaTime;
+	position.x += velocity.x * Time::deltaTime;
+	position.y += velocity.y * Time::deltaTime;
 }
 
-void GameObject::fixedUpdate(float)
+void GameObject::fixedUpdate()
 {
 	/* Incorporate any related physics updates */
 }

@@ -35,6 +35,15 @@
     <ClCompile Include="ntk\utility\Input.cpp">
       <Filter>ntk\utility</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\utility\GameTime.cpp">
+      <Filter>ntk\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\entities\Projectile.cpp">
+      <Filter>ntk\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\GameWorld.cpp">
+      <Filter>ntk\managment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
@@ -74,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="ntk\utility\Input.h">
       <Filter>ntk\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\utility\GameTime.h">
+      <Filter>ntk\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\entities\Projectile.h">
+      <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\GameWorld.h">
+      <Filter>ntk\managment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

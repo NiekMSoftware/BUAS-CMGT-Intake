@@ -335,17 +335,16 @@ void main()
 #endif
 #endif
 
-	const float FIXED_TIMESTEP = 1.0f / 24.0f;
+	const float FIXED_TIMESTEP = 1.0f / 60.0f;
 	static float accumulator = 0.0f;
 
-	float deltaTime = 0;
 	static int frameNr = 0;
 	static Timer timer;
 	while (!glfwWindowShouldClose( window ))
 	{
 		if (hasFocus)
 		{
-			deltaTime = min(500.0f, 1000.0f * timer.elapsed());
+			float deltaTime = min(500.0f, 1000.0f * timer.elapsed());
 			timer.reset();
 
 			// accumulate frame time
@@ -353,11 +352,13 @@ void main()
 
 			while (accumulator >= FIXED_TIMESTEP)
 			{
-				app->FixedTick(FIXED_TIMESTEP);
+				app->FixedTick();
+				Time::fixedDeltaTime = FIXED_TIMESTEP;
 				accumulator -= FIXED_TIMESTEP;
 			}
 
-			app->Tick(deltaTime / 1000.0f);
+			app->Tick();
+			Time::deltaTime = deltaTime / 1000.0f;
 			app->Render();
 
 			// send the rendering result to the screen using OpenGL

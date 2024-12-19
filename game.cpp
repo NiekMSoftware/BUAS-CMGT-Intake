@@ -15,22 +15,26 @@ void Game::Init()
 {
 	player = new Player();
 	obj = new GameObject();
+
+	GameWorld::instance().initialize();
+	GameWorld::instance().addObject(player);
+	GameWorld::instance().addObject(obj);
 }
 
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
-void Game::Tick( float deltaTime )
+void Game::Tick()
 {
-	player->update(deltaTime);
+	GameWorld::instance().update();
 }
 
 // -----------------------------------------------------------
 // Main application fixed tick function - Executed once per interval
 // -----------------------------------------------------------
-void Game::FixedTick(float fixedDeltaTime)
+void Game::FixedTick()
 {
-	player->fixedUpdate(fixedDeltaTime);
+	GameWorld::instance().fixedUpdate();
 }
 
 // -----------------------------------------------------------
@@ -40,9 +44,7 @@ void Game::Render()
 {
 	screen->Clear(0);
 
-	// entities
-	obj->render(screen);
-	player->render(screen);
+	GameWorld::instance().render(screen);
 
 	// template ui
 	screen->Print("Score: I don't know, maybe 1... or 2...\n", 10, 10, 0xFFFFFFFF);
@@ -53,6 +55,5 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
-	delete player;
-	delete obj;
+	GameWorld::instance().clean();
 }
