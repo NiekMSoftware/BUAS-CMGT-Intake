@@ -44,42 +44,6 @@
     <ClCompile Include="ntk\management\GameWorld.cpp">
       <Filter>ntk\managment</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cl\tools.cl" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="template\common.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\opencl.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\opengl.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\precomp.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\scene.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\sprite.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\surface.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="template\tmpl8math.h">
-      <Filter>template</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\entities\GameObject.h">
-      <Filter>ntk\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\entities\Player.h">
-      <Filter>ntk\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\management\ResourceHolder.h">
-      <Filter>ntk\managment</Filter>
     </ClInclude>
     <ClInclude Include="ntk\utility\Input.h">
       <Filter>ntk\utility</Filter>
@@ -92,28 +56,7 @@
     </ClInclude>
     <ClInclude Include="ntk\management\GameWorld.h">
       <Filter>ntk\managment</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="template">
-      <UniqueIdentifier>{da12c93d-5b5b-4ede-8645-f895ce5b2563}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ntk">
-      <UniqueIdentifier>{dc969167-4578-4527-879f-beba299aa129}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ntk\entities">
-      <UniqueIdentifier>{7eac4abd-766b-4c9f-8479-2e003e6092fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ntk\managment">
-      <UniqueIdentifier>{ac7c9bab-86ed-4981-8339-27cca4b716b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ntk\utility">
       <UniqueIdentifier>{0e757ad0-195b-4568-95d1-f3e501af06d0}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cl\kernels.cl">
-      <Filter>template</Filter>
-    </None>
-  </ItemGroup>
 </Project>
