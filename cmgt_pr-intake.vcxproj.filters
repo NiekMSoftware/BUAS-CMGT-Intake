@@ -44,6 +44,9 @@
     <ClCompile Include="ntk\management\ResourceHolder.cpp">
       <Filter>ntk\management</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\entities\Asteroid.cpp">
+      <Filter>ntk\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="ntk\management\ResourceHolder.h">
       <Filter>ntk\management</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\entities\Asteroid.h">
+      <Filter>ntk\entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

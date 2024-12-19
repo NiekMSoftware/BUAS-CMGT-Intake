@@ -137,14 +137,15 @@ using namespace Tmpl8;
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#include "Input.h"
+
 // ntk - entities
 #include "GameObject.h"
 #include "GameWorld.h"
 
+#include "Asteroid.h"
 #include "Projectile.h"
 #include "Player.h"
-
-#include "Input.h"
 
 // zlib
 #include "zlib.h"

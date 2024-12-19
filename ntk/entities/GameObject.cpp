@@ -30,7 +30,7 @@ void GameObject::render(Surface* screen)
 	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
 	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
 
-	m_sprite->Draw(screen, centerX, centerY, 1.f, angle);
+	m_sprite->Draw(screen, centerX, centerY, scale, angle);
 }
 
 /**

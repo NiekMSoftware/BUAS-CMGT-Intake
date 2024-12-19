@@ -122,6 +122,7 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\entities\Asteroid.cpp" />
     <ClCompile Include="ntk\entities\Projectile.cpp" />
     <ClCompile Include="ntk\management\GameWorld.cpp" />
     <ClCompile Include="ntk\utility\GameTime.cpp" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="ntk\entities\Asteroid.h" />
     <ClInclude Include="ntk\entities\Projectile.h" />
     <ClInclude Include="ntk\management\GameWorld.h" />
     <ClInclude Include="ntk\utility\Input.h" />

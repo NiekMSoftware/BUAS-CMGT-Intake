@@ -6,6 +6,7 @@
 #include "game.h"
 
 Player* player;
+Asteroid* asteroid;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -15,8 +16,10 @@ void Game::Init()
 	GameWorld::instance().initialize();
 
 	player = new Player();
+	asteroid = new Asteroid();
 
 	GameWorld::instance().addObject(player);
+	GameWorld::instance().addObject(asteroid);
 }
 
 // -----------------------------------------------------------

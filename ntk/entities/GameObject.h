@@ -16,7 +16,13 @@ public:
 	aabb getCollider() const;
 	Sprite* getSprite() const;
 	std::string getName() const { return name; }
+
 	bool isActive() const { return m_active; }
+
+	float getAngle() const { return angle; }
+	float getScale() const { return scale; }
+
+	void setScale(const float v) { scale = v; }
 
 	// transformation updates
 	void translate(const float2& translation);
@@ -31,6 +37,7 @@ protected:
 	// attributes
 	float2 position = 0;
 	float2 velocity = 0;
+	float scale = 1;
 	float angle = 0;
 
 	// components
