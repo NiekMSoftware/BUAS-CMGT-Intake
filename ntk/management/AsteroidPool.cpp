@@ -35,10 +35,13 @@ const AsteroidConfig& AsteroidPool::getConfig(AsteroidSize size)
 
 void AsteroidPool::initializePools(int maxLargeAsteroids)
 {
+	const int mediumCapacity = 2 * maxLargeAsteroids;
+	const int smallCapacity = maxLargeAsteroids * 2 * 4;
+
 	// Pre-allocate all possible asteroids
 	largeAsteroids.reserve(maxLargeAsteroids);
-	mediumAsteroids.reserve(2 * maxLargeAsteroids);
-	smallAsteroids.reserve(2 * maxLargeAsteroids * 4);
+	mediumAsteroids.reserve(mediumCapacity);
+	smallAsteroids.reserve(smallCapacity);
 
 	for (int i = 0; i < maxLargeAsteroids; ++i)
 		largeAsteroids.push_back(createAsteroid(AsteroidSize::Large));
@@ -59,10 +62,10 @@ GameObject* AsteroidPool::spawnAsteroid(AsteroidSize size, const float2& positio
 
 		// Configure asteroid
 		const AsteroidConfig& config = getConfig(size);
-		// TODO: asteroid->setActive(true);
-		// TODO: asteroid->setPosition(position);
-		// TODO: asteroid->setRandomRotation();
-		// TODO: asteroid->setRandomVelocity(config.speed);
+		asteroid->setActive(true);
+		asteroid->setPosition(position);
+		asteroid->setRandomRotation();
+		asteroid->setRandomVelocity(config.speed);
 
 		activeAsteroids.push_back(asteroid);
 		return asteroid;
@@ -87,9 +90,9 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	GameObject* asteroid = new Asteroid();
 	const AsteroidConfig& config = getConfig(size);
 
-	//asteroid->setSprite(config.sprite);
+	asteroid->setSprite(config.sprite);
 	asteroid->setScale(config.size);
-	//asteroid->setActive(false);
+	asteroid->setActive(false);
 
 	return asteroid;
 }

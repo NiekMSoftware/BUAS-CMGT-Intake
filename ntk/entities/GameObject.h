@@ -22,7 +22,15 @@ public:
 	float getAngle() const { return angle; }
 	float getScale() const { return scale; }
 
+	// setters
+	void setActive(const bool v) { m_active = v; }
+	void setPosition(const float2 np) { position = np; }
 	void setScale(const float v) { scale = v; }
+	void setRotation(const float v) { angle = v; }
+	
+	void setRandomRotation() { angle = 0.0f; }
+	void setRandomVelocity(const float v) { velocity = v; }
+	void setSprite(Sprite* newSprite) { m_sprite = newSprite; }
 
 	// transformation updates
 	void translate(const float2& translation);
