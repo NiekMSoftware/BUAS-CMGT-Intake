@@ -25,6 +25,9 @@ public:
 	void KeyDown( int ) { /* implement if you want to handle keys */ }
 	// data members
 	int2 mousePos;
+
+private:
+	void spawnInitialAsteroids();
 };
 
 } // namespace Tmpl8

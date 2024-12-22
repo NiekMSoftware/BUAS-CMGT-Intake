@@ -3,6 +3,35 @@
 
 const std::vector<std::pair<AsteroidSize, AsteroidConfig>> AsteroidPool::CONFIGS = initializeConfigs();
 
+AsteroidPool::~AsteroidPool()
+{
+	for (GameObject* obj : largeAsteroids)
+	{
+		delete obj;
+	}
+	largeAsteroids.clear();
+	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'largeAsteroids'\n");
+
+	for (GameObject* obj : mediumAsteroids)
+	{
+		delete obj;
+	}
+	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'mediumAsteroids'\n");
+
+	for (GameObject* obj : smallAsteroids)
+	{
+		delete obj;
+	}
+	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
+
+	for (GameObject* obj : activeAsteroids)
+	{
+		delete obj;
+	}
+	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
+	OutputDebugString("AsteroidPool::~AsteroidPool - Cleaned up all allocated memory.\n\n");
+}
+
 AsteroidPool::AsteroidPool(int maxLargeAsteroids)
 {
 	initializePools(maxLargeAsteroids);
@@ -14,9 +43,9 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 		{
 			AsteroidSize::Large, {
 				.score = 100,
-				.speed = 100.f,
+				.speed = 50.f,
 				.size = 3.f,
-				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 64, 64)
+				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 32, 32)
 			}
 		},
 		{
@@ -108,15 +137,15 @@ std::vector<GameObject*>* AsteroidPool::getPoolForSize(AsteroidSize size)
 
 GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 {
-	// Create a new asteroid Game Object and add it to the Game World
 	Asteroid* asteroid = new Asteroid();
+	asteroid->initialize();
 	const AsteroidConfig& config = getConfig(size);
 
 	asteroid->setSprite(config.sprite);
 	asteroid->setScale(config.size);
 	asteroid->setActive(false);
+	asteroid->setPooled(true);
 
 	GameWorld::instance().addObject(asteroid);
-
 	return asteroid;
 }

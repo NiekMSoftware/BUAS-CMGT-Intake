@@ -6,6 +6,7 @@
 #include "game.h"
 
 Player* player;
+AsteroidPool* asteroidPool;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -15,8 +16,11 @@ void Game::Init()
 	GameWorld::instance().initialize();
 
 	player = new Player();
-
 	GameWorld::instance().addObject(player);
+
+	// Initialize asteroid pool with a max of 4 asteroids
+	asteroidPool = new AsteroidPool(4);
+	spawnInitialAsteroids();
 }
 
 // -----------------------------------------------------------
@@ -51,4 +55,20 @@ void Game::Render()
 void Game::Shutdown()
 {
 	GameWorld::instance().clean();
+
+	delete asteroidPool;
+}
+
+void Game::spawnInitialAsteroids()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		float2 randomPos = {
+			static_cast<float>(rand() % screen->width),
+			static_cast<float>(rand() % screen->height)
+		};
+
+		GameObject* asteroid = asteroidPool->spawnAsteroid(AsteroidSize::Large, randomPos);
+		GameWorld::instance().addObject(asteroid);
+	}
 }

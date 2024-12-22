@@ -18,6 +18,7 @@ struct AsteroidConfig
 class AsteroidPool
 {
 public:
+	~AsteroidPool();
 	AsteroidPool(int maxLargeAsteroids = 10);
 
 	static const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& initializeConfigs();

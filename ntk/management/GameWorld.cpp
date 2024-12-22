@@ -35,8 +35,12 @@ void GameWorld::clean()
 {
 	for (GameObject* obj : worldObjects)
 	{
-		OutputDebugString(std::format("[LOG] GameWorld::clean - Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
-		delete obj;
+		// make sure to only delete non-pooled objects
+		if (!obj->isObjectPooled())
+		{
+			OutputDebugString(std::format("[LOG] GameWorld::clean - Removed '{}' from the Game Object list.\n", obj->getName()).c_str());
+			delete obj;
+		}
 	}
 	worldObjects.clear();
 
@@ -45,10 +49,10 @@ void GameWorld::clean()
 
 void GameWorld::update()
 {
-	// TODO: Change this to an event
-	// Remove inactive objects during update
+	// Remove inactive objects during update, but respect pooled objects
 	std::erase_if(worldObjects, [](const GameObject* obj) {
-		    if (!obj || !obj->isActive()) {
+		    if (!obj || (!obj->isActive() && !obj->isObjectPooled())) 
+			{
 			    delete obj; 
 		    	return true;
 		    }

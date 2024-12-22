@@ -18,6 +18,7 @@ public:
 	std::string getName() const { return name; }
 
 	bool isActive() const { return m_active; }
+	bool isObjectPooled() const { return isPooled; }
 
 	float getAngle() const { return angle; }
 	float getScale() const { return scale; }
@@ -31,6 +32,8 @@ public:
 	void setRandomRotation() { angle = 0.0f; }
 	void setRandomVelocity(const float v) { velocity = v; }
 	void setSprite(Sprite* newSprite) { m_sprite = newSprite; }
+
+	void setPooled(bool pooled) { isPooled = pooled; }
 
 	// transformation updates
 	void translate(const float2& translation);
@@ -47,6 +50,7 @@ protected:
 	float2 velocity = 0;
 	float scale = 1;
 	float angle = 0;
+	bool isPooled = false;
 
 	// components
 	Sprite* m_sprite = nullptr;
