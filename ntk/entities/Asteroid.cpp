@@ -4,14 +4,19 @@
 void Asteroid::initialize()
 {
 	name = "asteroid";
+
 	// randomize direction
+	angle = Random::getRandomAngle();
+	direction = Random::getRandomFloatClamped(-1.f, 1.f);
 }
 
 void Asteroid::update()
 {
-	GameObject::update();
-
-	keepInView();
+	if (isActive())
+	{
+		position += velocity * (direction * Time::deltaTime);
+		keepInView();
+	}
 }
 
 void Asteroid::fixedUpdate()

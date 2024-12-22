@@ -8,4 +8,6 @@ public:
 	void update() override;
 	void fixedUpdate() override;
 
+private:
+	float direction;
 };

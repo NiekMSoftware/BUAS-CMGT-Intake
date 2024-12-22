@@ -10,26 +10,26 @@ AsteroidPool::~AsteroidPool()
 		delete obj;
 	}
 	largeAsteroids.clear();
-	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'largeAsteroids'\n");
+	OutputDebugString("[LOG] AsteroidPool::~AsteroidPool - Cleared container 'largeAsteroids'\n");
 
 	for (GameObject* obj : mediumAsteroids)
 	{
 		delete obj;
 	}
-	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'mediumAsteroids'\n");
+	OutputDebugString("[LOG] AsteroidPool::~AsteroidPool - Cleared container 'mediumAsteroids'\n");
 
 	for (GameObject* obj : smallAsteroids)
 	{
 		delete obj;
 	}
-	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
+	OutputDebugString("[LOG] AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
 
 	for (GameObject* obj : activeAsteroids)
 	{
 		delete obj;
 	}
-	OutputDebugString("AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
-	OutputDebugString("AsteroidPool::~AsteroidPool - Cleaned up all allocated memory.\n\n");
+	OutputDebugString("[LOG] AsteroidPool::~AsteroidPool - Cleared container 'smallAsteroids'\n");
+	OutputDebugString("[LOG] AsteroidPool::~AsteroidPool - Cleaned up all allocated memory.\n\n");
 }
 
 AsteroidPool::AsteroidPool(int maxLargeAsteroids)

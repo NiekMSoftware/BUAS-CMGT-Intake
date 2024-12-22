@@ -71,7 +71,7 @@ using namespace Tmpl8;
 
 // clang-format off
 
-// windows.h: disable a few things to speed up compilation.
+// windows.h: disable a few things to direction up compilation.
 #define NOMINMAX
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN

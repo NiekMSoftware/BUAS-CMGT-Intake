@@ -15,8 +15,11 @@ void GameObject::initialize()
 
 void GameObject::update()
 {
-	position.x += velocity.x * Time::deltaTime;
-	position.y += velocity.y * Time::deltaTime;
+	if (m_active)
+	{
+		position.x += velocity.x * Time::deltaTime;
+		position.y += velocity.y * Time::deltaTime;
+	}
 }
 
 void GameObject::fixedUpdate()

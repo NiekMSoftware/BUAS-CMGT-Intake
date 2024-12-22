@@ -4,15 +4,30 @@
 float Time::deltaTime = 0.0f;
 float Time::fixedDeltaTime = 0.0f;
 
+/** Returns a random float within the min and max ranges. */
 float Random::getRandomFloat(float min, float max)
 {
 	// An AI assistant helped me with this random generator
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> dis(min, max);
-
 	return dis(gen);
 }
+
+/** Returns a random float within the min and max ranges, but clamps it to the min and max ranges. */
+float Random::getRandomFloatClamped(float min, float max)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dis(min, max);
+	float f = dis(gen);
+
+	if (f < 0) f = min;
+	else if (f > 0) f = max;
+
+	return f;
+}
+
 
 float Random::getRandomAngle()
 {

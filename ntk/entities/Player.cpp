@@ -66,7 +66,7 @@ void Player::applySpaceBraking(float brakeForce)
 	}
 }
 
-/** Retrieves the input and computes the thrust input based on speed. */
+/** Retrieves the input and computes the thrust input based on direction. */
 void Player::retrieveInput()
 {
 	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * Time::deltaTime);
