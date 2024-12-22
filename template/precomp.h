@@ -63,7 +63,7 @@ using namespace std;
 #include "sprite.h"
 
 // ntk - management
-#include "GameTime.h"
+#include "Helpers.h"
 #include "ResourceHolder.h"
 
 // namespaces

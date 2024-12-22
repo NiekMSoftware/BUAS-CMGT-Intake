@@ -18,7 +18,7 @@ void Game::Init()
 	player = new Player();
 	GameWorld::instance().addObject(player);
 
-	// Initialize asteroid pool with a max of 4 asteroids
+	// Initialize asteroid pool with a max of 4 big asteroids
 	asteroidPool = new AsteroidPool(4);
 	spawnInitialAsteroids();
 }
@@ -61,14 +61,23 @@ void Game::Shutdown()
 
 void Game::spawnInitialAsteroids()
 {
-	for (int i = 0; i < 3; i++)
-	{
-		float2 randomPos = {
-			static_cast<float>(rand() % screen->width),
-			static_cast<float>(rand() % screen->height)
-		};
+	const float minDistToPlayer = 150.0f;
+	const int numAsteroids = 3;
 
-		GameObject* asteroid = asteroidPool->spawnAsteroid(AsteroidSize::Large, randomPos);
-		GameWorld::instance().addObject(asteroid);
+	// Get player position
+	float2 playerPos = player->getPosition();
+
+	// Spawn our asteroids
+	for (int i = 0; i < numAsteroids; i++)
+	{
+		float2 spawnPos = Random::getRandomPositionAwayFrom(
+			playerPos,
+			minDistToPlayer,
+			static_cast<float>(screen->width),
+			static_cast<float>(screen->height)
+		);
+
+		GameObject* asteroid = asteroidPool->spawnAsteroid(AsteroidSize::Large, spawnPos);
+		if (!asteroid) std::cerr << "failed to spawn asteroid\n";
 	}
 }
