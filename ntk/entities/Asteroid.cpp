@@ -4,10 +4,11 @@
 void Asteroid::initialize()
 {
 	name = "asteroid";
+	angle = Random::getRandomAngle();
 
 	// randomize direction
-	angle = Random::getRandomAngle();
-	direction = Random::getRandomFloatClamped(-1.f, 1.f);
+	direction.x = Random::getRandomFloatClamped(-1.f, 1.f);
+	direction.y = Random::getRandomFloatClamped(-1.f, 1.f);
 }
 
 void Asteroid::update()

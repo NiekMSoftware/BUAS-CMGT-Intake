@@ -8,5 +8,5 @@ public:
 	void update() override;
 
 private:
-	float direction = 0;
+	float2 direction = 0;
 };

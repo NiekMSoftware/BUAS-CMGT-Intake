@@ -28,6 +28,9 @@ public:
 
 private:
 	void spawnInitialAsteroids();
+
+private:
+	const int maxLargeAsteroids = 12;
 };
 
 } // namespace Tmpl8
