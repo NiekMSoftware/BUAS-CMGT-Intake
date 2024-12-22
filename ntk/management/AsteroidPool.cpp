@@ -10,10 +10,31 @@ AsteroidPool::AsteroidPool(int maxLargeAsteroids)
 
 const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initializeConfigs()
 {
-	static std::vector<std::pair<AsteroidSize, AsteroidConfig>> configs {
-		{ AsteroidSize::Large, { .score= 100, .speed= 100.f, .size= 3.f, .sprite= nullptr } },
-		{ AsteroidSize::Medium, {.score = 50, .speed = 150.f, .size = 1.5f, .sprite = nullptr } },
-		{ AsteroidSize::Small, {.score = 10, .speed = 120.f, .size = 0.75f, .sprite = nullptr } },
+	static std::vector<std::pair<AsteroidSize, AsteroidConfig>> configs{
+		{
+			AsteroidSize::Large, {
+				.score = 100,
+				.speed = 100.f,
+				.size = 3.f,
+				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 64, 64)
+			}
+		},
+		{
+			AsteroidSize::Medium, {
+				.score = 50,
+				.speed = 150.f,
+				.size = 1.5f,
+				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
+			}
+		},
+		{
+			AsteroidSize::Small, {
+				.score = 10,
+				.speed = 200.f,
+				.size = 0.75f,
+				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
+			}
+		}
 	};
 
 	return configs;
@@ -87,12 +108,15 @@ std::vector<GameObject*>* AsteroidPool::getPoolForSize(AsteroidSize size)
 
 GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 {
-	GameObject* asteroid = new Asteroid();
+	// Create a new asteroid Game Object and add it to the Game World
+	Asteroid* asteroid = new Asteroid();
 	const AsteroidConfig& config = getConfig(size);
 
 	asteroid->setSprite(config.sprite);
 	asteroid->setScale(config.size);
 	asteroid->setActive(false);
+
+	GameWorld::instance().addObject(asteroid);
 
 	return asteroid;
 }

@@ -6,7 +6,6 @@
 #include "game.h"
 
 Player* player;
-Asteroid* asteroid;
 
 // -----------------------------------------------------------
 // Initialize the application
@@ -16,10 +15,8 @@ void Game::Init()
 	GameWorld::instance().initialize();
 
 	player = new Player();
-	asteroid = new Asteroid();
 
 	GameWorld::instance().addObject(player);
-	GameWorld::instance().addObject(asteroid);
 }
 
 // -----------------------------------------------------------
@@ -46,9 +43,6 @@ void Game::Render()
 	screen->Clear(0);
 
 	GameWorld::instance().render(screen);
-
-	// template ui
-	screen->Print("Score: I don't know, maybe 1... or 2...\n", 10, 10, 0xFFFFFFFF);
 }
 
 // -----------------------------------------------------------

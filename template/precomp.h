@@ -19,6 +19,7 @@
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
+#include <random>
 
 // header for AVX, and every technology before it.
 // if your CPU does not support this (unlikely), include the appropriate header instead.
