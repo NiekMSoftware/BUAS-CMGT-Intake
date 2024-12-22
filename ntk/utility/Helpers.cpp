@@ -6,8 +6,12 @@ float Time::fixedDeltaTime = 0.0f;
 
 float Random::getRandomFloat(float min, float max)
 {
-	float random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-	return min + random * (max - min);
+	// An AI assistant helped me with this random generator
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dis(min, max);
+
+	return dis(gen);
 }
 
 float Random::getRandomAngle()
