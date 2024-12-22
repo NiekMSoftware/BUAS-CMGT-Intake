@@ -6,8 +6,7 @@ public:
 	void initialize() override;
 
 	void update() override;
-	void fixedUpdate() override;
 
 private:
-	float direction;
+	float direction = 0;
 };

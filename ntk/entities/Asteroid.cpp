@@ -18,8 +18,3 @@ void Asteroid::update()
 		keepInView();
 	}
 }
-
-void Asteroid::fixedUpdate()
-{
-	
-}
