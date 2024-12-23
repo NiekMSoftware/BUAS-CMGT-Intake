@@ -8,6 +8,8 @@
 Player* player;
 AsteroidPool* asteroidPool;
 
+Label* label;
+
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
@@ -17,6 +19,9 @@ void Game::Init()
 
 	player = new Player();
 	GameWorld::instance().addObject(player);
+
+    label = new Label("Score: {}", float2(10, 10), 0xFFFFFF);
+    GameWorld::instance().addObject(label);
 
 	// Initialize asteroid pool with a max of 4 big asteroids
 	asteroidPool = new AsteroidPool(maxLargeAsteroids);

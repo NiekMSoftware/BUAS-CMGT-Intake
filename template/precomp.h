@@ -144,10 +144,14 @@ using namespace Tmpl8;
 
 // ntk - entities
 #include "GameObject.h"
+#include "Label.h"
+
+// ntk - entity management
 #include "CollisionSystem.h"
 #include "GameWorld.h"
 #include "AsteroidPool.h"
 
+// ntk - entities
 #include "Asteroid.h"
 #include "Projectile.h"
 #include "Player.h"

@@ -127,8 +127,8 @@ void Player::fireProjectile() const
 {
 	// create or instantiate projectile
 	float2 projectileStart = position +
-		float2(std::cos(angle * (PI / 180.f)) * 60.f,
-			std::sin(angle * (PI / 180.f)) * 60.f);
+		float2(std::cos(angle * (PI / 180.f)) * 30.f,
+			std::sin(angle * (PI / 180.f)) * 30.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
 
