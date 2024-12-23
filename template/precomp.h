@@ -19,6 +19,8 @@
 // #include <thread>			// currently unused; enable to use Windows threads.
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
+
+#include <functional>
 #include <random>
 
 // header for AVX, and every technology before it.
@@ -142,6 +144,7 @@ using namespace Tmpl8;
 
 // ntk - entities
 #include "GameObject.h"
+#include "CollisionSystem.h"
 #include "GameWorld.h"
 #include "AsteroidPool.h"
 

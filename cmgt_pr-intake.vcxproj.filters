@@ -50,6 +50,9 @@
     <ClCompile Include="ntk\management\AsteroidPool.cpp">
       <Filter>ntk\management</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\management\CollisionSystem.cpp">
+      <Filter>ntk\management</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -105,6 +108,9 @@
       <Filter>ntk\entities</Filter>
     </ClInclude>
     <ClInclude Include="ntk\management\AsteroidPool.h">
+      <Filter>ntk\management</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\CollisionSystem.h">
       <Filter>ntk\management</Filter>
     </ClInclude>
   </ItemGroup>
