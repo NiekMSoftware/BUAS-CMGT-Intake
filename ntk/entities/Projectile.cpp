@@ -68,6 +68,7 @@ void Projectile::onCollision(const CollisionEvent& event)
 	{
 		// mark for removal
 		GameWorld::instance().removeObject(this);
+		return;
 	}
 
 	if (event.other->getName().find("asteroid") != std::string::npos)

@@ -94,7 +94,7 @@ void Player::retrieveInput()
 	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * Time::deltaTime);
 	rotate(rotationValue);
 
-	float thrustValue = Input::getKey(GLFW_KEY_W);
+	float thrustValue = Input::getAxis(Input::Vertical);
 	if (thrustValue != 0.f)
 	{
 		float forwardMovement = speed * thrustValue;

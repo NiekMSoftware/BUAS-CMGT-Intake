@@ -47,14 +47,6 @@ void CollisionSystem::unregisterObject(GameObject* obj)
 
 void CollisionSystem::update()
 {
-	// Remove any inactive objects first
-	std::erase_if(m_collisionObjects,
-	  [](const CollisionRegistration& reg)
-	  {
-	      return !reg.object || !reg.object->isActive();
-	  }
-	);
-
 	const size_t objectCount = m_collisionObjects.size();
 	for (size_t i = 0; i < objectCount; i++)
 	{
@@ -73,6 +65,9 @@ void CollisionSystem::update()
 void CollisionSystem::checkCollision(GameObject* a, const CollisionCallback& cb1, GameObject* b,
 	const CollisionCallback& cb2)
 {
+	// only check collision for active game objects
+	if (!a->isActive() && !b->isActive()) return;
+
 	// only retrieve the collider if the object is active
 	aabb col1;
 	aabb col2;

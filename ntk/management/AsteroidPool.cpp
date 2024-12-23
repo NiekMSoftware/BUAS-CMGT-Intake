@@ -44,7 +44,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Large, {
 				.score = 100,
 				.speed = 50.f,
-				.rotSpeed = 15.f,
+				.rotSpeed = 25.f,
 				.size = 3.f,
 				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 32, 32)
 			}
@@ -53,7 +53,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Medium, {
 				.score = 50,
 				.speed = 150.f,
-				.rotSpeed = 25.f,
+				.rotSpeed = 50.f,
 				.size = 1.5f,
 				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
 			}
@@ -62,7 +62,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Small, {
 				.score = 10,
 				.speed = 200.f,
-				.rotSpeed = 40.f,
+				.rotSpeed = 100.f,
 				.size = 0.75f,
 				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
 			}
@@ -149,6 +149,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	asteroid->setRotationSpeed(config.rotSpeed);
 	asteroid->setActive(false);
 	asteroid->setPooled(true);
+	asteroid->setAsteroidPool(this);
 
 	GameWorld::instance().addObject(asteroid);
 	return asteroid;

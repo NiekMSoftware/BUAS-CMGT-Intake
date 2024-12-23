@@ -24,9 +24,6 @@ public:
 	void KeyUp( int ) { /* implement if you want to handle keys */ }
 	void KeyDown( int ) { /* implement if you want to handle keys */ }
 
-	void debugAsteroidSplitting();
-	float debugCooldown = 0.0f;
-
 	// data members
 	int2 mousePos;
 
