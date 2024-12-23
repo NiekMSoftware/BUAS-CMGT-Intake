@@ -32,7 +32,7 @@
     <ClCompile Include="ntk\entities\Projectile.cpp">
       <Filter>ntk\entities</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\utility\GameTime.cpp">
+    <ClCompile Include="ntk\utility\Helpers.cpp">
       <Filter>ntk\utility</Filter>
     </ClCompile>
     <ClCompile Include="ntk\utility\Input.cpp">
@@ -42,6 +42,15 @@
       <Filter>ntk\management</Filter>
     </ClCompile>
     <ClCompile Include="ntk\management\ResourceHolder.cpp">
+      <Filter>ntk\management</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\entities\Asteroid.cpp">
+      <Filter>ntk\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\AsteroidPool.cpp">
+      <Filter>ntk\management</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\CollisionSystem.cpp">
       <Filter>ntk\management</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +92,7 @@
     <ClInclude Include="ntk\entities\Projectile.h">
       <Filter>ntk\entities</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\utility\GameTime.h">
+    <ClInclude Include="ntk\utility\Helpers.h">
       <Filter>ntk\utility</Filter>
     </ClInclude>
     <ClInclude Include="ntk\utility\Input.h">
@@ -93,6 +102,15 @@
       <Filter>ntk\management</Filter>
     </ClInclude>
     <ClInclude Include="ntk\management\ResourceHolder.h">
+      <Filter>ntk\management</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\entities\Asteroid.h">
+      <Filter>ntk\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\AsteroidPool.h">
+      <Filter>ntk\management</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\CollisionSystem.h">
       <Filter>ntk\management</Filter>
     </ClInclude>
   </ItemGroup>

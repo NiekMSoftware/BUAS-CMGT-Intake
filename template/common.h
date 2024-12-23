@@ -20,4 +20,4 @@
 #define TWOPI		6.28318530717958647692528f
 #define SQRT_PI_INV	0.56418958355f
 #define LARGE_FLOAT	1e34f
-#define APP_NAME "WEEEEE, LOOK MOM I'M FLYING!"
+#define APP_NAME "Asteroids are going BOOM!"

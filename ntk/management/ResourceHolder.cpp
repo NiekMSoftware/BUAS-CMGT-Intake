@@ -20,13 +20,16 @@ void ResourceHolder::Clean()
 
 Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h, uint c)
 {
+	Sprite* sprite = FindExistingResource(spriteContainer, id);
+
 	// Check if the sprite originally exists
-	if (Sprite* existingSprite = FindExistingResource(spriteContainer, id))
+	if (sprite)
 	{
-		// Log a warning and return the original sprite
-		OutputDebugString(std::format("[WARNING] Sprite with ID '{}' already exists. Returning existing sprite.\n", id).c_str());
-		return existingSprite;
+		OutputDebugString(std::format("[LOG] ResourceHolder::CreateSquare - Sprite with the id '{}' already exists, using that one.\n\n", id).c_str());
+		return sprite;
 	}
+
+	OutputDebugString(std::format("[LOG] ResourceHolder::CreateSquare - Sprite with ID '{}' was not found. Creating new one.\n", id).c_str());
 
 	// Create a surface filled with a specific color
 	Surface* sqrSurface = new Surface(w, h);
@@ -37,11 +40,13 @@ Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h, uint c
 	surfaceContainer.emplace_back(id + "_surface", sqrSurface);
 
 	// Create a single-frame sprite form this surface
-	Sprite* sqrSprite = new Sprite(sqrSurface, 1);
-	sqrSprite->ownership = false;
-	spriteContainer.emplace_back(id, sqrSprite);
+	sprite = new Sprite(sqrSurface, 1);
+	sprite->ownership = false;
+	spriteContainer.emplace_back(id, sprite);
 
-	return sqrSprite;
+	OutputDebugString(std::format("[LOG] ResourceHolder::CreateSquare - Successfully created a square sprite, with id '{}'\n\n", id).c_str());
+
+	return sprite;
 }
 
 // -----------------------------------------------------------
@@ -49,29 +54,36 @@ Sprite* ResourceHolder::CreateSquare(const std::string& id, int w, int h, uint c
 // -----------------------------------------------------------
 bool ResourceHolder::LoadSprite(const char* filePath, const std::string& id, int numFrames)
 {
-	// Check if the resource already exists
-	if (FindExistingResource(spriteContainer, filePath))
+	// Check if the sprite already exists in the container, if return early.
+	Sprite* sprite = FindExistingResource(spriteContainer, id);
+	if (sprite)
 	{
-		OutputDebugString(std::format("[WARNING] ResourceHolder::LoadSprite - Resource with filePath '{}' already exists.\n", filePath).c_str());
+		OutputDebugString(std::format("[LOG] ResourceHolder::LoadSprite - Sprite with id '{}' already exists. Using the existing sprite\n", id).c_str());
 		return true;
 	}
+
+	OutputDebugString(std::format("[LOG] ResourceHolder::LoadSprite - Sprite with id '{}' not found. Creating a new sprite\n", id).c_str());
 
 	// Try to retrieve the surface
 	Surface* sfc = GetSurface(filePath);
 	if (!sfc)
 	{
 		// If none is found, create a new one
+		OutputDebugString(std::format("[LOG] ResourceHolder::LoadSprite - Surface with filePath '{}' doesn't exist yet, allocating memory to a new surface\n", filePath).c_str());
+
 		Surface* newSurface = new Surface(filePath);
 		sfc = newSurface;
 		sfc->ownBuffer = false;
 		surfaceContainer.emplace_back(filePath, newSurface);
 	}
 
-	// Allocate memory to a new sprite
-	if (Sprite* sprite = new Sprite(sfc, numFrames))
+	// Create a new sprite
+	sprite = new Sprite(sfc, numFrames);
+	if (sprite)
 	{
 		sprite->ownership = false;
 		spriteContainer.emplace_back(id, sprite);
+		OutputDebugString(std::format("[LOG] ResourceHolder::LoadSprite - Successfully created and stored the new sprite with ID '{}'\n\n", id).c_str());
 		return true;
 	}
 
@@ -93,6 +105,7 @@ Sprite* ResourceHolder::GetSprite(const std::string& id)
 		return nullptr;
 	}
 
+	OutputDebugString(std::format("[LOG] ResourceHolder::GetSprite - Successfully retrieved sprite with ID '{}' from the sprite container\n\n", id).c_str());
 	return sprite;
 }
 
@@ -132,4 +145,6 @@ void ResourceHolder::RemoveResource(std::vector<std::pair<std::string, T*>>& con
 		pair.second = nullptr;
 	}
 	container.clear();
+
+	OutputDebugString("[LOG] ResourceHolder::RemoveResources() - Successfully cleared out the container.\n\n");
 }

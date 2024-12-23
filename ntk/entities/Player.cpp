@@ -1,14 +1,14 @@
 ﻿#include "precomp.h"
 #include "Player.h"
 
-Player::Player()
+void Player::initialize()
 {
 	// set a unique sprite to the player
 	ResourceHolder& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
 
-	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f};
+	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
 
 	// initialize computable attributes
 	thrustInput = 0.f;
@@ -25,6 +25,18 @@ Player::Player()
 	timeSinceLastShot = 0.0f;
 
 	name = "Player";
+
+	CollisionSystem::instance().registerObject(this,
+		[this](const CollisionEvent& event)
+		{
+			m_collision = false;
+			this->onCollision(event);
+		});
+}
+
+Player::~Player()
+{
+	CollisionSystem::instance().unregisterObject(this);
 }
 
 void Player::update()
@@ -33,6 +45,7 @@ void Player::update()
 
 	retrieveInput();
 	keepInView();
+	updateCollider();
 
 	// shooting logic
 	timeSinceLastShot += Time::deltaTime;
@@ -52,6 +65,15 @@ void Player::fixedUpdate()
 		applySpaceBraking(50.f);
 }
 
+void Player::onCollision(const CollisionEvent& event)
+{
+	if (m_collision) return;
+	if (event.other->getName().find("asteroid") != std::string::npos)
+	{
+		m_collision = true;
+	}
+}
+
 /**
  * Applies a continuous force to slow down the ship.
  * @param brakeForce The force that will be applied each frame.
@@ -66,13 +88,13 @@ void Player::applySpaceBraking(float brakeForce)
 	}
 }
 
-/** Retrieves the input and computes the thrust input based on speed. */
+/** Retrieves the input and computes the thrust input based on direction. */
 void Player::retrieveInput()
 {
 	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * Time::deltaTime);
 	rotate(rotationValue);
 
-	float thrustValue = Input::getKey(GLFW_KEY_W);
+	float thrustValue = Input::getAxis(Input::Vertical);
 	if (thrustValue != 0.f)
 	{
 		float forwardMovement = speed * thrustValue;
@@ -104,8 +126,8 @@ void Player::fireProjectile() const
 {
 	// create or instantiate projectile
 	float2 projectileStart = position +
-		float2(std::cos(angle * (PI / 180.f)) * 20.f,
-			std::sin(angle * (PI / 180.f)) * 20.f);
+		float2(std::cos(angle * (PI / 180.f)) * 60.f,
+			std::sin(angle * (PI / 180.f)) * 60.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
 

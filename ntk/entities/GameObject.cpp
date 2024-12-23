@@ -1,27 +1,39 @@
 ﻿#include "precomp.h"
 #include "GameObject.h"
 
-GameObject::GameObject()
+void GameObject::initialize()
 {
 	ResourceHolder& rh = ResourceHolder::Instance();
 
 	velocity = { 0, 0 };
-	
+
 	m_sprite = rh.CreateSquare("square", 32, 32);
 	position = { 100, 100 };
 	angle = 0.0f;
 	name = "Game Object";
 }
 
-GameObject::~GameObject()
-{
-	// [READ ME] - Sprite won't be deleted from here, the resource holder makes sure the allocated memory gets safely removed.
-}
-
 void GameObject::update()
 {
-	position.x += velocity.x * Time::deltaTime;
-	position.y += velocity.y * Time::deltaTime;
+	if (m_active)
+	{
+		position.x += velocity.x * Time::deltaTime;
+		position.y += velocity.y * Time::deltaTime;
+	}
+
+	// Update collider position based on sprite dimensions
+	if (m_sprite && m_active)
+	{
+		float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f * scale;
+		float halfHeight = static_cast<float>(m_sprite->GetHeight()) * 0.5f * scale;
+
+		collider.bmin[0] = position.x - halfWidth;
+		collider.bmin[1] = position.y - halfHeight;
+		collider.bmax[0] = position.x + halfWidth;
+		collider.bmax[1] = position.y + halfHeight;
+
+		updateCollider();
+	}
 }
 
 void GameObject::fixedUpdate()
@@ -35,7 +47,16 @@ void GameObject::render(Surface* screen)
 	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
 	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
 
-	m_sprite->Draw(screen, centerX, centerY, 1.f, angle);
+	// Only render if the sprite exists and is active
+	if (m_sprite && m_active)
+		m_sprite->Draw(screen, centerX, centerY, scale, angle);
+}
+
+/** TODO: Enter a good description of this method */
+void GameObject::onCollision(const CollisionEvent&)
+{
+	if (m_collision) return;
+	m_collision = true;
 }
 
 /**
@@ -74,9 +95,83 @@ Sprite* GameObject::getSprite() const
 	return m_sprite;
 }
 
+/** Initializes the collider of the game object by taking the sprite's width and height */
+void GameObject::initializeCollider()
+{
+	if (!m_sprite) return;
+
+	// Get the sprite's width and height
+	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
+	float spriteHeight = static_cast<float>(m_sprite->GetWidth());
+
+	// Compute the initial bmin and bmax based on position and scale
+	float halfWidth = (spriteWidth * scale) / 2.0f;
+	float halfHeight = (spriteHeight * scale) / 2.0f;
+
+	collider.bmin[0] = position.x - halfWidth;
+	collider.bmin[1] = position.y - halfHeight;
+	collider.bmax[0] = position.x + halfWidth;
+	collider.bmax[1] = position.y + halfHeight;
+}
+
+/** Updates the collider with the game object's position, scale and rotation. */
+void GameObject::updateCollider()
+{
+	if (!m_sprite) return;
+
+	// Get the sprite's dimensions
+	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
+	float spriteHeight = static_cast<float>(m_sprite->GetHeight());
+
+	// Convert angle to radians for our transformation
+	float angleRad = angle * (PI / 180.0f);
+	float cosA = cos(angleRad) * scale;
+	float sinA = sin(angleRad) * scale;
+
+	float2 localCorners[4] = {
+		{-0.5f, -0.5f},  // Top-left
+		{ 0.5f, -0.5f},  // Top-right
+		{-0.5f,  0.5f},  // Bottom-left
+		{ 0.5f,  0.5f}   // Bottom-right
+	};
+
+	// Initialize bounds for transformed points
+	float minX = FLT_MAX;
+	float minY = FLT_MAX;
+	float maxX = -FLT_MAX;
+	float maxY = -FLT_MAX;
+
+	// Transform each corner
+	for (const float2& localCorner : localCorners)
+	{
+		const float2 scaled = 
+		{
+			localCorner.x * spriteWidth,
+			localCorner.y * spriteHeight
+		};
+
+		float2 transformed = 
+		{
+			(scaled.x * cosA - scaled.y * sinA) + position.x,
+			(scaled.x * sinA + scaled.y * cosA) + position.y
+		};
+
+		// Update the AABB bounds
+		minX = min(minX, transformed.x);
+		minY = min(minY, transformed.y);
+		maxX = max(maxX, transformed.x);
+		maxY = max(maxY, transformed.y);
+	}
+
+	// Update the collider with our new bounds
+	collider.bmin[0] = minX;
+	collider.bmin[1] = minY;
+	collider.bmax[0] = maxX;
+	collider.bmax[1] = maxY;
+}
+
 /**
- * Constraints the game object within the boundaries of the screen by seamlessly "wrapping" around
- * the object.
+ * Constraints the game object clamping it around the screen.
  */
 void GameObject::keepInView()
 {

@@ -122,9 +122,12 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ntk\entities\Asteroid.cpp" />
     <ClCompile Include="ntk\entities\Projectile.cpp" />
+    <ClCompile Include="ntk\management\AsteroidPool.cpp" />
+    <ClCompile Include="ntk\management\CollisionSystem.cpp" />
     <ClCompile Include="ntk\management\GameWorld.cpp" />
-    <ClCompile Include="ntk\utility\GameTime.cpp" />
+    <ClCompile Include="ntk\utility\Helpers.cpp" />
     <ClCompile Include="ntk\utility\Input.cpp" />
     <ClCompile Include="ntk\entities\GameObject.cpp" />
     <ClCompile Include="ntk\entities\Player.cpp" />
@@ -148,13 +151,16 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="ntk\entities\Asteroid.h" />
     <ClInclude Include="ntk\entities\Projectile.h" />
+    <ClInclude Include="ntk\management\AsteroidPool.h" />
+    <ClInclude Include="ntk\management\CollisionSystem.h" />
     <ClInclude Include="ntk\management\GameWorld.h" />
     <ClInclude Include="ntk\utility\Input.h" />
     <ClInclude Include="ntk\entities\GameObject.h" />
     <ClInclude Include="ntk\entities\Player.h" />
     <ClInclude Include="ntk\management\ResourceHolder.h" />
-    <ClInclude Include="ntk\utility\GameTime.h" />
+    <ClInclude Include="ntk\utility\Helpers.h" />
     <ClInclude Include="template\common.h" />
     <ClInclude Include="template\opencl.h" />
     <ClInclude Include="template\opengl.h" />
