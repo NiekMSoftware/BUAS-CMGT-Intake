@@ -1,5 +1,14 @@
 ﻿#pragma once
 
+enum class Layer
+{
+	Default = 0,
+	Asteroids = 1,
+	Projectile = 2,
+	Player = 3,
+	UserInterface = 5
+};
+
 class GameWorld
 {
 public:

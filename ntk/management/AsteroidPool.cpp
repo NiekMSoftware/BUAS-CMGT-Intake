@@ -150,6 +150,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	asteroid->setActive(false);
 	asteroid->setPooled(true);
 	asteroid->setAsteroidPool(this);
+	asteroid->setLayer(Layer::Asteroids);
 
 	GameWorld::instance().addObject(asteroid);
 	return asteroid;

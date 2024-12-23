@@ -12,6 +12,7 @@ void Projectile::initialize()
 {
 	ResourceHolder& rh = ResourceHolder::Instance();
 	m_sprite = rh.CreateSquare("projectile", 16, 16, 0xFFFF0000);
+	setLayer(Layer::Projectile);
 
 	initializeCollider();
 

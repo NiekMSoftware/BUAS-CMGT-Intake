@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+enum class Layer;
 struct CollisionEvent;
 
 class GameObject
@@ -18,9 +19,11 @@ public:
 	// getters
 	float2 getPosition() const;
 	aabb getCollider() const;
-	Sprite* getSprite() const;
 	std::string getName() const { return name; }
 	float2 getVelocity() const { return velocity; }
+
+	Sprite* getSprite() const;
+	Layer getLayer() const { return m_layer; }
 
 	bool isActive() const { return m_active; }
 	bool isObjectPooled() const { return isPooled; }
@@ -38,7 +41,9 @@ public:
 	void setRotationSpeed(float v) { rotSpeed = v; }
 	void setRandomRotation() { angle = 0.0f; }
 	void setRandomVelocity(const float v) { velocity = v; }
+
 	void setSprite(Sprite* newSprite) { m_sprite = newSprite; }
+	void setLayer(Layer layer) { m_layer = layer; }
 
 	void setPooled(bool pooled) { isPooled = pooled; }
 
@@ -67,6 +72,7 @@ protected:
 
 	// components
 	Sprite* m_sprite = nullptr;
+	Layer m_layer = {};
 	aabb collider;
 
 	std::string name;

@@ -7,6 +7,7 @@ void Player::initialize()
 	ResourceHolder& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
+	setLayer(Layer::Player);
 
 	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
 
