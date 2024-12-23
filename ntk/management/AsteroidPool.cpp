@@ -170,6 +170,8 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		}
 	}
 
+	// TODO: Add score
+
 	if (currentSize != AsteroidSize::Small)
 	{
 		splitAsteroid(asteroid, currentSize);

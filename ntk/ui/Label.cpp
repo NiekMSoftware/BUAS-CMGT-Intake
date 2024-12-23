@@ -11,6 +11,7 @@ Label::Label(const std::string& t, const float2& pos, uint c)
 	: text(t), color(c)
 {
 	setPosition(pos);
+	setScale(2.f);
 }
 
 void Label::initialize()
@@ -20,5 +21,5 @@ void Label::initialize()
 
 void Label::render(Surface* screen)
 {
-	screen->Print(text.c_str(), static_cast<int>(position.x), static_cast<int>(position.y), color);
+	screen->PrintScaled(text.c_str(), static_cast<int>(position.x), static_cast<int>(position.y), color, (int)scale);
 }

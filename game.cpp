@@ -8,23 +8,30 @@
 Player* player;
 AsteroidPool* asteroidPool;
 
-Label* label;
+Label* scoreLabel;
+Label* lifeLabel;
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
+    score = 0;
+
+    // load game world
 	GameWorld::instance().initialize();
 
+    // load objects
 	player = new Player();
-	GameWorld::instance().addObject(player);
+    scoreLabel = new Label(std::format("Score: {}", score), float2(700, 10), 0xFFFFFF);
+    lifeLabel = new Label("Lives: {}", float2(10, 10), 0xFFFFFF);
 
-    label = new Label("Score: {}", float2(10, 10), 0xFFFFFF);
-    GameWorld::instance().addObject(label);
+	GameWorld::instance().addObject(player);
+    GameWorld::instance().addObject(scoreLabel);
+    GameWorld::instance().addObject(lifeLabel);
 
 	// Initialize asteroid pool with a max of 4 big asteroids
-	asteroidPool = new AsteroidPool(maxLargeAsteroids);
+	asteroidPool = new AsteroidPool(MAX_LARGE_ASTEROIDS);
 	spawnInitialAsteroids();
 
     CollisionSystem::instance().initialize();
@@ -67,6 +74,9 @@ void Game::Shutdown()
 	delete asteroidPool;
 }
 
+// -----------------------------------------------------------
+// Main application asteroid spawner - Executed at the start of the game.
+// -----------------------------------------------------------
 void Game::spawnInitialAsteroids()
 {
     const float minDistToPlayer = 150.0f;
