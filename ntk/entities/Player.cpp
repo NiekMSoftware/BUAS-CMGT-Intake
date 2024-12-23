@@ -45,6 +45,7 @@ void Player::update()
 
 	retrieveInput();
 	keepInView();
+	updateCollider();
 
 	// shooting logic
 	timeSinceLastShot += Time::deltaTime;
@@ -70,7 +71,6 @@ void Player::onCollision(const CollisionEvent& event)
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
 		m_collision = true;
-		GameObject::onCollision(event);
 	}
 }
 
@@ -126,8 +126,8 @@ void Player::fireProjectile() const
 {
 	// create or instantiate projectile
 	float2 projectileStart = position +
-		float2(std::cos(angle * (PI / 180.f)) * 20.f,
-			std::sin(angle * (PI / 180.f)) * 20.f);
+		float2(std::cos(angle * (PI / 180.f)) * 60.f,
+			std::sin(angle * (PI / 180.f)) * 60.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
 

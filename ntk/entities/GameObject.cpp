@@ -119,20 +119,55 @@ void GameObject::updateCollider()
 {
 	if (!m_sprite) return;
 
-	// Get the sprite's width and height
+	// Get the sprite's dimensions
 	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
-	float spriteHeight = static_cast<float>(m_sprite->GetWidth());
+	float spriteHeight = static_cast<float>(m_sprite->GetHeight());
 
-	// Compute the half extents
-	float halfWidth = (spriteWidth * scale) / 2.0f;
-	float halfHeight = (spriteHeight * scale) / 2.0f;
+	// Convert angle to radians for our transformation
+	float angleRad = angle * (PI / 180.0f);
+	float cosA = cos(angleRad) * scale;
+	float sinA = sin(angleRad) * scale;
 
-	collider.bmin[0] = position.x - halfWidth;
-	collider.bmin[1] = position.y - halfHeight;
-	collider.bmax[0] = position.x + halfWidth;
-	collider.bmax[1] = position.y + halfHeight;
+	float2 localCorners[4] = {
+		{-0.5f, -0.5f},  // Top-left
+		{ 0.5f, -0.5f},  // Top-right
+		{-0.5f,  0.5f},  // Bottom-left
+		{ 0.5f,  0.5f}   // Bottom-right
+	};
 
-	// TODO: perform rotations
+	// Initialize bounds for transformed points
+	float minX = FLT_MAX;
+	float minY = FLT_MAX;
+	float maxX = -FLT_MAX;
+	float maxY = -FLT_MAX;
+
+	// Transform each corner
+	for (const float2& localCorner : localCorners)
+	{
+		const float2 scaled = 
+		{
+			localCorner.x * spriteWidth,
+			localCorner.y * spriteHeight
+		};
+
+		float2 transformed = 
+		{
+			(scaled.x * cosA - scaled.y * sinA) + position.x,
+			(scaled.x * sinA + scaled.y * cosA) + position.y
+		};
+
+		// Update the AABB bounds
+		minX = min(minX, transformed.x);
+		minY = min(minY, transformed.y);
+		maxX = max(maxX, transformed.x);
+		maxY = max(maxY, transformed.y);
+	}
+
+	// Update the collider with our new bounds
+	collider.bmin[0] = minX;
+	collider.bmin[1] = minY;
+	collider.bmax[0] = maxX;
+	collider.bmax[1] = maxY;
 }
 
 /**
