@@ -29,6 +29,7 @@ void Player::initialize()
 	CollisionSystem::instance().registerObject(this,
 		[this](const CollisionEvent& event)
 		{
+			m_collision = false;
 			this->onCollision(event);
 		});
 }
@@ -65,9 +66,11 @@ void Player::fixedUpdate()
 
 void Player::onCollision(const CollisionEvent& event)
 {
+	if (m_collision) return;
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
-		//std::println("Collided with asteroid!");
+		m_collision = true;
+		GameObject::onCollision(event);
 	}
 }
 

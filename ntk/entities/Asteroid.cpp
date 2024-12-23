@@ -13,6 +13,7 @@ void Asteroid::initialize()
 	CollisionSystem::instance().registerObject(this,
 		[this](const CollisionEvent& event)
 		{
+			m_collision = false;
 			this->onCollision(event);
 		});
 }
@@ -36,8 +37,10 @@ void Asteroid::update()
 
 void Asteroid::onCollision(const CollisionEvent& event)
 {
+	if (m_collision) return;
 	if (event.other->getName().find("Projectile") != std::string::npos)
 	{
+		m_collision = true;
 		std::println("AHH it hurts!!");
 	}
 }

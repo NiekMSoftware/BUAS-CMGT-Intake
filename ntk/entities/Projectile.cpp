@@ -27,6 +27,12 @@ void Projectile::initialize()
 		});
 }
 
+Projectile::~Projectile()
+{
+	CollisionSystem::instance().unregisterObject(this);
+}
+
+
 void Projectile::update()
 {
 	updateCollider();
@@ -54,4 +60,18 @@ void Projectile::fixedUpdate()
 	// Update position based on velocity and fixed delta time
 	position.x += velocity.x * Time::fixedDeltaTime;
 	position.y += velocity.y * Time::fixedDeltaTime;
+}
+
+void Projectile::onCollision(const CollisionEvent& event)
+{
+	if (m_collision)
+	{
+		// mark for removal
+		GameWorld::instance().removeObject(this);
+	}
+
+	if (event.other->getName().find("asteroid") != std::string::npos)
+	{
+		m_collision = true;
+	}
 }

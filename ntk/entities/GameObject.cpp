@@ -52,6 +52,13 @@ void GameObject::render(Surface* screen)
 		m_sprite->Draw(screen, centerX, centerY, scale, angle);
 }
 
+/** TODO: Enter a good description of this method */
+void GameObject::onCollision(const CollisionEvent&)
+{
+	if (m_collision) return;
+	m_collision = true;
+}
+
 /**
  * Moves the position to a new position by translating it (make sure to multiply by delta time).
  * @param translation The translation to compute to.

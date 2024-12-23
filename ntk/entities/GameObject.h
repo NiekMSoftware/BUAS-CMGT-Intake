@@ -13,7 +13,7 @@ public:
 	virtual void fixedUpdate();
 	virtual void render(Surface* screen);
 
-	virtual void onCollision(const CollisionEvent&) { }
+	virtual void onCollision(const CollisionEvent&);
 
 	// getters
 	float2 getPosition() const;
@@ -61,7 +61,9 @@ protected:
 	float scale = 1;
 	float angle = 0;
 	float rotSpeed = 1.f;
+
 	bool isPooled = false;
+	bool m_collision = false;
 
 	// components
 	Sprite* m_sprite = nullptr;
@@ -71,4 +73,5 @@ protected:
 
 private:
 	bool m_active = true;
+
 };
