@@ -11,6 +11,7 @@ struct AsteroidConfig
 {
 	int score;
 	float speed;
+	float rotSpeed;
 	float size;
 	Sprite* sprite;
 };
@@ -28,7 +29,7 @@ public:
 	GameObject* spawnAsteroid(AsteroidSize size, const float2& position);
 
 	void destroyAsteroid(GameObject* asteroid);
-	void splitAsteroid(GameObject* asteroid, AsteroidSize currentSize);
+	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
 	void returnToPool(GameObject* asteroid);
 
 	float2 calculateSplitPosition(const float2& originalPos, float angle, float offset);

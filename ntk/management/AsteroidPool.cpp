@@ -44,6 +44,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Large, {
 				.score = 100,
 				.speed = 50.f,
+				.rotSpeed = 15.f,
 				.size = 3.f,
 				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 32, 32)
 			}
@@ -52,6 +53,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Medium, {
 				.score = 50,
 				.speed = 150.f,
+				.rotSpeed = 25.f,
 				.size = 1.5f,
 				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
 			}
@@ -60,6 +62,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 			AsteroidSize::Small, {
 				.score = 10,
 				.speed = 200.f,
+				.rotSpeed = 40.f,
 				.size = 0.75f,
 				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
 			}
@@ -143,6 +146,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 
 	asteroid->setSprite(config.sprite);
 	asteroid->setScale(config.size);
+	asteroid->setRotationSpeed(config.rotSpeed);
 	asteroid->setActive(false);
 	asteroid->setPooled(true);
 
@@ -172,7 +176,7 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 	returnToPool(asteroid);
 }
 
-void AsteroidPool::splitAsteroid(GameObject* asteroid, AsteroidSize currentSize)
+void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize currentSize)
 {
 	// Determine the next smaller size
 	AsteroidSize nextSize;
@@ -189,29 +193,40 @@ void AsteroidPool::splitAsteroid(GameObject* asteroid, AsteroidSize currentSize)
 	// Get the original asteroid's properties
 	float2 originalPos = asteroid->getPosition();
 	float2 originalVel = asteroid->getVelocity();
-
-	// Calculate the angle of the original velocity vector
 	float originalAngle = atan2f(originalVel.y, originalVel.x);
 
-	// Create 2 new asteroids at slightly offset positions
-	const float SPLIT_OFFSET = 20.0f; // Distance between split pieces
-	const float SPLIT_ANGLES[] = { PI / 4.0f, -PI / 4.0f }; // 45 degrees in radians
+	// Add randomness to the split angle range (30 to 60 degrees)
+	const float MIN_SPLIT_ANGLE = PI / 6.0f;
+	const float MAX_SPLIT_ANGLE = PI / 3.0f;
+	const float splitAngles[] = {
+		Random::getRandomFloat(MIN_SPLIT_ANGLE, MAX_SPLIT_ANGLE),
+		-Random::getRandomFloat(MIN_SPLIT_ANGLE, MAX_SPLIT_ANGLE)
+	};
 
-	for (float angleOffset : SPLIT_ANGLES) {
-		// Calculate split angle relative to original velocity direction
+	// Add some variance to the split offset distance
+	const float BASE_SPLIT_OFFSET = 20.0f;
+	const float OFFSET_VARIANCE = 5.0f;
+
+	for (float angleOffset : splitAngles) {
 		float splitAngle = originalAngle + angleOffset;
 
-		// Calculate split position slightly offset from original position
+		// Randomize the offset distance for each piece
+		float splitOffset = BASE_SPLIT_OFFSET + Random::getRandomFloat(-OFFSET_VARIANCE, OFFSET_VARIANCE);
+
+		// Calculate split position with randomized offset
 		float2 newPos = float2(
-			originalPos.x + cosf(splitAngle) * (SPLIT_OFFSET * 0.5f),
-			originalPos.y + sinf(splitAngle) * (SPLIT_OFFSET * 0.5f)
+			originalPos.x + cosf(splitAngle) * (splitOffset * 0.5f),
+			originalPos.y + sinf(splitAngle) * (splitOffset * 0.5f)
 		);
 
 		GameObject* newAsteroid = spawnAsteroid(nextSize, newPos);
 
 		if (newAsteroid) {
-			// Calculate new velocity based on original velocity plus angular offset
-			float newSpeed = getConfig(nextSize).speed;
+			// Add some speed variance to each piece
+			float speedVariance = 0.2f;
+			float baseSpeed = getConfig(nextSize).speed;
+			float newSpeed = baseSpeed * (1.0f + Random::getRandomFloat(-speedVariance, speedVariance));
+
 			float2 newVel = float2(
 				cosf(splitAngle) * newSpeed,
 				sinf(splitAngle) * newSpeed
@@ -219,12 +234,16 @@ void AsteroidPool::splitAsteroid(GameObject* asteroid, AsteroidSize currentSize)
 
 			newAsteroid->setVelocity(newVel);
 
-			// Add a bit of random rotation for visual variety
+			// Add both random initial rotation and rotation speed
 			float randomRotation = Random::getRandomFloat(-PI, PI);
+
 			newAsteroid->setRotation(randomRotation);
 
-			OutputDebugString(std::format("[DEBUG] Split asteroid at ({}, {}) with velocity ({}, {})\n",
+#if _DEBUG
+			OutputDebugString(std::format(
+				"[DEBUG] Split asteroid at ({}, {}) with velocity ({}, {})\n",
 				newPos.x, newPos.y, newVel.x, newVel.y).c_str());
+#endif
 		}
 	}
 }

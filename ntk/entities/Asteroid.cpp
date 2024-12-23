@@ -17,5 +17,6 @@ void Asteroid::update()
 	{
 		position += velocity * (direction * Time::deltaTime);
 		keepInView();
+		rotate(rotSpeed * Time::deltaTime);
 	}
 }

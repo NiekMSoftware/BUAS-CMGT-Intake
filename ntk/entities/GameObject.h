@@ -30,7 +30,8 @@ public:
 	void setScale(const float v) { scale = v; }
 	void setRotation(const float v) { angle = v; }
 	void setVelocity(const float2 newVelocity) { velocity = newVelocity; }
-	
+
+	void setRotationSpeed(float v) { rotSpeed = v; }
 	void setRandomRotation() { angle = 0.0f; }
 	void setRandomVelocity(const float v) { velocity = v; }
 	void setSprite(Sprite* newSprite) { m_sprite = newSprite; }
@@ -52,6 +53,7 @@ protected:
 	float2 velocity = 0;
 	float scale = 1;
 	float angle = 0;
+	float rotSpeed = 1.f;
 	bool isPooled = false;
 
 	// components
