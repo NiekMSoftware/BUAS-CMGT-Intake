@@ -16,6 +16,7 @@ public:
 	aabb getCollider() const;
 	Sprite* getSprite() const;
 	std::string getName() const { return name; }
+	float2 getVelocity() const { return velocity; }
 
 	bool isActive() const { return m_active; }
 	bool isObjectPooled() const { return isPooled; }
@@ -28,6 +29,7 @@ public:
 	void setPosition(const float2 np) { position = np; }
 	void setScale(const float v) { scale = v; }
 	void setRotation(const float v) { angle = v; }
+	void setVelocity(const float2 newVelocity) { velocity = newVelocity; }
 	
 	void setRandomRotation() { angle = 0.0f; }
 	void setRandomVelocity(const float v) { velocity = v; }

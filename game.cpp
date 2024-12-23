@@ -29,6 +29,7 @@ void Game::Init()
 void Game::Tick()
 {
 	GameWorld::instance().update();
+    debugAsteroidSplitting();
 }
 
 // -----------------------------------------------------------
@@ -57,6 +58,30 @@ void Game::Shutdown()
 	GameWorld::instance().clean();
 
 	delete asteroidPool;
+}
+
+void Game::debugAsteroidSplitting()
+{
+    if (Input::getKeyDown(GLFW_KEY_M) && debugCooldown <= 0.0f)
+    {
+	    for (GameObject* obj : GameWorld::instance().getWorldObjects())
+	    {
+            if (!obj || !obj->isActive()) continue;
+
+            if (obj->getName() == "asteroid")
+            {
+                asteroidPool->destroyAsteroid(obj);
+
+                debugCooldown = 0.1f;
+                break;
+            }
+	    }
+    }
+
+    if (debugCooldown > 0.f)
+    {
+        debugCooldown -= Time::deltaTime;
+    }
 }
 
 void Game::spawnInitialAsteroids()

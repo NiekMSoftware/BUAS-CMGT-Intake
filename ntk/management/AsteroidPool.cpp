@@ -149,3 +149,112 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	GameWorld::instance().addObject(asteroid);
 	return asteroid;
 }
+
+void AsteroidPool::destroyAsteroid(GameObject* asteroid)
+{
+	float scale = asteroid->getScale();
+	AsteroidSize currentSize = {};
+
+	for (const auto& config : CONFIGS)
+	{
+		if (std::abs(config.second.size - scale) < 0.1f)
+		{
+			currentSize = config.first;
+			break;
+		}
+	}
+
+	if (currentSize != AsteroidSize::Small)
+	{
+		splitAsteroid(asteroid, currentSize);
+	}
+
+	returnToPool(asteroid);
+}
+
+void AsteroidPool::splitAsteroid(GameObject* asteroid, AsteroidSize currentSize)
+{
+	// Determine the next smaller size
+	AsteroidSize nextSize;
+	if (currentSize == AsteroidSize::Large) {
+		nextSize = AsteroidSize::Medium;
+	}
+	else if (currentSize == AsteroidSize::Medium) {
+		nextSize = AsteroidSize::Small;
+	}
+	else {
+		return; // Don't split if already smallest
+	}
+
+	// Get the original asteroid's properties
+	float2 originalPos = asteroid->getPosition();
+	float2 originalVel = asteroid->getVelocity();
+
+	// Calculate the angle of the original velocity vector
+	float originalAngle = atan2f(originalVel.y, originalVel.x);
+
+	// Create 2 new asteroids at slightly offset positions
+	const float SPLIT_OFFSET = 20.0f; // Distance between split pieces
+	const float SPLIT_ANGLES[] = { PI / 4.0f, -PI / 4.0f }; // 45 degrees in radians
+
+	for (float angleOffset : SPLIT_ANGLES) {
+		// Calculate split angle relative to original velocity direction
+		float splitAngle = originalAngle + angleOffset;
+
+		// Calculate split position slightly offset from original position
+		float2 newPos = float2(
+			originalPos.x + cosf(splitAngle) * (SPLIT_OFFSET * 0.5f),
+			originalPos.y + sinf(splitAngle) * (SPLIT_OFFSET * 0.5f)
+		);
+
+		GameObject* newAsteroid = spawnAsteroid(nextSize, newPos);
+
+		if (newAsteroid) {
+			// Calculate new velocity based on original velocity plus angular offset
+			float newSpeed = getConfig(nextSize).speed;
+			float2 newVel = float2(
+				cosf(splitAngle) * newSpeed,
+				sinf(splitAngle) * newSpeed
+			);
+
+			newAsteroid->setVelocity(newVel);
+
+			// Add a bit of random rotation for visual variety
+			float randomRotation = Random::getRandomFloat(-PI, PI);
+			newAsteroid->setRotation(randomRotation);
+
+			OutputDebugString(std::format("[DEBUG] Split asteroid at ({}, {}) with velocity ({}, {})\n",
+				newPos.x, newPos.y, newVel.x, newVel.y).c_str());
+		}
+	}
+}
+
+void AsteroidPool::returnToPool(GameObject* asteroid)
+{
+	auto it = std::find(activeAsteroids.begin(), activeAsteroids.end(), asteroid);
+	if (it != activeAsteroids.end())
+	{
+		activeAsteroids.erase(it);
+	}
+
+	asteroid->setActive(false);
+
+	float scale = asteroid->getScale();
+	for (const auto& config : CONFIGS)
+	{
+		if (std::abs(config.second.size - scale) < 0.1f) 
+		{
+			std::vector<GameObject*>* pool = getPoolForSize(config.first);
+			pool->push_back(asteroid);
+			break;
+		}
+	}
+}
+
+float2 AsteroidPool::calculateSplitPosition(const float2& originalPos, float angle, float offset)
+{
+	return float2{
+		originalPos.x * cosf(angle * PI / 180.f) * offset,
+		originalPos.y * sinf(angle * PI / 180.f) * offset
+	};
+}
