@@ -19,6 +19,7 @@ public:
 	void removeObject(GameObject* go);
 
 	int getCount() const { return count; }
+	std::vector<GameObject*>& getWorldObjects() { return worldObjects; }
 
 private:
 	GameWorld() = default;

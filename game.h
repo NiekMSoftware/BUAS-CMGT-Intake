@@ -23,8 +23,15 @@ public:
 	void MouseWheel( float ) { /* implement if you want to handle the mouse wheel */ }
 	void KeyUp( int ) { /* implement if you want to handle keys */ }
 	void KeyDown( int ) { /* implement if you want to handle keys */ }
+
 	// data members
 	int2 mousePos;
+
+private:
+	void spawnInitialAsteroids();
+
+private:
+	const int maxLargeAsteroids = 12;
 };
 
 } // namespace Tmpl8

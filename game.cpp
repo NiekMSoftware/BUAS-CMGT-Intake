@@ -6,19 +6,23 @@
 #include "game.h"
 
 Player* player;
-GameObject* obj;
+AsteroidPool* asteroidPool;
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-	player = new Player();
-	obj = new GameObject();
-
 	GameWorld::instance().initialize();
+
+	player = new Player();
 	GameWorld::instance().addObject(player);
-	GameWorld::instance().addObject(obj);
+
+	// Initialize asteroid pool with a max of 4 big asteroids
+	asteroidPool = new AsteroidPool(maxLargeAsteroids);
+	spawnInitialAsteroids();
+
+    CollisionSystem::instance().initialize();
 }
 
 // -----------------------------------------------------------
@@ -27,6 +31,7 @@ void Game::Init()
 void Game::Tick()
 {
 	GameWorld::instance().update();
+    CollisionSystem::instance().update();
 }
 
 // -----------------------------------------------------------
@@ -45,9 +50,6 @@ void Game::Render()
 	screen->Clear(0);
 
 	GameWorld::instance().render(screen);
-
-	// template ui
-	screen->Print("Score: I don't know, maybe 1... or 2...\n", 10, 10, 0xFFFFFFFF);
 }
 
 // -----------------------------------------------------------
@@ -56,4 +58,73 @@ void Game::Render()
 void Game::Shutdown()
 {
 	GameWorld::instance().clean();
+
+	delete asteroidPool;
+}
+
+void Game::spawnInitialAsteroids()
+{
+    const float minDistToPlayer = 150.0f;
+    const float minDistBetweenAsteroids = 100.0f;
+    const int numAsteroids = 2;
+    const int maxAttempts = 10;
+
+    // Get player position
+    float2 playerPos = player->getPosition();
+
+    // Keep track of successfully spawned asteroid positions
+    std::vector<float2> spawnedPositions;
+
+    // Spawn our asteroids
+    for (int i = 0; i < numAsteroids; i++)
+    {
+        bool validPosition = false;
+        int attempts = 0;
+        float2 spawnPos;
+
+        // Keep trying until we find a valid position or run out of attempts
+        while (!validPosition && attempts < maxAttempts)
+        {
+            // Get a candidate position
+            spawnPos = Random::getRandomPositionAwayFrom(
+                playerPos,
+                minDistToPlayer,
+                static_cast<float>(screen->width),
+                static_cast<float>(screen->height)
+            );
+
+            // Assume position is valid until proven otherwise
+            validPosition = true;
+
+            // Check against all previously spawned asteroids
+            for (const float2& existingPos : spawnedPositions)
+            {
+                float distance = length(spawnPos - existingPos);
+                if (distance < minDistBetweenAsteroids)
+                {
+                    validPosition = false;
+                    break;
+                }
+            }
+
+            attempts++;
+        }
+
+        // If we found a valid position, spawn the asteroid
+        if (validPosition)
+        {
+            GameObject* asteroid = asteroidPool->spawnAsteroid(AsteroidSize::Large, spawnPos);
+            if (!asteroid)
+            {
+                std::cerr << "failed to spawn asteroid\n";
+                continue;
+            }
+
+            spawnedPositions.push_back(spawnPos);
+        }
+        else
+        {
+            std::cerr << "Could not find valid spawn position for asteroid " << i << "\n";
+        }
+    }
 }

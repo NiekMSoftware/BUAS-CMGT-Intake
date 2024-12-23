@@ -20,6 +20,9 @@
 #include <math.h>				// c standard math library
 #include <assert.h>				// runtime assertions
 
+#include <functional>
+#include <random>
+
 // header for AVX, and every technology before it.
 // if your CPU does not support this (unlikely), include the appropriate header instead.
 // see: https://stackoverflow.com/a/11228864/2844473
@@ -62,7 +65,7 @@ using namespace std;
 #include "sprite.h"
 
 // ntk - management
-#include "GameTime.h"
+#include "Helpers.h"
 #include "ResourceHolder.h"
 
 // namespaces
@@ -70,7 +73,7 @@ using namespace Tmpl8;
 
 // clang-format off
 
-// windows.h: disable a few things to speed up compilation.
+// windows.h: disable a few things to direction up compilation.
 #define NOMINMAX
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -137,14 +140,17 @@ using namespace Tmpl8;
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#include "Input.h"
+
 // ntk - entities
 #include "GameObject.h"
+#include "CollisionSystem.h"
 #include "GameWorld.h"
+#include "AsteroidPool.h"
 
+#include "Asteroid.h"
 #include "Projectile.h"
 #include "Player.h"
-
-#include "Input.h"
 
 // zlib
 #include "zlib.h"
