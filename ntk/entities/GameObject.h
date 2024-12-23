@@ -49,6 +49,9 @@ public:
 	virtual void markForRemoval() { m_active = false; }
 
 protected:
+	void initializeCollider();
+	void updateCollider();
+
 	void keepInView();
 
 protected:

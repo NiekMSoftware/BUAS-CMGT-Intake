@@ -73,8 +73,12 @@ void CollisionSystem::update()
 void CollisionSystem::checkCollision(GameObject* a, const CollisionCallback& cb1, GameObject* b,
 	const CollisionCallback& cb2)
 {
-	aabb col1 = a->getCollider();
-	aabb col2 = b->getCollider();
+	// only retrieve the collider if the object is active
+	aabb col1;
+	aabb col2;
+
+	if (a->isActive()) col1 = a->getCollider();
+	if (b->isActive()) col2 = b->getCollider();
 
 	if (checkAABB(col1, col2))
 	{

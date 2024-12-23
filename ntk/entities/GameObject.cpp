@@ -22,7 +22,7 @@ void GameObject::update()
 	}
 
 	// Update collider position based on sprite dimensions
-	if (m_sprite)
+	if (m_sprite && m_active)
 	{
 		float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f * scale;
 		float halfHeight = static_cast<float>(m_sprite->GetHeight()) * 0.5f * scale;
@@ -31,6 +31,8 @@ void GameObject::update()
 		collider.bmin[1] = position.y - halfHeight;
 		collider.bmax[0] = position.x + halfWidth;
 		collider.bmax[1] = position.y + halfHeight;
+
+		updateCollider();
 	}
 }
 
@@ -86,9 +88,48 @@ Sprite* GameObject::getSprite() const
 	return m_sprite;
 }
 
+/** Initializes the collider of the game object by taking the sprite's width and height */
+void GameObject::initializeCollider()
+{
+	if (!m_sprite) return;
+
+	// Get the sprite's width and height
+	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
+	float spriteHeight = static_cast<float>(m_sprite->GetWidth());
+
+	// Compute the initial bmin and bmax based on position and scale
+	float halfWidth = (spriteWidth * scale) / 2.0f;
+	float halfHeight = (spriteHeight * scale) / 2.0f;
+
+	collider.bmin[0] = position.x - halfWidth;
+	collider.bmin[1] = position.y - halfHeight;
+	collider.bmax[0] = position.x + halfWidth;
+	collider.bmax[1] = position.y + halfHeight;
+}
+
+/** Updates the collider with the game object's position, scale and rotation. */
+void GameObject::updateCollider()
+{
+	if (!m_sprite) return;
+
+	// Get the sprite's width and height
+	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
+	float spriteHeight = static_cast<float>(m_sprite->GetWidth());
+
+	// Compute the half extents
+	float halfWidth = (spriteWidth * scale) / 2.0f;
+	float halfHeight = (spriteHeight * scale) / 2.0f;
+
+	collider.bmin[0] = position.x - halfWidth;
+	collider.bmin[1] = position.y - halfHeight;
+	collider.bmax[0] = position.x + halfWidth;
+	collider.bmax[1] = position.y + halfHeight;
+
+	// TODO: perform rotations
+}
+
 /**
- * Constraints the game object within the boundaries of the screen by seamlessly "wrapping" around
- * the object.
+ * Constraints the game object clamping it around the screen.
  */
 void GameObject::keepInView()
 {

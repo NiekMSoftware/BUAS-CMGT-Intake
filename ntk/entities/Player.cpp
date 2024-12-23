@@ -67,7 +67,7 @@ void Player::onCollision(const CollisionEvent& event)
 {
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
-		std::println("Collided with asteroid!");
+		//std::println("Collided with asteroid!");
 	}
 }
 

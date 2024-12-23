@@ -30,13 +30,14 @@ void Asteroid::update()
 		position += velocity * (direction * Time::deltaTime);
 		keepInView();
 		rotate(rotSpeed * Time::deltaTime);
+		updateCollider();
 	}
 }
 
 void Asteroid::onCollision(const CollisionEvent& event)
 {
-	if (event.other->getName().find("player") != std::string::npos)
+	if (event.other->getName().find("Projectile") != std::string::npos)
 	{
-		std::println("Collided with player!");
+		std::println("AHH it hurts!!");
 	}
 }
