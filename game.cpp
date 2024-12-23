@@ -21,6 +21,8 @@ void Game::Init()
 	// Initialize asteroid pool with a max of 4 big asteroids
 	asteroidPool = new AsteroidPool(maxLargeAsteroids);
 	spawnInitialAsteroids();
+
+    CollisionSystem::instance().initialize();
 }
 
 // -----------------------------------------------------------
@@ -29,6 +31,7 @@ void Game::Init()
 void Game::Tick()
 {
 	GameWorld::instance().update();
+    CollisionSystem::instance().update();
     debugAsteroidSplitting();
 }
 

@@ -4,9 +4,12 @@ class Player : public GameObject
 {
 public:
 	void initialize() override;
+	~Player() override;
 
 	void update() override;
 	void fixedUpdate() override;
+
+	void onCollision(const CollisionEvent& event) override;
 
 private:
 	void applySpaceBraking(float brakeForce);

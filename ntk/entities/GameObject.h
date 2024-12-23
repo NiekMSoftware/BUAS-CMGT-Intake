@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+struct CollisionEvent;
+
 class GameObject
 {
 public:
@@ -10,6 +12,8 @@ public:
 	virtual void update();
 	virtual void fixedUpdate();
 	virtual void render(Surface* screen);
+
+	virtual void onCollision(const CollisionEvent&) { }
 
 	// getters
 	float2 getPosition() const;

@@ -20,6 +20,18 @@ void GameObject::update()
 		position.x += velocity.x * Time::deltaTime;
 		position.y += velocity.y * Time::deltaTime;
 	}
+
+	// Update collider position based on sprite dimensions
+	if (m_sprite)
+	{
+		float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f * scale;
+		float halfHeight = static_cast<float>(m_sprite->GetHeight()) * 0.5f * scale;
+
+		collider.bmin[0] = position.x - halfWidth;
+		collider.bmin[1] = position.y - halfHeight;
+		collider.bmax[0] = position.x + halfWidth;
+		collider.bmax[1] = position.y + halfHeight;
+	}
 }
 
 void GameObject::fixedUpdate()

@@ -25,6 +25,17 @@ void Player::initialize()
 	timeSinceLastShot = 0.0f;
 
 	name = "Player";
+
+	CollisionSystem::instance().registerObject(this,
+		[this](const CollisionEvent& event)
+		{
+			this->onCollision(event);
+		});
+}
+
+Player::~Player()
+{
+	CollisionSystem::instance().unregisterObject(this);
 }
 
 void Player::update()
@@ -50,6 +61,14 @@ void Player::fixedUpdate()
 	// only apply drag if no input is given
 	if (thrustInput == 0.f)
 		applySpaceBraking(50.f);
+}
+
+void Player::onCollision(const CollisionEvent& event)
+{
+	if (event.other->getName().find("asteroid") != std::string::npos)
+	{
+		std::println("Collided with asteroid!");
+	}
 }
 
 /**
