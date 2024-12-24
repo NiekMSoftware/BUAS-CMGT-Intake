@@ -147,6 +147,7 @@ using namespace Tmpl8;
 #include "Label.h"
 
 // ntk - entity management
+#include "GameManager.h"
 #include "CollisionSystem.h"
 #include "GameWorld.h"
 #include "AsteroidPool.h"

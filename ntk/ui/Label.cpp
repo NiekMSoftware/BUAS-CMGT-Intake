@@ -11,7 +11,7 @@ Label::Label(const std::string& t, const float2& pos, uint c)
 	: text(t), color(c)
 {
 	setPosition(pos);
-	setScale(2.f);
+	setScale(1.1f);
 }
 
 void Label::initialize()

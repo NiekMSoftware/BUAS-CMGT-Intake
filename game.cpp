@@ -16,19 +16,20 @@ Label* lifeLabel;
 // -----------------------------------------------------------
 void Game::Init()
 {
-    score = 0;
 
     // load game world
 	GameWorld::instance().initialize();
 
     // load objects
 	player = new Player();
-    scoreLabel = new Label(std::format("Score: {}", score), float2(700, 10), 0xFFFFFF);
+    scoreLabel = new Label(std::format("Score: {}", GameManager::instance().getScore()), float2(700, 10), 0xFFFFFF);
     lifeLabel = new Label("Lives: {}", float2(10, 10), 0xFFFFFF);
 
 	GameWorld::instance().addObject(player);
     GameWorld::instance().addObject(scoreLabel);
     GameWorld::instance().addObject(lifeLabel);
+
+    GameManager::instance().setScoreLabel(scoreLabel);
 
 	// Initialize asteroid pool with a max of 4 big asteroids
 	asteroidPool = new AsteroidPool(MAX_LARGE_ASTEROIDS);
@@ -70,6 +71,7 @@ void Game::Render()
 void Game::Shutdown()
 {
 	GameWorld::instance().clean();
+    GameManager::instance().clean();
 
 	delete asteroidPool;
 }

@@ -42,7 +42,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 	static std::vector<std::pair<AsteroidSize, AsteroidConfig>> configs{
 		{
 			AsteroidSize::Large, {
-				.score = 100,
+				.score = 20,
 				.speed = 50.f,
 				.rotSpeed = 25.f,
 				.size = 3.f,
@@ -60,7 +60,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 		},
 		{
 			AsteroidSize::Small, {
-				.score = 10,
+				.score = 100,
 				.speed = 200.f,
 				.rotSpeed = 100.f,
 				.size = 0.75f,
@@ -166,11 +166,10 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		if (std::abs(config.second.size - scale) < 0.1f)
 		{
 			currentSize = config.first;
+			GameManager::instance().addScore(config.second.score);
 			break;
 		}
 	}
-
-	// TODO: Add score
 
 	if (currentSize != AsteroidSize::Small)
 	{

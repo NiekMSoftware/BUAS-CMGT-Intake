@@ -31,21 +31,5 @@ namespace Tmpl8
 
 	private:
 		const int MAX_LARGE_ASTEROIDS = 12;
-
-		// game tracking
-		int score = 0;
-	};
-
-	// TODO: Change this to an actual class itself
-	class GameManager
-	{
-	public:
-		static GameManager instance() { static GameManager s; return s; }
-
-		void addScore(const int v) { score += v; }
-		int getScore() const { return score; }
-
-	private:
-		int score = 0;
 	};
 } // namespace Tmpl8
