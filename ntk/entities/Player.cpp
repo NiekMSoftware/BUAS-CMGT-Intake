@@ -1,6 +1,8 @@
 ﻿#include "precomp.h"
 #include "Player.h"
 
+#include <algorithm>
+
 void Player::initialize()
 {
 	// set a unique sprite to the player
@@ -15,7 +17,7 @@ void Player::initialize()
 	thrustInput = 0.f;
 	angle = 0.f;
 
-	// initialize speeds
+	// initialize speed attributes
 	speedMod = 2.4f;
 	rotationMod = 1.2f;
 
@@ -25,14 +27,17 @@ void Player::initialize()
 
 	timeSinceLastShot = 0.0f;
 
+	// register object
 	name = "Player";
-
 	CollisionSystem::instance().registerObject(this,
 		[this](const CollisionEvent& event)
 		{
-			m_collision = false;
 			this->onCollision(event);
 		});
+
+	// initialize health attributes
+	lives = 3;
+	maxLives = 5;
 }
 
 Player::~Player()
@@ -55,6 +60,12 @@ void Player::update()
 		fireProjectile();
 		timeSinceLastShot = 0.0f;
 	}
+
+	// immunity logic
+	if (collisionTimer > 0.0f)
+	{
+		collisionTimer -= Time::deltaTime;
+	}
 }
 
 void Player::fixedUpdate()
@@ -68,11 +79,26 @@ void Player::fixedUpdate()
 
 void Player::onCollision(const CollisionEvent& event)
 {
-	if (m_collision) return;
+	if (isImmune()) return;
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
-		m_collision = true;
+		collisionTimer = immunity;
+		removeLife(1);
 	}
+}
+
+void Player::addLife(const int add)
+{
+	lives += add;
+	lives = std::min(lives, maxLives);
+	GameManager::instance().updateLivesDisplay(lives);
+}
+
+void Player::removeLife(const int sub)
+{
+	lives -= sub;
+	lives = std::max(lives, 0);
+	GameManager::instance().updateLivesDisplay(lives);
 }
 
 /**

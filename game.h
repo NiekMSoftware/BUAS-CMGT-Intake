@@ -11,15 +11,19 @@ namespace Tmpl8
 	public:
 		// game flow methods
 		void Init();
+
 		void Tick();
 		void FixedTick();
 		void Render();
+
 		void Shutdown();
+
 		// input handling
 		void MouseUp( int ) { /* implement if you want to detect mouse button presses */ }
 		void MouseDown( int ) { /* implement if you want to detect mouse button presses */ }
 		void MouseMove( int x, int y ) { mousePos.x = x, mousePos.y = y; }
 		void MouseWheel( float ) { /* implement if you want to handle the mouse wheel */ }
+
 		void KeyUp( int ) { /* implement if you want to handle keys */ }
 		void KeyDown( int ) { /* implement if you want to handle keys */ }
 
@@ -31,5 +35,11 @@ namespace Tmpl8
 
 	private:
 		const int MAX_LARGE_ASTEROIDS = 12;
+
+		Player* player = nullptr;
+		AsteroidPool* asteroidPool = nullptr;
+
+		Label* scoreLabel = nullptr;
+		Label* lifeLabel = nullptr;
 	};
 } // namespace Tmpl8

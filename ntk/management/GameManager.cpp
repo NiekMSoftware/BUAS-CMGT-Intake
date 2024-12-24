@@ -16,8 +16,10 @@ void GameManager::clean()
 {
 	scoreLabel = nullptr;
 	delete scoreLabel;
-}
 
+	livesLabel = nullptr;
+	delete livesLabel;
+}
 
 void GameManager::addScore(const int v)
 {
@@ -27,5 +29,13 @@ void GameManager::addScore(const int v)
 	if (scoreLabel)
 	{
 		scoreLabel->setText(std::format("Score: {}", score));
+	}
+}
+
+void GameManager::updateLivesDisplay(int currentLives)
+{
+	if (livesLabel)
+	{
+		livesLabel->setText(std::format("Lives: {}", currentLives));
 	}
 }
