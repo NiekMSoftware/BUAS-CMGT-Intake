@@ -2,6 +2,14 @@
 
 class Player;
 
+enum class GameState
+{
+	InMenu,
+	Playing,
+	Paused,
+	GameOver
+};
+
 class GameManager
 {
 public:
@@ -15,9 +23,17 @@ public:
 
 	void setLivesLabel(Label* label) { livesLabel = label; }
 	void updateLivesDisplay(int currentLives);
+
+	void setCurrentState(GameState newState) { currentState = newState; }
+	GameState getCurrentState() const { return currentState; }
+
 private:
 	int score = 0;
-	Label* scoreLabel = nullptr;
 
+	// Ui components
+	Label* scoreLabel = nullptr;
 	Label* livesLabel = nullptr;
+
+	// state management
+	GameState currentState = GameState::Playing;
 };

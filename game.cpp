@@ -10,7 +10,6 @@
 // -----------------------------------------------------------
 void Game::Init()
 {
-
     // load game world
     GameWorld::instance().initialize();
     GameManager::instance().instantiate();

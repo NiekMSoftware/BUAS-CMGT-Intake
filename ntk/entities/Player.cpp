@@ -20,11 +20,11 @@ void Player::initialize()
 	// initialize speed attributes
 	speedMod = 2.4f;
 	rotationMod = 1.2f;
-
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
 
+	// timing initialization
 	timeSinceLastShot = 0.0f;
 
 	// register object
@@ -47,11 +47,11 @@ Player::~Player()
 
 void Player::update()
 {
+	if (GameManager::instance().getCurrentState() == GameState::GameOver) return;
 	GameObject::update();
 
 	retrieveInput();
 	keepInView();
-	updateCollider();
 
 	// shooting logic
 	timeSinceLastShot += Time::deltaTime;
@@ -65,6 +65,12 @@ void Player::update()
 	if (collisionTimer > 0.0f)
 	{
 		collisionTimer -= Time::deltaTime;
+	}
+
+	// set the game to game over upon the player destruction
+	if (isDead())
+	{
+		GameManager::instance().setCurrentState(GameState::GameOver);
 	}
 }
 
@@ -87,6 +93,7 @@ void Player::onCollision(const CollisionEvent& event)
 	}
 }
 
+/** Add a life to the player. */
 void Player::addLife(const int add)
 {
 	lives += add;
@@ -94,6 +101,7 @@ void Player::addLife(const int add)
 	GameManager::instance().updateLivesDisplay(lives);
 }
 
+/** Remove a life from the player. */
 void Player::removeLife(const int sub)
 {
 	lives -= sub;
@@ -107,6 +115,7 @@ void Player::removeLife(const int sub)
  */
 void Player::applySpaceBraking(float brakeForce)
 {
+	// continuously apply a force to the velocity of the player until they are fully stopped
 	float currentSpeed = length(velocity);
 	if (currentSpeed > 0.f)
 	{
@@ -149,6 +158,7 @@ void Player::thrust()
 	}
 }
 
+/** Fire a projectile with the correct rotations and adds it to the game world. */
 void Player::fireProjectile() const
 {
 	// create or instantiate projectile
@@ -157,6 +167,5 @@ void Player::fireProjectile() const
 			std::sin(angle * (PI / 180.f)) * 30.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
-
 	GameWorld::instance().addObject(newProjectile);
 }
