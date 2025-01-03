@@ -1,15 +1,14 @@
 ﻿#pragma once
 
+enum AudioGroup
+{
+	Master,
+	Music,
+	Sfx
+};
+
 class AudioManager
 {
-public:
-	enum AudioGroup
-	{
-		Master,
-		Music,
-		Sfx
-	};
-
 public:
 	static AudioManager& instance()
 	{

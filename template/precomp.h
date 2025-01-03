@@ -136,8 +136,6 @@ using namespace Tmpl8;
 #include <al.h>
 #include <alc.h>
 
-#include "AudioManager.h"
-
 // GLFW
 #define GLFW_USE_CHDIR 0
 #define GLFW_EXPOSE_NATIVE_WIN32

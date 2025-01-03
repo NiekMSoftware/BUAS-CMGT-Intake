@@ -122,7 +122,6 @@
   <!-- END Custom section -->
   <ItemGroup>
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="ntk\management\AudioManager.cpp" />
     <ClCompile Include="ntk\management\GameManager.cpp" />
     <ClCompile Include="ntk\ui\Label.cpp" />
     <ClCompile Include="ntk\entities\Asteroid.cpp" />
@@ -154,7 +153,6 @@
   <ItemGroup>
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="ntk\management\AudioManager.h" />
     <ClInclude Include="ntk\management\GameManager.h" />
     <ClInclude Include="ntk\ui\Label.h" />
     <ClInclude Include="ntk\entities\Asteroid.h" />

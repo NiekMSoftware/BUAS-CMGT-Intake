@@ -335,7 +335,6 @@ void main()
 #endif
 #endif
 
-	if (!AudioManager::instance().initOpenAl()) throw std::runtime_error("Failed to initialize OpenAL");
 	const float FIXED_TIMESTEP = 1.0f / 60.0f;
 	static float accumulator = 0.0f;
 
@@ -383,7 +382,6 @@ void main()
 
 	// close down
 	app->Shutdown();
-	AudioManager::instance().shutdown();
 	Kernel::KillCL();
 	glfwDestroyWindow( window );
 	glfwTerminate();

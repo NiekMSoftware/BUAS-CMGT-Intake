@@ -99,7 +99,7 @@ void AudioManager::loadAudioFile(const std::string& filePath, const std::string&
 ALuint* AudioManager::retrieveAudioBuffer(const std::string& id)
 {
 	// search for the first element of the pair
-	auto it = ranges::find_if(m_audioCache,
+	const auto it = ranges::find_if(m_audioCache,
 	                          [&id](const std::pair<std::string, ALuint*>& p)
 	                          {
 		                          return p.first == id;
@@ -114,7 +114,7 @@ ALuint* AudioManager::retrieveAudioBuffer(const std::string& id)
 	return nullptr;
 }
 
-void AudioManager::setGroupVolume(AudioGroup group, float volume)
+void AudioManager::setGroupVolume(const AudioGroup group, const float volume)
 {
 	// if the group is master adjust all groups with it
 	if (group == Master)
@@ -149,7 +149,7 @@ float AudioManager::getGroupVolume(AudioGroup group) const
 	return m_audioGroups.at(group).second.volume;
 }
 
-void AudioManager::assignGroup(ALuint source, AudioGroup group)
+void AudioManager::assignGroup(const ALuint source, const AudioGroup group)
 {
 	// remove the source from any previous group it may have been in
 	for (auto& pair : m_audioGroups)
