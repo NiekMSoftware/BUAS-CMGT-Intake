@@ -271,6 +271,13 @@ void AsteroidPool::returnToPool(GameObject* asteroid)
 			break;
 		}
 	}
+
+	WaveSystem::instance().onAsteroidDestroyed();
+}
+
+bool AsteroidPool::hasActiveAsteroids() const
+{
+	return !activeAsteroids.empty();
 }
 
 float2 AsteroidPool::calculateSplitPosition(const float2& originalPos, float angle, float offset)

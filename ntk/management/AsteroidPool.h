@@ -32,6 +32,8 @@ public:
 	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
 	void returnToPool(GameObject* asteroid);
 
+	bool hasActiveAsteroids() const;
+
 	float2 calculateSplitPosition(const float2& originalPos, float angle, float offset);
 
 private:

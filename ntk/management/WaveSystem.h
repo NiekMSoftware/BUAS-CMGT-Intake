@@ -4,13 +4,17 @@ struct WaveConfig
 {
 	int numLargeAsteroids;  //< Number of large asteroids in this wave
 	float speedMultiplier;  //< Multiplier for asteroid base speeds
-	float specialChange;  //< Chance of special asteroid patterns
+	float specialChance;  //< Chance of special asteroid patterns
 };
 
 class WaveSystem
 {
 public:
-	static WaveSystem& instance();
+	static WaveSystem& instance()
+	{
+		static WaveSystem s;
+		return s;
+	}
 
 	void initialize(AsteroidPool* asteroidPool);
 	void startWave();

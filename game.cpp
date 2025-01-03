@@ -48,11 +48,13 @@ void Game::Init()
     GameManager::instance().setLivesLabel(lifeLabel);
     GameManager::instance().updateLivesDisplay(player->getLives());
 
-    // Initialize asteroid pool with a max of 4 big asteroids
+    // Initialize wave system
     asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
-    spawnInitialAsteroids();
+    WaveSystem::instance().initialize(asteroidPool);
+    WaveSystem::instance().startWave();
 
     CollisionSystem::instance().initialize();
+    WaveSystem::instance().spawnWaveAsteroid();
 }
 
 // -----------------------------------------------------------
