@@ -47,14 +47,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>ntk\ui;ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\OpenAL\inc;lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ntk\ui;ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;lib</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;OpenAL32.lib;libz-static.lib</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;Audio.lib;libz-static.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <OutputFile>$(TargetPath)</OutputFile>
@@ -64,7 +64,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>lib/glfw/lib-vc2022;lib/zlib;lib/OpenAL/lib;lib/OpenCL/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>lib/glfw/lib-vc2022;lib/zlib;lib\Audio\lib\Release;lib\Audio\lib\Debug;lib/OpenCL/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">

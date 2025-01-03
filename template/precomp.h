@@ -132,9 +132,14 @@ using namespace Tmpl8;
 #include "cl/cl.h"
 #include <cl/cl_gl.h>
 
-// OpenAL headers
-#include <al.h>
-#include <alc.h>
+// Audio Headers
+// see: https://github.com/jpvanoosten/Audio
+#include <Audio/Sound.hpp>
+#include <Audio/Device.hpp>
+#include <Audio/Config.hpp>
+#include <Audio/Listener.hpp>
+#include <Audio/Vector.hpp>
+#include <Audio/Waveform.hpp>
 
 // GLFW
 #define GLFW_USE_CHDIR 0
