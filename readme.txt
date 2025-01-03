@@ -7,3 +7,12 @@ The project is a simple `Asteroids` game, where you aim to survive as long as po
 * W, S, Up Arrow, Down Arrow - Thrust your spaceship up and down
 * A,D, Right Arrow, Left Arrow - Rotate your spaceship left and right
 * Spacebar - Fire a projectile
+
+## Credits
+jbikker - [Tmpl8](https://github.com/jbikker/tmpl8) developer
+jpvanoosten - [Audio](https://github.com/jpvanoosten/Audio) developer
+
+Niek Melet - engine tools developer 
+
+### External resources used
+[JSFXR](https://sfxr.me/)
