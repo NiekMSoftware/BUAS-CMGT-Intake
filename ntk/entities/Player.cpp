@@ -47,30 +47,26 @@ Player::~Player()
 
 void Player::update()
 {
-	if (GameManager::instance().getCurrentState() == GameState::GameOver) return;
-	GameObject::update();
-
-	retrieveInput();
-	keepInView();
-
-	// shooting logic
-	timeSinceLastShot += Time::deltaTime;
-	if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
+	if (!isDead())
 	{
-		fireProjectile();
-		timeSinceLastShot = 0.0f;
-	}
+		GameObject::update();
 
-	// immunity logic
-	if (collisionTimer > 0.0f)
-	{
-		collisionTimer -= Time::deltaTime;
-	}
+		retrieveInput();
+		keepInView();
 
-	// set the game to game over upon the player destruction
-	if (isDead())
-	{
-		GameManager::instance().setCurrentState(GameState::GameOver);
+		// shooting logic
+		timeSinceLastShot += Time::deltaTime;
+		if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
+		{
+			fireProjectile();
+			timeSinceLastShot = 0.0f;
+		}
+
+		// immunity logic
+		if (collisionTimer > 0.0f)
+		{
+			collisionTimer -= Time::deltaTime;
+		}
 	}
 }
 
@@ -89,6 +85,7 @@ void Player::onCollision(const CollisionEvent& event)
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
 		collisionTimer = immunity;
+		GameManager::instance().resetScoreMultiplier();
 		removeLife(1);
 	}
 }

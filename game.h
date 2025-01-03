@@ -40,6 +40,7 @@ namespace Tmpl8
 		AsteroidPool* asteroidPool = nullptr;
 
 		Label* scoreLabel = nullptr;
+		Label* scoreMultiplierLabel = nullptr;
 		Label* lifeLabel = nullptr;
 	};
 } // namespace Tmpl8

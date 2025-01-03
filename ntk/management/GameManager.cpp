@@ -1,6 +1,8 @@
 ﻿#include "precomp.h"
 #include "GameManager.h"
 
+#include <algorithm>
+
 GameManager& GameManager::instance()
 {
 	static GameManager s;
@@ -10,6 +12,7 @@ GameManager& GameManager::instance()
 void GameManager::instantiate()
 {
 	score = 0;
+	scoreMultiplier = 1.0f;
 }
 
 void GameManager::clean()
@@ -19,11 +22,14 @@ void GameManager::clean()
 
 	livesLabel = nullptr;
 	delete livesLabel;
+
+	scoreMultiplierLabel = nullptr;
+	delete scoreMultiplierLabel;
 }
 
 void GameManager::addScore(const int v)
 {
-	score += v;
+	score += static_cast<int>(static_cast<float>(v) * scoreMultiplier);
 
 	// update label
 	if (scoreLabel)
@@ -32,10 +38,32 @@ void GameManager::addScore(const int v)
 	}
 }
 
-void GameManager::updateLivesDisplay(int currentLives)
+void GameManager::incrementMultiplier()
+{
+	scoreMultiplier += 0.2f;
+	scoreMultiplier = std::min(scoreMultiplier, 5.0f);
+
+	updateScoreMultiplierDisplay(scoreMultiplier);
+}
+
+void GameManager::resetScoreMultiplier()
+{
+	scoreMultiplier = 1.0f;
+	updateScoreMultiplierDisplay(scoreMultiplier);
+}
+
+void GameManager::updateLivesDisplay(int currentLives) const
 {
 	if (livesLabel)
 	{
 		livesLabel->setText(std::format("Lives: {}", currentLives));
+	}
+}
+
+void GameManager::updateScoreMultiplierDisplay(float currentScoreMultiplier) const
+{
+	if (scoreMultiplierLabel)
+	{
+		scoreMultiplierLabel->setText(std::format("Multiplier: {:.1f}", currentScoreMultiplier));
 	}
 }

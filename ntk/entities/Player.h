@@ -13,7 +13,9 @@ public:
 
 	void addLife(int add);
 	void removeLife(int sub);
+
 	int getLives() const { return lives; }
+
 	bool isDead() const { return lives == 0; }
 
 private:

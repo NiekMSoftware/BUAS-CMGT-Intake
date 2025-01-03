@@ -16,20 +16,37 @@ void Game::Init()
 
     // load objects
     player = new Player();
-    scoreLabel = new Label(std::format("Score: {}", GameManager::instance().getScore()), float2(700, 10), 0xFFFFFF);
-    lifeLabel = new Label(std::format("Lives: {}", player->getLives()), float2(10, 10), 0xFFFFFF);
+
+    scoreLabel = new Label{
+    	std::format("Score: {}", GameManager::instance().getScore()),
+    	float2(700, 10),
+    	0xFFFFFF };
+
+	scoreMultiplierLabel = new Label{
+    	std::format("Multiplier: {:.1f}", GameManager::instance().getScoreMultiplier()),
+    	float2(700, 25),
+    	0xFFFFFF
+    };
+
+    lifeLabel = new Label{
+    	std::format("Lives: {}", player->getLives()),
+    	float2(10, 10),
+    	0xFFFFFF
+    };
 
     GameWorld::instance().addObject(player);
     GameWorld::instance().addObject(scoreLabel);
+    GameWorld::instance().addObject(scoreMultiplierLabel);
     GameWorld::instance().addObject(lifeLabel);
 
     // set the label references for the game manager
     GameManager::instance().setScoreLabel(scoreLabel);
+    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
     GameManager::instance().setLivesLabel(lifeLabel);
     GameManager::instance().updateLivesDisplay(player->getLives());
 
     // Initialize asteroid pool with a max of 4 big asteroids
-    asteroidPool = new AsteroidPool(MAX_LARGE_ASTEROIDS);
+    asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
     spawnInitialAsteroids();
 
     CollisionSystem::instance().initialize();

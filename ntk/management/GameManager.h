@@ -1,15 +1,5 @@
 ﻿#pragma once
 
-class Player;
-
-enum class GameState
-{
-	InMenu,
-	Playing,
-	Paused,
-	GameOver
-};
-
 class GameManager
 {
 public:
@@ -17,23 +7,27 @@ public:
 	void instantiate();
 	void clean();
 
+	// setting labels
 	void setScoreLabel(Label* label) { scoreLabel = label; }
+	void setScoreMultiplierLabel(Label* label) { scoreMultiplierLabel = label; }
+	void setLivesLabel(Label* label) { livesLabel = label; }
+
+	// scoring
 	void addScore(int v);
 	int getScore() const { return score; }
+	float getScoreMultiplier() const { return scoreMultiplier; }
+	void incrementMultiplier();
+	void resetScoreMultiplier();
 
-	void setLivesLabel(Label* label) { livesLabel = label; }
-	void updateLivesDisplay(int currentLives);
-
-	void setCurrentState(GameState newState) { currentState = newState; }
-	GameState getCurrentState() const { return currentState; }
+	void updateLivesDisplay(int currentLives) const;
+	void updateScoreMultiplierDisplay(float currentScoreMultiplier) const;
 
 private:
 	int score = 0;
+	float scoreMultiplier = 0.0f;
 
 	// Ui components
 	Label* scoreLabel = nullptr;
+	Label* scoreMultiplierLabel = nullptr;
 	Label* livesLabel = nullptr;
-
-	// state management
-	GameState currentState = GameState::Playing;
 };
