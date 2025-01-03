@@ -134,12 +134,15 @@ using namespace Tmpl8;
 
 // Audio Headers
 // see: https://github.com/jpvanoosten/Audio
+#include <Audio/miniaudio.h>
 #include <Audio/Sound.hpp>
 #include <Audio/Device.hpp>
 #include <Audio/Config.hpp>
 #include <Audio/Listener.hpp>
 #include <Audio/Vector.hpp>
 #include <Audio/Waveform.hpp>
+
+#include "AudioManager.h"
 
 // GLFW
 #define GLFW_USE_CHDIR 0

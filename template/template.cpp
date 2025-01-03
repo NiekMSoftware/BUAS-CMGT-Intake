@@ -335,6 +335,8 @@ void main()
 #endif
 #endif
 
+
+	AudioManager::instance().initialize();
 	const float FIXED_TIMESTEP = 1.0f / 60.0f;
 	static float accumulator = 0.0f;
 
@@ -382,6 +384,7 @@ void main()
 
 	// close down
 	app->Shutdown();
+	AudioManager::instance().shutdown();
 	Kernel::KillCL();
 	glfwDestroyWindow( window );
 	glfwTerminate();
