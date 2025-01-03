@@ -49,4 +49,8 @@ private:
 	// immunity frames until next collision with asteroid
 	float collisionTimer = 0.0f;
 	const float immunity = 1.0f;
+
+	Audio::Sound* fireSound = nullptr;
+	Audio::Sound* hitSound = nullptr;
+	Audio::Sound* explosionSound = nullptr;
 };

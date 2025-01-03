@@ -38,11 +38,23 @@ void Player::initialize()
 	// initialize health attributes
 	lives = 3;
 	maxLives = 5;
+
+	fireSound = new Audio::Sound{ "assets/audio/laserShoot.wav", Audio::Sound::Type::Sound };
+	hitSound = new Audio::Sound{ "assets/audio/player_hit.wav", Audio::Sound::Type::Sound };
+	explosionSound = new Audio::Sound{ "assets/audio/player_explosion.wav", Audio::Sound::Type::Sound };
+
+	fireSound->setVolume(0.5f);
+	hitSound->setVolume(0.5f);
+	explosionSound->setVolume(0.5f);
 }
 
 Player::~Player()
 {
 	CollisionSystem::instance().unregisterObject(this);
+
+	delete fireSound;
+	delete hitSound;
+	delete explosionSound;
 }
 
 void Player::update()
@@ -58,6 +70,7 @@ void Player::update()
 		timeSinceLastShot += Time::deltaTime;
 		if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
 		{
+			fireSound->replay();
 			fireProjectile();
 			timeSinceLastShot = 0.0f;
 		}
@@ -87,6 +100,11 @@ void Player::onCollision(const CollisionEvent& event)
 		collisionTimer = immunity;
 		GameManager::instance().score->reset();
 		removeLife(1);
+
+		if (lives != 0)
+			hitSound->replay();
+		else
+			explosionSound->play();
 	}
 }
 
