@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ntk\management\GameManager.cpp" />
+    <ClCompile Include="ntk\management\WaveSystem.cpp" />
     <ClCompile Include="ntk\ui\Label.cpp" />
     <ClCompile Include="ntk\entities\Asteroid.cpp" />
     <ClCompile Include="ntk\entities\Projectile.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="cl\tools.cl" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ntk\management\GameManager.h" />
+    <ClInclude Include="ntk\management\WaveSystem.h" />
     <ClInclude Include="ntk\ui\Label.h" />
     <ClInclude Include="ntk\entities\Asteroid.h" />
     <ClInclude Include="ntk\entities\Projectile.h" />

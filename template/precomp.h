@@ -160,6 +160,7 @@ using namespace Tmpl8;
 #include "CollisionSystem.h"
 #include "GameWorld.h"
 #include "AsteroidPool.h"
+#include "WaveSystem.h"
 
 // ntk - entities
 #include "Asteroid.h"
