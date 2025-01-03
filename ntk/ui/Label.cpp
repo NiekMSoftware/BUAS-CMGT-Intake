@@ -16,6 +16,7 @@ Label::Label(const std::string& t, const float2& pos, uint c)
 
 void Label::initialize()
 {
+	name = "Label";
 	setLayer(Layer::UserInterface);
 }
 

@@ -44,7 +44,7 @@ void Asteroid::onCollision(const CollisionEvent& event)
 	if (m_collision) return;
 	if (event.other->getName().find("Projectile") != std::string::npos)
 	{
-		GameManager::instance().incrementMultiplier();
+		GameManager::instance().score->incrementMultiplier();
 		m_collision = true;
 		asteroidPool->destroyAsteroid(this);
 	}

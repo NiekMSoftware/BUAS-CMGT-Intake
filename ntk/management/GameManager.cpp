@@ -1,7 +1,55 @@
 ﻿#include "precomp.h"
 #include "GameManager.h"
 
-#include <algorithm>
+// -----------------------------------------------------------
+// Score implementation
+// -----------------------------------------------------------
+
+Score::Score(Label* sL, Label* mL, const int initialScore, const float initialMultiplier)
+	: score(initialScore), scoreMultiplier(initialMultiplier), scoreLabel(sL), multiplierLabel(mL)
+{
+	updateScoreDisplay();
+	updateMultiplierDisplay();
+}
+
+void Score::reset()
+{
+	scoreMultiplier = 1.f;
+}
+
+void Score::addScore(const int v)
+{
+	score += static_cast<int>(static_cast<float>(v) * scoreMultiplier);
+	updateScoreDisplay();
+}
+
+void Score::incrementMultiplier()
+{
+	scoreMultiplier += 0.2f;
+	scoreMultiplier = std::min(scoreMultiplier, 5.0f);
+
+	updateMultiplierDisplay();
+}
+
+void Score::updateScoreDisplay()
+{
+	if (scoreLabel)
+	{
+		scoreLabel->setText(std::format("Score: {}", score));
+	}
+}
+
+void Score::updateMultiplierDisplay()
+{
+	if (multiplierLabel)
+	{
+		multiplierLabel->setText(std::format("Multiplier: {:.1f}", scoreMultiplier));
+	}
+}
+
+// -----------------------------------------------------------
+// Game Manager implementation
+// -----------------------------------------------------------
 
 GameManager& GameManager::instance()
 {
@@ -11,45 +59,15 @@ GameManager& GameManager::instance()
 
 void GameManager::instantiate()
 {
-	score = 0;
-	scoreMultiplier = 1.0f;
+	score = new Score{ scoreLabel, scoreMultiplierLabel };
 }
 
 void GameManager::clean()
 {
-	scoreLabel = nullptr;
 	delete scoreLabel;
-
-	livesLabel = nullptr;
-	delete livesLabel;
-
-	scoreMultiplierLabel = nullptr;
 	delete scoreMultiplierLabel;
-}
-
-void GameManager::addScore(const int v)
-{
-	score += static_cast<int>(static_cast<float>(v) * scoreMultiplier);
-
-	// update label
-	if (scoreLabel)
-	{
-		scoreLabel->setText(std::format("Score: {}", score));
-	}
-}
-
-void GameManager::incrementMultiplier()
-{
-	scoreMultiplier += 0.2f;
-	scoreMultiplier = std::min(scoreMultiplier, 5.0f);
-
-	updateScoreMultiplierDisplay(scoreMultiplier);
-}
-
-void GameManager::resetScoreMultiplier()
-{
-	scoreMultiplier = 1.0f;
-	updateScoreMultiplierDisplay(scoreMultiplier);
+	delete score;
+	delete livesLabel;
 }
 
 void GameManager::updateLivesDisplay(int currentLives) const

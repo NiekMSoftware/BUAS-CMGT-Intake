@@ -166,7 +166,7 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		if (std::abs(config.second.size - scale) < 0.1f)
 		{
 			currentSize = config.first;
-			GameManager::instance().addScore(config.second.score);
+			GameManager::instance().score->addScore(config.second.score);
 			break;
 		}
 	}

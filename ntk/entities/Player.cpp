@@ -85,7 +85,7 @@ void Player::onCollision(const CollisionEvent& event)
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
 		collisionTimer = immunity;
-		GameManager::instance().resetScoreMultiplier();
+		GameManager::instance().score->reset();
 		removeLife(1);
 	}
 }

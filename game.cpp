@@ -10,23 +10,28 @@
 // -----------------------------------------------------------
 void Game::Init()
 {
-    // load game world
-    GameWorld::instance().initialize();
+    // setup game manager
+    scoreLabel = new Label{
+        std::format("Score: {}", 0),
+        float2{700, 10},
+        0xFFFFFF
+    };
+
+    scoreMultiplierLabel = new Label{
+        std::format("Multiplier: {:.1f}", 1.0f),
+        float2{700, 25},
+        0xFFFFFF
+    };
+
+    GameManager::instance().setScoreLabel(scoreLabel);
+    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
     GameManager::instance().instantiate();
+
+    // setup game world
+    GameWorld::instance().initialize();
 
     // load objects
     player = new Player();
-
-    scoreLabel = new Label{
-    	std::format("Score: {}", GameManager::instance().getScore()),
-    	float2(700, 10),
-    	0xFFFFFF };
-
-	scoreMultiplierLabel = new Label{
-    	std::format("Multiplier: {:.1f}", GameManager::instance().getScoreMultiplier()),
-    	float2(700, 25),
-    	0xFFFFFF
-    };
 
     lifeLabel = new Label{
     	std::format("Lives: {}", player->getLives()),
@@ -39,9 +44,7 @@ void Game::Init()
     GameWorld::instance().addObject(scoreMultiplierLabel);
     GameWorld::instance().addObject(lifeLabel);
 
-    // set the label references for the game manager
-    GameManager::instance().setScoreLabel(scoreLabel);
-    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+    // set the life label
     GameManager::instance().setLivesLabel(lifeLabel);
     GameManager::instance().updateLivesDisplay(player->getLives());
 
@@ -84,8 +87,8 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
-	GameWorld::instance().clean();
     GameManager::instance().clean();
+	GameWorld::instance().clean();
 
 	delete asteroidPool;
 }

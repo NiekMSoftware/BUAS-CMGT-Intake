@@ -1,5 +1,27 @@
 ﻿#pragma once
 
+struct Score
+{
+	Score(Label* sL, Label* mL, int initialScore = 0, float initialMultiplier = 1.0f);
+
+	void reset();
+	void addScore(int v);
+	void incrementMultiplier();
+
+	int getCurrentScore() const { return score; }
+	float getCurrentMultiplier() const { return scoreMultiplier; }
+
+private:
+	void updateScoreDisplay();
+	void updateMultiplierDisplay();
+
+	int score;
+	float scoreMultiplier;
+
+	Label* scoreLabel;
+	Label* multiplierLabel;
+};
+
 class GameManager
 {
 public:
@@ -7,25 +29,17 @@ public:
 	void instantiate();
 	void clean();
 
-	// setting labels
+	// setting label
 	void setScoreLabel(Label* label) { scoreLabel = label; }
 	void setScoreMultiplierLabel(Label* label) { scoreMultiplierLabel = label; }
 	void setLivesLabel(Label* label) { livesLabel = label; }
 
-	// scoring
-	void addScore(int v);
-	int getScore() const { return score; }
-	float getScoreMultiplier() const { return scoreMultiplier; }
-	void incrementMultiplier();
-	void resetScoreMultiplier();
-
 	void updateLivesDisplay(int currentLives) const;
 	void updateScoreMultiplierDisplay(float currentScoreMultiplier) const;
 
-private:
-	int score = 0;
-	float scoreMultiplier = 0.0f;
+	Score* score;
 
+private:
 	// Ui components
 	Label* scoreLabel = nullptr;
 	Label* scoreMultiplierLabel = nullptr;
