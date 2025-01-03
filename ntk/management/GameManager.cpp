@@ -64,10 +64,7 @@ void GameManager::instantiate()
 
 void GameManager::clean()
 {
-	delete scoreLabel;
-	delete scoreMultiplierLabel;
 	delete score;
-	delete livesLabel;
 }
 
 void GameManager::updateLivesDisplay(int currentLives) const
