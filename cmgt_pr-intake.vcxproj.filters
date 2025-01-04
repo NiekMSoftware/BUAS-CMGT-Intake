@@ -41,26 +41,30 @@
     <ClCompile Include="ntk\entities\Asteroid.cpp">
       <Filter>ntk\entities</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\management\CollisionSystem.cpp">
-      <Filter>ntk\management</Filter>
-    </ClCompile>
-    <ClCompile Include="ntk\management\GameWorld.cpp">
-      <Filter>ntk\management\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ntk\management\ResourceHolder.cpp">
-      <Filter>ntk\management\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ntk\management\AsteroidPool.cpp">
-      <Filter>ntk\management\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ntk\management\GameManager.cpp">
-      <Filter>ntk\management</Filter>
-    </ClCompile>
     <ClCompile Include="ntk\ui\Label.cpp">
       <Filter>ntk\ui</Filter>
     </ClCompile>
-    <ClCompile Include="ntk\management\AudioManager.cpp" />
-    <ClCompile Include="ntk\management\WaveSystem.cpp" />
+    <ClCompile Include="ntk\management\CollisionSystem.cpp">
+      <Filter>ntk\management\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\GameManager.cpp">
+      <Filter>ntk\management\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\WaveSystem.cpp">
+      <Filter>ntk\management\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\AudioManager.cpp">
+      <Filter>ntk\management\resources\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\AsteroidPool.cpp">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\GameWorld.cpp">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ntk\management\ResourceHolder.cpp">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -109,26 +113,30 @@
     <ClInclude Include="ntk\entities\Asteroid.h">
       <Filter>ntk\entities</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\management\CollisionSystem.h">
-      <Filter>ntk\management</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\management\GameWorld.h">
-      <Filter>ntk\management\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\management\ResourceHolder.h">
-      <Filter>ntk\management\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\management\AsteroidPool.h">
-      <Filter>ntk\management\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="ntk\management\GameManager.h">
-      <Filter>ntk\management</Filter>
-    </ClInclude>
     <ClInclude Include="ntk\ui\Label.h">
       <Filter>ntk\ui</Filter>
     </ClInclude>
-    <ClInclude Include="ntk\management\AudioManager.h" />
-    <ClInclude Include="ntk\management\WaveSystem.h" />
+    <ClInclude Include="ntk\management\WaveSystem.h">
+      <Filter>ntk\management\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\CollisionSystem.h">
+      <Filter>ntk\management\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\GameManager.h">
+      <Filter>ntk\management\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\AudioManager.h">
+      <Filter>ntk\management\resources\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\AsteroidPool.h">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\GameWorld.h">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ntk\management\ResourceHolder.h">
+      <Filter>ntk\management\resources\game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template">
@@ -151,6 +159,15 @@
     </Filter>
     <Filter Include="ntk\ui">
       <UniqueIdentifier>{8ae269d7-2168-4445-b807-6bebc08b1cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\management\game">
+      <UniqueIdentifier>{d8d2e8dd-a226-4446-91d9-53c66f74dbde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\management\resources\audio">
+      <UniqueIdentifier>{726119db-b309-40e1-b047-4b21b1c14128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntk\management\resources\game">
+      <UniqueIdentifier>{0fd81554-944b-436f-8899-900c2110e722}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

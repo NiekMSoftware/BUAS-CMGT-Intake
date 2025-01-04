@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TargetName>$(ProjectName)_debug</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>ntk\ui;ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;lib</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -62,9 +62,9 @@
       </DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalLibraryDirectories>lib/glfw/lib-vc2022;lib/zlib;lib\Audio\lib\Release;lib\Audio\lib\Debug;lib/OpenCL/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>lib/glfw/lib-vc2022;lib/zlib;lib\Audio/lib/Debug;lib/OpenCL/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -85,6 +85,7 @@
     <Link>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lib\zlib;lib\OpenCL\lib;lib\GLFW\lib-vc2022;lib\Audio\lib\Debug;lib\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -117,7 +118,12 @@
       <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>ntk\ui;ntk\utility;ntk\entities;ntk\management;ntk;template;.;lib\glad;lib\glfw\include;lib\OpenCL\inc;lib\zlib;lib\Audio\inc;lib</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>lib\zlib;lib\OpenCL\lib;lib\GLFW\lib-vc2022;lib\Audio\lib\Release;lib\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;glfw3.lib;gdi32.lib;shell32.lib;OpenCL.lib;OpenGL32.lib;Audio.lib;libz-static.lib</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <!-- END Custom section -->
   <ItemGroup>

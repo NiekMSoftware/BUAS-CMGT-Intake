@@ -45,8 +45,8 @@ void GameObject::fixedUpdate()
 void GameObject::render(Surface* screen)
 {
 	// Calculate center-based coordinates of the sprite
-	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
-	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
+	const int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
+	const int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
 
 	// Only render if the sprite exists and is active
 	if (m_sprite && m_active)
@@ -63,7 +63,7 @@ void GameObject::renderCollider(Surface* target, uint color) const
 {
 	if (!m_sprite || !target) return;
 
-	// Draw the AABB (current visualization)
+	// draw the aabb collider
 	target->Box(
 		static_cast<int>(collider.bmin[0]),
 		static_cast<int>(collider.bmin[1]),
@@ -72,47 +72,7 @@ void GameObject::renderCollider(Surface* target, uint color) const
 		color
 	);
 
-	// Draw the actual rotated bounds
-	const float angleRad = angle * (PI / 180.0f);
-	const float cosA = cos(angleRad) * scale;
-	const float sinA = sin(angleRad) * scale;
-
-	// Calculate rotated corners
-	const float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f;
-	const float halfHeight = (float)m_sprite->GetHeight() * 0.5f;
-
-	float2 corners[4] = {
-		{-halfWidth, -halfHeight},  // Top-left
-		{ halfWidth, -halfHeight},  // Top-right
-		{ halfWidth,  halfHeight},  // Bottom-right
-		{-halfWidth,  halfHeight}   // Bottom-left
-	};
-
-	// Transform and draw the actual rotated box
-	for (int i = 0; i < 4; i++)
-	{
-		float2 current = corners[i];
-		float2 next = corners[(i + 1) % 4];
-
-		// Transform corners
-		float2 transformedCurrent = {
-			(current.x * cosA - current.y * sinA) + position.x,
-			(current.x * sinA + current.y * cosA) + position.y
-		};
-		float2 transformedNext = {
-			(next.x * cosA - next.y * sinA) + position.x,
-			(next.x * sinA + next.y * cosA) + position.y
-		};
-
-		// Draw the edge in a different color
-		target->Line(
-			transformedCurrent.x, transformedCurrent.y,
-			transformedNext.x, transformedNext.y,
-			0x00FF00  // Green for actual bounds
-		);
-	}
-
-	// Draw center point (as before)
+	// Draw center cross
 	const float centerX = (collider.bmin[0] + collider.bmax[0]) * 0.5f;
 	const float centerY = (collider.bmin[1] + collider.bmax[1]) * 0.5f;
 
@@ -120,12 +80,12 @@ void GameObject::renderCollider(Surface* target, uint color) const
 	target->Line(
 		centerX - crossSize, centerY,
 		centerX + crossSize, centerY,
-		0xFFFF00
+		0x00FF00
 	);
 	target->Line(
 		centerX, centerY - crossSize,
 		centerX, centerY + crossSize,
-		0xFFFF00
+		0x00FF00
 	);
 }
 
@@ -199,47 +159,16 @@ void GameObject::initializeCollider()
 void GameObject::updateCollider() {
 	if (!m_sprite) return;
 
-	// Cache sprite dimensions
-	const float spriteWidth = static_cast<float>(m_sprite->GetWidth());
-	const float spriteHeight = static_cast<float>(m_sprite->GetHeight());
+	const float width = static_cast<float>(m_sprite->GetWidth()) * scale;
+	const float height = static_cast<float>(m_sprite->GetHeight()) * scale;
 
-	// Convert angle to radians and pre-calculate our transformation values
-	const float angleRad = angle * (PI / 180.0f);
-	const float cosA = cos(angleRad) * scale;  // Combine rotation and scale
-	const float sinA = sin(angleRad) * scale;
+	const float size = std::max(width, height);
+	const float halfSize = size * 0.5f;
 
-	// Define our corners in local space relative to sprite center
-	const float localX[4] = { -0.5f * spriteWidth,  0.5f * spriteWidth, -0.5f * spriteWidth,  0.5f * spriteWidth };
-	const float localY[4] = { -0.5f * spriteHeight, -0.5f * spriteHeight, 0.5f * spriteHeight, 0.5f * spriteHeight };
-
-	// Initialize bounds to the first transformed point
-	float transformedX = localX[0] * cosA - localY[0] * sinA + position.x;
-	float transformedY = localX[0] * sinA + localY[0] * cosA + position.y;
-
-	float minX = transformedX;
-	float minY = transformedY;
-	float maxX = transformedX;
-	float maxY = transformedY;
-
-	// Transform remaining corners and update bounds
-	// Starting from 1 since we already processed corner 0
-	for (int i = 1; i < 4; ++i) {
-		// Apply rotation and scale transformation, then translate
-		transformedX = localX[i] * cosA - localY[i] * sinA + position.x;
-		transformedY = localX[i] * sinA + localY[i] * cosA + position.y;
-
-		// Update bounds
-		minX = std::min(minX, transformedX);
-		minY = std::min(minY, transformedY);
-		maxX = std::max(maxX, transformedX);
-		maxY = std::max(maxY, transformedY);
-	}
-
-	// Update the collider with our calculated bounds
-	collider.bmin[0] = minX;
-	collider.bmin[1] = minY;
-	collider.bmax[0] = maxX;
-	collider.bmax[1] = maxY;
+	collider.bmin[0] = position.x - halfSize;
+	collider.bmin[1] = position.y - halfSize;
+	collider.bmax[0] = position.x + halfSize;
+	collider.bmax[1] = position.y + halfSize;
 }
 
 /**

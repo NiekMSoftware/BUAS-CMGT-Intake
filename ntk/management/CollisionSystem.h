@@ -31,7 +31,6 @@ public:
 private:
 	void checkCollision(GameObject* a, const CollisionCallback& cb1, GameObject* b, const CollisionCallback& cb2);
 	bool checkAABB(const aabb& a, const aabb& b);
-
 	float2 calculateContactPoint(const aabb& a, const aabb& b) const;
 	float2 calculateCollisionNormal(const aabb& a, const aabb& b) const;
 
