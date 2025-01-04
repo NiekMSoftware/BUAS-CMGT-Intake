@@ -45,7 +45,7 @@ void GameObject::fixedUpdate()
 void GameObject::render(Surface* screen)
 {
 	// Calculate center-based coordinates of the sprite
-	float factor = 0.5f * scale;
+	const float factor = 0.5f * scale;
 	const float2 spriteSize{
 		static_cast<float>(m_sprite->GetWidth()) * factor,
 		static_cast<float>(m_sprite->GetHeight()) * factor
