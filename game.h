@@ -31,9 +31,10 @@ namespace Tmpl8
 		int2 mousePos;
 
 	private:
-		void spawnInitialAsteroids();
+		void setupGameManager();
+		void initWorld();
+		void initWaves();
 
-	private:
 		const int MAX_LARGE_ASTEROIDS = 12;
 
 		Player* player = nullptr;
