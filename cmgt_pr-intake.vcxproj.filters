@@ -59,6 +59,8 @@
     <ClCompile Include="ntk\ui\Label.cpp">
       <Filter>ntk\ui</Filter>
     </ClCompile>
+    <ClCompile Include="ntk\management\AudioManager.cpp" />
+    <ClCompile Include="ntk\management\WaveSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -125,6 +127,8 @@
     <ClInclude Include="ntk\ui\Label.h">
       <Filter>ntk\ui</Filter>
     </ClInclude>
+    <ClInclude Include="ntk\management\AudioManager.h" />
+    <ClInclude Include="ntk\management\WaveSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template">

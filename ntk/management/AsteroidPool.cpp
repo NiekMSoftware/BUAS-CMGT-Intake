@@ -241,12 +241,6 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 			float randomRotation = Random::getRandomFloat(-PI, PI);
 
 			newAsteroid->setRotation(randomRotation);
-
-#if _DEBUG
-			OutputDebugString(std::format(
-				"[DEBUG] Split asteroid at ({}, {}) with velocity ({}, {})\n",
-				newPos.x, newPos.y, newVel.x, newVel.y).c_str());
-#endif
 		}
 	}
 }

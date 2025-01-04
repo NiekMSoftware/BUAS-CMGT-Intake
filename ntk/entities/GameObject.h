@@ -13,6 +13,7 @@ public:
 	virtual void update();
 	virtual void fixedUpdate();
 	virtual void render(Surface* screen);
+	void renderCollider(Surface* target, uint color = 0xFF0000) const;
 
 	virtual void onCollision(const CollisionEvent&);
 
