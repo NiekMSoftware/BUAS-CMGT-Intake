@@ -45,13 +45,22 @@ void GameObject::fixedUpdate()
 void GameObject::render(Surface* screen)
 {
 	// Calculate center-based coordinates of the sprite
-	const int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
-	const int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
+	float factor = 0.5f * scale;
+	const float2 spriteSize{
+		static_cast<float>(m_sprite->GetWidth()) * factor,
+		static_cast<float>(m_sprite->GetHeight()) * factor
+	};
+
+	// calculate center
+	const float2 center{
+		position.x - spriteSize.x,
+		position.y - spriteSize.y
+	};
 
 	// Only render if the sprite exists and is active
 	if (m_sprite && m_active)
 	{
-		m_sprite->Draw(screen, centerX, centerY, scale, angle);
+		m_sprite->Draw(screen, static_cast<int>(center.x), static_cast<int>(center.y), scale, angle);
 
 #if _DEBUG
 		renderCollider(screen);
@@ -151,10 +160,8 @@ void GameObject::initializeCollider()
 	collider.bmax[1] = position.y + halfHeight;
 }
 
-/** Updates the collider with the game object's position, scale and rotation. */
 /**
  * Updates the collider's AABB bounds based on the game object's transform state.
- * @note This function expects the sprite to be centered at its local origin (0,0)
  */
 void GameObject::updateCollider() {
 	if (!m_sprite) return;
