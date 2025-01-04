@@ -15,7 +15,7 @@ WaveConfig WaveSystem::generateWaveConfig() const
 
 	// Scale difficulty based on wave number
 	config.numLargeAsteroids = 1 + (currentWave / 2);  // Add one large asteroid every 2 waves
-	config.speedMultiplier = 1.0f + (static_cast<float>(currentWave) * 0.1f);
+	config.speedMultiplier = (currentWave != 1) ? 1.0f + (static_cast<float>(currentWave) * 0.3f) : 1.0f;
 	config.specialChance = std::min(0.3f, static_cast<float>(currentWave) * 0.05f);
 
 	return config;

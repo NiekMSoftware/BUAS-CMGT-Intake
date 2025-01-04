@@ -14,7 +14,7 @@ struct AsteroidConfig
 	float rotSpeed;
 	float size;
 	Sprite* sprite;
-	Audio::Sound* sound;
+	std::string explosionSound;
 };
 
 class AsteroidPool

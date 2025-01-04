@@ -19,7 +19,7 @@ void Player::initialize()
 
 	// initialize speed attributes
 	speedMod = 2.4f;
-	rotationMod = 1.2f;
+	rotationMod = 1.6f;
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
