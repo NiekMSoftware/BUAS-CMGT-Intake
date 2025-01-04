@@ -5,59 +5,14 @@
 #include "precomp.h"
 #include "game.h"
 
-// TODO: Implement Asteroid explosion sound effect
-// TODO: Fix the bugs in the Wave System
-
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-    // setup game manager
-    scoreLabel = new Label{
-        std::format("Score: {}", 0),
-        float2{700, 10},
-        0xFFFFFF
-    };
-
-    scoreMultiplierLabel = new Label{
-        std::format("Multiplier: {:.1f}", 1.0f),
-        float2{700, 25},
-        0xFFFFFF
-    };
-
-    GameManager::instance().setScoreLabel(scoreLabel);
-    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
-    GameManager::instance().instantiate();
-
-    // setup game world
-    GameWorld::instance().initialize();
-
-    // load objects
-    player = new Player();
-
-    lifeLabel = new Label{
-    	std::format("Lives: {}", player->getLives()),
-    	float2(10, 10),
-    	0xFFFFFF
-    };
-
-    GameWorld::instance().addObject(player);
-    GameWorld::instance().addObject(scoreLabel);
-    GameWorld::instance().addObject(scoreMultiplierLabel);
-    GameWorld::instance().addObject(lifeLabel);
-
-    // set the life label
-    GameManager::instance().setLivesLabel(lifeLabel);
-    GameManager::instance().updateLivesDisplay(player->getLives());
-
-    // Initialize wave system
-    asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
-    WaveSystem::instance().initialize(asteroidPool);
-    WaveSystem::instance().startWave();
-
-    CollisionSystem::instance().initialize();
-    WaveSystem::instance().spawnWaveAsteroid();
+    setupGameManager();
+    initWorld();
+    initWaves();
 }
 
 // -----------------------------------------------------------
@@ -98,72 +53,54 @@ void Game::Shutdown()
 	delete asteroidPool;
 }
 
-// -----------------------------------------------------------
-// Main application asteroid spawner - Executed at the start of the game.
-// -----------------------------------------------------------
-void Game::spawnInitialAsteroids()
+void Game::setupGameManager()
 {
-    const float minDistToPlayer = 150.0f;
-    const float minDistBetweenAsteroids = 100.0f;
-    const int numAsteroids = 2;
-    const int maxAttempts = 10;
+    scoreLabel = new Label{
+        std::format("Score: {}", 0),
+        float2{700, 10},
+        0xFFFFFF
+    };
 
-    // Get player position
-    float2 playerPos = player->getPosition();
+    scoreMultiplierLabel = new Label{
+        std::format("Multiplier: {:.1f}", 1.0f),
+        float2{700, 25},
+        0xFFFFFF
+    };
 
-    // Keep track of successfully spawned asteroid positions
-    std::vector<float2> spawnedPositions;
+    GameManager::instance().setScoreLabel(scoreLabel);
+    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+    GameManager::instance().instantiate();
+}
 
-    // Spawn our asteroids
-    for (int i = 0; i < numAsteroids; i++)
-    {
-        bool validPosition = false;
-        int attempts = 0;
-        float2 spawnPos;
+void Game::initWorld()
+{
+    GameWorld::instance().initialize();
 
-        // Keep trying until we find a valid position or run out of attempts
-        while (!validPosition && attempts < maxAttempts)
-        {
-            // Get a candidate position
-            spawnPos = Random::getRandomPositionAwayFrom(
-                playerPos,
-                minDistToPlayer,
-                static_cast<float>(screen->width),
-                static_cast<float>(screen->height)
-            );
+    // load objects
+    player = new Player();
 
-            // Assume position is valid until proven otherwise
-            validPosition = true;
+    lifeLabel = new Label{
+        std::format("Lives: {}", player->getLives()),
+        float2(10, 10),
+        0xFFFFFF
+    };
 
-            // Check against all previously spawned asteroids
-            for (const float2& existingPos : spawnedPositions)
-            {
-                float distance = length(spawnPos - existingPos);
-                if (distance < minDistBetweenAsteroids)
-                {
-                    validPosition = false;
-                    break;
-                }
-            }
+    GameWorld::instance().addObject(player);
+    GameWorld::instance().addObject(scoreLabel);
+    GameWorld::instance().addObject(scoreMultiplierLabel);
+    GameWorld::instance().addObject(lifeLabel);
 
-            attempts++;
-        }
+    // set the life label
+    GameManager::instance().setLivesLabel(lifeLabel);
+    GameManager::instance().updateLivesDisplay(player->getLives());
+}
 
-        // If we found a valid position, spawn the asteroid
-        if (validPosition)
-        {
-            GameObject* asteroid = asteroidPool->spawnAsteroid(AsteroidSize::Large, spawnPos);
-            if (!asteroid)
-            {
-                std::cerr << "failed to spawn asteroid\n";
-                continue;
-            }
+void Game::initWaves()
+{
+    asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
+    WaveSystem::instance().initialize(asteroidPool);
+    WaveSystem::instance().startWave();
 
-            spawnedPositions.push_back(spawnPos);
-        }
-        else
-        {
-            std::cerr << "Could not find valid spawn position for asteroid " << i << "\n";
-        }
-    }
+    CollisionSystem::instance().initialize();
+    WaveSystem::instance().spawnAsteroidWave();
 }

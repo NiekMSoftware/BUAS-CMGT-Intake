@@ -19,7 +19,7 @@ void Player::initialize()
 
 	// initialize speed attributes
 	speedMod = 2.4f;
-	rotationMod = 1.2f;
+	rotationMod = 1.6f;
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
@@ -98,7 +98,8 @@ void Player::onCollision(const CollisionEvent& event)
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
 		collisionTimer = immunity;
-		GameManager::instance().score->reset();
+		GameManager::instance().score->resetMultiplier();
+		GameManager::instance().updateScoreMultiplierDisplay(GameManager::instance().score->getCurrentMultiplier());
 		removeLife(1);
 
 		if (lives != 0)

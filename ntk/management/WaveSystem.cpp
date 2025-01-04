@@ -14,8 +14,8 @@ WaveConfig WaveSystem::generateWaveConfig() const
 	WaveConfig config;
 
 	// Scale difficulty based on wave number
-	config.numLargeAsteroids = 2 + (currentWave / 2);  // Add one large asteroid every 2 waves
-	config.speedMultiplier = 1.0f + (static_cast<float>(currentWave) * 0.1f);
+	config.numLargeAsteroids = 1 + (currentWave / 2);  // Add one large asteroid every 2 waves
+	config.speedMultiplier = (currentWave != 1) ? 1.0f + (static_cast<float>(currentWave) * 0.3f) : 1.0f;
 	config.specialChance = std::min(0.3f, static_cast<float>(currentWave) * 0.05f);
 
 	return config;
@@ -40,45 +40,54 @@ void WaveSystem::startWave()
 	waveActive = true;
 }
 
-void WaveSystem::spawnWaveAsteroid()
+void WaveSystem::spawnAsteroidWave() const
 {
 	if (remainingAsteroids <= 0) return;
 
-	// Generate a position within the screen
-	float2 position = generateRandomPosition();
-
-	// Determine if this should be a special pattern spawn
-	if (Random::getRandomFloat(0.0f, 1.0f) < currentWaveConfig.specialChance)
+	for (int i = 0; i < remainingAsteroids; ++i)
 	{
-		// Create a cluster of asteroids, ensuring they stay within screen bounds
-		for (int i = 0; i < 3; i++)
+		// Generate a position within the screen
+		float2 position = generateRandomPosition();
+
+		// Determine if this should be a special pattern spawn
+		if (Random::getRandomFloat(0.0f, 1.0f) < currentWaveConfig.specialChance)
 		{
-			float offsetX = Random::getRandomFloat(-25.f, 25.f);
-			float offsetY = Random::getRandomFloat(-25.f, 25.f);
+			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
+			{
+				float2 currentVel = asteroid->getVelocity();
+				asteroid->setVelocity(currentVel * currentWaveConfig.speedMultiplier);
+			}
 
-			float2 offsetPos{
-				std::clamp(position.x, offsetX, SCRWIDTH - 50.f),
-				std::clamp(position.y, offsetY, SCRHEIGHT - 50.f)
-			};
+			// Create a cluster of asteroids, ensuring they stay within screen bounds
+			for (int j = 0; j < 2; j++)
+			{
+				float offsetX = Random::getRandomFloat(-25.f, 25.f);
+				float offsetY = Random::getRandomFloat(-25.f, 25.f);
 
-			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, offsetPos))
+				float2 offsetPos{
+					std::clamp(position.x, offsetX, SCRWIDTH - 50.f),
+					std::clamp(position.y, offsetY, SCRHEIGHT - 50.f)
+				};
+
+				if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Medium, offsetPos))
+				{
+					float2 currentVel = asteroid->getVelocity();
+					asteroid->setVelocity(currentVel * currentWaveConfig.speedMultiplier);
+				}
+			}
+		}
+		else
+		{
+			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
 			{
 				float2 currentVel = asteroid->getVelocity();
 				asteroid->setVelocity(currentVel * currentWaveConfig.speedMultiplier);
 			}
 		}
 	}
-	else
-	{
-		if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
-		{
-			float2 currentVel = asteroid->getVelocity();
-			asteroid->setVelocity(currentVel * currentWaveConfig.speedMultiplier);
-		}
-	}
 }
 
-void WaveSystem::onAsteroidDestroyed()
+void WaveSystem::onAsteroidReturned()
 {
 	remainingAsteroids--;
 
@@ -86,6 +95,6 @@ void WaveSystem::onAsteroidDestroyed()
 	{
 		waveActive = false;
 		startWave();
-		spawnWaveAsteroid();
+		spawnAsteroidWave();
 	}
 }

@@ -12,7 +12,7 @@ Score::Score(Label* sL, Label* mL, const int initialScore, const float initialMu
 	updateMultiplierDisplay();
 }
 
-void Score::reset()
+void Score::resetMultiplier()
 {
 	scoreMultiplier = 1.f;
 }
