@@ -4,7 +4,7 @@ struct Score
 {
 	Score(Label* sL, Label* mL, int initialScore = 0, float initialMultiplier = 1.0f);
 
-	void reset();
+	void resetMultiplier();
 	void addScore(int v);
 	void incrementMultiplier();
 

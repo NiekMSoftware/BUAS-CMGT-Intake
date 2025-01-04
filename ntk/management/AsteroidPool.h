@@ -29,9 +29,9 @@ public:
 	void initializePools(int maxLargeAsteroids);
 	GameObject* spawnAsteroid(AsteroidSize size, const float2& position);
 
-	void destroyAsteroid(GameObject* asteroid);
+	void handleAsteroid(GameObject* asteroid);
 	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
-	void returnToPool(GameObject* asteroid);
+	void returnAsteroidToPool(GameObject* asteroid);
 
 	bool hasActiveAsteroids() const;
 

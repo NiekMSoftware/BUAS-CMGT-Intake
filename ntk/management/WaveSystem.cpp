@@ -14,7 +14,7 @@ WaveConfig WaveSystem::generateWaveConfig() const
 	WaveConfig config;
 
 	// Scale difficulty based on wave number
-	config.numLargeAsteroids = 2 + (currentWave / 2);  // Add one large asteroid every 2 waves
+	config.numLargeAsteroids = 1 + (currentWave / 2);  // Add one large asteroid every 2 waves
 	config.speedMultiplier = 1.0f + (static_cast<float>(currentWave) * 0.1f);
 	config.specialChance = std::min(0.3f, static_cast<float>(currentWave) * 0.05f);
 
@@ -38,9 +38,11 @@ void WaveSystem::startWave()
 	currentWaveConfig = generateWaveConfig();
 	remainingAsteroids = currentWaveConfig.numLargeAsteroids;
 	waveActive = true;
+
+	std::println("Started wave with '{}' asteroids", remainingAsteroids);
 }
 
-void WaveSystem::spawnWaveAsteroid()
+void WaveSystem::spawnAsteroidWave() const
 {
 	if (remainingAsteroids <= 0) return;
 
@@ -78,7 +80,7 @@ void WaveSystem::spawnWaveAsteroid()
 	}
 }
 
-void WaveSystem::onAsteroidDestroyed()
+void WaveSystem::onAsteroidReturned()
 {
 	remainingAsteroids--;
 
@@ -86,6 +88,6 @@ void WaveSystem::onAsteroidDestroyed()
 	{
 		waveActive = false;
 		startWave();
-		spawnWaveAsteroid();
+		spawnAsteroidWave();
 	}
 }

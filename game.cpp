@@ -105,5 +105,5 @@ void Game::initWaves()
     WaveSystem::instance().startWave();
 
     CollisionSystem::instance().initialize();
-    WaveSystem::instance().spawnWaveAsteroid();
+    WaveSystem::instance().spawnAsteroidWave();
 }

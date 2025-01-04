@@ -156,7 +156,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	return asteroid;
 }
 
-void AsteroidPool::destroyAsteroid(GameObject* asteroid)
+void AsteroidPool::handleAsteroid(GameObject* asteroid)
 {
 	float scale = asteroid->getScale();
 	AsteroidSize currentSize = {};
@@ -176,7 +176,7 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		splitAsteroid(asteroid, currentSize);
 	}
 
-	returnToPool(asteroid);
+	returnAsteroidToPool(asteroid);
 }
 
 void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize currentSize)
@@ -245,7 +245,7 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 	}
 }
 
-void AsteroidPool::returnToPool(GameObject* asteroid)
+void AsteroidPool::returnAsteroidToPool(GameObject* asteroid)
 {
 	auto it = std::find(activeAsteroids.begin(), activeAsteroids.end(), asteroid);
 	if (it != activeAsteroids.end())
@@ -266,7 +266,7 @@ void AsteroidPool::returnToPool(GameObject* asteroid)
 		}
 	}
 
-	WaveSystem::instance().onAsteroidDestroyed();
+	WaveSystem::instance().onAsteroidReturned();
 }
 
 bool AsteroidPool::hasActiveAsteroids() const

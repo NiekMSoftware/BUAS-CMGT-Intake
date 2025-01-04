@@ -46,6 +46,6 @@ void Asteroid::onCollision(const CollisionEvent& event)
 	{
 		GameManager::instance().score->incrementMultiplier();
 		m_collision = true;
-		asteroidPool->destroyAsteroid(this);
+		asteroidPool->handleAsteroid(this);
 	}
 }
