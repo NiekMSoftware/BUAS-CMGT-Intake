@@ -6,32 +6,41 @@
 
 namespace Tmpl8
 {
+	class Game : public TheApp
+	{
+	public:
+		// game flow methods
+		void Init();
 
-class Game : public TheApp
-{
-public:
-	// game flow methods
-	void Init();
-	void Tick();
-	void FixedTick();
-	void Render();
-	void Shutdown();
-	// input handling
-	void MouseUp( int ) { /* implement if you want to detect mouse button presses */ }
-	void MouseDown( int ) { /* implement if you want to detect mouse button presses */ }
-	void MouseMove( int x, int y ) { mousePos.x = x, mousePos.y = y; }
-	void MouseWheel( float ) { /* implement if you want to handle the mouse wheel */ }
-	void KeyUp( int ) { /* implement if you want to handle keys */ }
-	void KeyDown( int ) { /* implement if you want to handle keys */ }
+		void Tick();
+		void FixedTick();
+		void Render();
 
-	// data members
-	int2 mousePos;
+		void Shutdown();
 
-private:
-	void spawnInitialAsteroids();
+		// input handling
+		void MouseUp( int ) { /* implement if you want to detect mouse button presses */ }
+		void MouseDown( int ) { /* implement if you want to detect mouse button presses */ }
+		void MouseMove( int x, int y ) { mousePos.x = x, mousePos.y = y; }
+		void MouseWheel( float ) { /* implement if you want to handle the mouse wheel */ }
 
-private:
-	const int maxLargeAsteroids = 12;
-};
+		void KeyUp( int ) { /* implement if you want to handle keys */ }
+		void KeyDown( int ) { /* implement if you want to handle keys */ }
 
+		// data members
+		int2 mousePos;
+
+	private:
+		void spawnInitialAsteroids();
+
+	private:
+		const int MAX_LARGE_ASTEROIDS = 12;
+
+		Player* player = nullptr;
+		AsteroidPool* asteroidPool = nullptr;
+
+		Label* scoreLabel = nullptr;
+		Label* scoreMultiplierLabel = nullptr;
+		Label* lifeLabel = nullptr;
+	};
 } // namespace Tmpl8

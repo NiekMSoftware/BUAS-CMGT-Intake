@@ -11,6 +11,7 @@ public:
 	void onCollision(const CollisionEvent&) override;
 
 	void setAsteroidPool(AsteroidPool* pool) { asteroidPool = pool; }
+
 private:
 	float2 direction = 0;
 	float rotDir = 1.f;

@@ -5,24 +5,59 @@
 #include "precomp.h"
 #include "game.h"
 
-Player* player;
-AsteroidPool* asteroidPool;
+// TODO: Implement Asteroid explosion sound effect
+// TODO: Fix the bugs in the Wave System
 
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-	GameWorld::instance().initialize();
+    // setup game manager
+    scoreLabel = new Label{
+        std::format("Score: {}", 0),
+        float2{700, 10},
+        0xFFFFFF
+    };
 
-	player = new Player();
-	GameWorld::instance().addObject(player);
+    scoreMultiplierLabel = new Label{
+        std::format("Multiplier: {:.1f}", 1.0f),
+        float2{700, 25},
+        0xFFFFFF
+    };
 
-	// Initialize asteroid pool with a max of 4 big asteroids
-	asteroidPool = new AsteroidPool(maxLargeAsteroids);
-	spawnInitialAsteroids();
+    GameManager::instance().setScoreLabel(scoreLabel);
+    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+    GameManager::instance().instantiate();
+
+    // setup game world
+    GameWorld::instance().initialize();
+
+    // load objects
+    player = new Player();
+
+    lifeLabel = new Label{
+    	std::format("Lives: {}", player->getLives()),
+    	float2(10, 10),
+    	0xFFFFFF
+    };
+
+    GameWorld::instance().addObject(player);
+    GameWorld::instance().addObject(scoreLabel);
+    GameWorld::instance().addObject(scoreMultiplierLabel);
+    GameWorld::instance().addObject(lifeLabel);
+
+    // set the life label
+    GameManager::instance().setLivesLabel(lifeLabel);
+    GameManager::instance().updateLivesDisplay(player->getLives());
+
+    // Initialize wave system
+    asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
+    WaveSystem::instance().initialize(asteroidPool);
+    WaveSystem::instance().startWave();
 
     CollisionSystem::instance().initialize();
+    WaveSystem::instance().spawnWaveAsteroid();
 }
 
 // -----------------------------------------------------------
@@ -57,11 +92,15 @@ void Game::Render()
 // -----------------------------------------------------------
 void Game::Shutdown()
 {
+    GameManager::instance().clean();
 	GameWorld::instance().clean();
 
 	delete asteroidPool;
 }
 
+// -----------------------------------------------------------
+// Main application asteroid spawner - Executed at the start of the game.
+// -----------------------------------------------------------
 void Game::spawnInitialAsteroids()
 {
     const float minDistToPlayer = 150.0f;

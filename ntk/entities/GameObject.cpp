@@ -24,8 +24,9 @@ void GameObject::update()
 	// Update collider position based on sprite dimensions
 	if (m_sprite && m_active)
 	{
-		float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f * scale;
-		float halfHeight = static_cast<float>(m_sprite->GetHeight()) * 0.5f * scale;
+		// Center origin
+		const float halfWidth = static_cast<float>(m_sprite->GetWidth()) * 0.5f * scale;
+		const float halfHeight = static_cast<float>(m_sprite->GetHeight()) * 0.5f * scale;
 
 		collider.bmin[0] = position.x - halfWidth;
 		collider.bmin[1] = position.y - halfHeight;
@@ -44,12 +45,57 @@ void GameObject::fixedUpdate()
 void GameObject::render(Surface* screen)
 {
 	// Calculate center-based coordinates of the sprite
-	int centerX = static_cast<int>(position.x - static_cast<float>(m_sprite->GetWidth()) * 0.5f);
-	int centerY = static_cast<int>(position.y - static_cast<float>(m_sprite->GetHeight()) * 0.5f);
+	const float factor = 0.5f * scale;
+	const float2 spriteSize{
+		static_cast<float>(m_sprite->GetWidth()) * factor,
+		static_cast<float>(m_sprite->GetHeight()) * factor
+	};
+
+	// calculate center
+	const float2 center{
+		position.x - spriteSize.x,
+		position.y - spriteSize.y
+	};
 
 	// Only render if the sprite exists and is active
 	if (m_sprite && m_active)
-		m_sprite->Draw(screen, centerX, centerY, scale, angle);
+	{
+		m_sprite->Draw(screen, static_cast<int>(center.x), static_cast<int>(center.y), scale, angle);
+
+#if _DEBUG
+		renderCollider(screen);
+#endif
+	}
+}
+
+void GameObject::renderCollider(Surface* target, uint color) const
+{
+	if (!m_sprite || !target) return;
+
+	// draw the aabb collider
+	target->Box(
+		static_cast<int>(collider.bmin[0]),
+		static_cast<int>(collider.bmin[1]),
+		static_cast<int>(collider.bmax[0]),
+		static_cast<int>(collider.bmax[1]),
+		color
+	);
+
+	// Draw center cross
+	const float centerX = (collider.bmin[0] + collider.bmax[0]) * 0.5f;
+	const float centerY = (collider.bmin[1] + collider.bmax[1]) * 0.5f;
+
+	const int crossSize = 3;
+	target->Line(
+		centerX - crossSize, centerY,
+		centerX + crossSize, centerY,
+		0x00FF00
+	);
+	target->Line(
+		centerX, centerY - crossSize,
+		centerX, centerY + crossSize,
+		0x00FF00
+	);
 }
 
 /** TODO: Enter a good description of this method */
@@ -114,60 +160,22 @@ void GameObject::initializeCollider()
 	collider.bmax[1] = position.y + halfHeight;
 }
 
-/** Updates the collider with the game object's position, scale and rotation. */
-void GameObject::updateCollider()
-{
+/**
+ * Updates the collider's AABB bounds based on the game object's transform state.
+ */
+void GameObject::updateCollider() {
 	if (!m_sprite) return;
 
-	// Get the sprite's dimensions
-	float spriteWidth = static_cast<float>(m_sprite->GetWidth());
-	float spriteHeight = static_cast<float>(m_sprite->GetHeight());
+	const float width = static_cast<float>(m_sprite->GetWidth()) * scale;
+	const float height = static_cast<float>(m_sprite->GetHeight()) * scale;
 
-	// Convert angle to radians for our transformation
-	float angleRad = angle * (PI / 180.0f);
-	float cosA = cos(angleRad) * scale;
-	float sinA = sin(angleRad) * scale;
+	const float size = std::max(width, height);
+	const float halfSize = size * 0.5f;
 
-	float2 localCorners[4] = {
-		{-0.5f, -0.5f},  // Top-left
-		{ 0.5f, -0.5f},  // Top-right
-		{-0.5f,  0.5f},  // Bottom-left
-		{ 0.5f,  0.5f}   // Bottom-right
-	};
-
-	// Initialize bounds for transformed points
-	float minX = FLT_MAX;
-	float minY = FLT_MAX;
-	float maxX = -FLT_MAX;
-	float maxY = -FLT_MAX;
-
-	// Transform each corner
-	for (const float2& localCorner : localCorners)
-	{
-		const float2 scaled = 
-		{
-			localCorner.x * spriteWidth,
-			localCorner.y * spriteHeight
-		};
-
-		float2 transformed = 
-		{
-			(scaled.x * cosA - scaled.y * sinA) + position.x,
-			(scaled.x * sinA + scaled.y * cosA) + position.y
-		};
-
-		// Update the AABB bounds
-		minX = min(minX, transformed.x);
-		minY = min(minY, transformed.y);
-		maxX = max(maxX, transformed.x);
-		maxY = max(maxY, transformed.y);
-	}
-
-	// Update the collider with our new bounds
-	collider.bmin[0] = minX;
-	collider.bmin[1] = minY;
-	collider.bmax[0] = maxX;
-	collider.bmax[1] = maxY;
+	collider.bmin[0] = position.x - halfSize;
+	collider.bmin[1] = position.y - halfSize;
+	collider.bmax[0] = position.x + halfSize;
+	collider.bmax[1] = position.y + halfSize;
 }
 
 /**

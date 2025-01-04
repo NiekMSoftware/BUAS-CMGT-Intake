@@ -42,7 +42,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 	static std::vector<std::pair<AsteroidSize, AsteroidConfig>> configs{
 		{
 			AsteroidSize::Large, {
-				.score = 100,
+				.score = 20,
 				.speed = 50.f,
 				.rotSpeed = 25.f,
 				.size = 3.f,
@@ -60,7 +60,7 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 		},
 		{
 			AsteroidSize::Small, {
-				.score = 10,
+				.score = 100,
 				.speed = 200.f,
 				.rotSpeed = 100.f,
 				.size = 0.75f,
@@ -150,6 +150,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	asteroid->setActive(false);
 	asteroid->setPooled(true);
 	asteroid->setAsteroidPool(this);
+	asteroid->setLayer(Layer::Asteroids);
 
 	GameWorld::instance().addObject(asteroid);
 	return asteroid;
@@ -165,6 +166,7 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		if (std::abs(config.second.size - scale) < 0.1f)
 		{
 			currentSize = config.first;
+			GameManager::instance().score->addScore(config.second.score);
 			break;
 		}
 	}
@@ -239,12 +241,6 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 			float randomRotation = Random::getRandomFloat(-PI, PI);
 
 			newAsteroid->setRotation(randomRotation);
-
-#if _DEBUG
-			OutputDebugString(std::format(
-				"[DEBUG] Split asteroid at ({}, {}) with velocity ({}, {})\n",
-				newPos.x, newPos.y, newVel.x, newVel.y).c_str());
-#endif
 		}
 	}
 }
@@ -269,6 +265,13 @@ void AsteroidPool::returnToPool(GameObject* asteroid)
 			break;
 		}
 	}
+
+	WaveSystem::instance().onAsteroidDestroyed();
+}
+
+bool AsteroidPool::hasActiveAsteroids() const
+{
+	return !activeAsteroids.empty();
 }
 
 float2 AsteroidPool::calculateSplitPosition(const float2& originalPos, float angle, float offset)

@@ -14,6 +14,7 @@ struct AsteroidConfig
 	float rotSpeed;
 	float size;
 	Sprite* sprite;
+	Audio::Sound* sound;
 };
 
 class AsteroidPool
@@ -31,6 +32,8 @@ public:
 	void destroyAsteroid(GameObject* asteroid);
 	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
 	void returnToPool(GameObject* asteroid);
+
+	bool hasActiveAsteroids() const;
 
 	float2 calculateSplitPosition(const float2& originalPos, float angle, float offset);
 

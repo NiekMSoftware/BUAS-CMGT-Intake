@@ -79,13 +79,28 @@ void GameWorld::fixedUpdate() const
 	}
 }
 
+/** Renders the game world in layers. */
 void GameWorld::render(Surface* screen) const
 {
+	std::vector<std::pair<GameObject*, int>> sortedObjects;
+	sortedObjects.reserve(worldObjects.size());
+
 	for (GameObject* obj : worldObjects) {
 		// Double-check object state before rendering
 		if (obj && obj->isActive()) {
-			obj->render(screen);
+			sortedObjects.emplace_back(obj, static_cast<int>(obj->getLayer()));
 		}
+	}
+
+	// Sort objects by layer value (lower numbers rendered first)
+	ranges::sort(sortedObjects,
+	             [](const auto& a, const auto& b) {
+		             return a.second < b.second;
+	             });
+
+	// Render objects in sorted order
+	for (const auto& [obj, layer] : sortedObjects) {
+		obj->render(screen);
 	}
 }
 

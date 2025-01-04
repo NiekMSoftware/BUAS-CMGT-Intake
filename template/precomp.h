@@ -132,6 +132,18 @@ using namespace Tmpl8;
 #include "cl/cl.h"
 #include <cl/cl_gl.h>
 
+// Audio Headers
+// see: https://github.com/jpvanoosten/Audio
+#include <Audio/miniaudio.h>
+#include <Audio/Sound.hpp>
+#include <Audio/Device.hpp>
+#include <Audio/Config.hpp>
+#include <Audio/Listener.hpp>
+#include <Audio/Vector.hpp>
+#include <Audio/Waveform.hpp>
+
+#include "AudioManager.h"
+
 // GLFW
 #define GLFW_USE_CHDIR 0
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -144,10 +156,16 @@ using namespace Tmpl8;
 
 // ntk - entities
 #include "GameObject.h"
+#include "Label.h"
+
+// ntk - entity management
+#include "GameManager.h"
 #include "CollisionSystem.h"
 #include "GameWorld.h"
 #include "AsteroidPool.h"
+#include "WaveSystem.h"
 
+// ntk - entities
 #include "Asteroid.h"
 #include "Projectile.h"
 #include "Player.h"

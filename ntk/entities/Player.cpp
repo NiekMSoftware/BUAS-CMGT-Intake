@@ -1,12 +1,15 @@
 ﻿#include "precomp.h"
 #include "Player.h"
 
+#include <algorithm>
+
 void Player::initialize()
 {
 	// set a unique sprite to the player
 	ResourceHolder& rh = ResourceHolder::Instance();
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
+	setLayer(Layer::Player);
 
 	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
 
@@ -14,45 +17,69 @@ void Player::initialize()
 	thrustInput = 0.f;
 	angle = 0.f;
 
-	// initialize speeds
+	// initialize speed attributes
 	speedMod = 2.4f;
 	rotationMod = 1.2f;
-
 	speed = 100.f * speedMod;
 	maxSpeed = 150.f;
 	rotationSpeed = 90.f * rotationMod;
 
+	// timing initialization
 	timeSinceLastShot = 0.0f;
 
+	// register object
 	name = "Player";
-
 	CollisionSystem::instance().registerObject(this,
 		[this](const CollisionEvent& event)
 		{
-			m_collision = false;
 			this->onCollision(event);
 		});
+
+	// initialize health attributes
+	lives = 3;
+	maxLives = 5;
+
+	fireSound = new Audio::Sound{ "assets/audio/laserShoot.wav", Audio::Sound::Type::Sound };
+	hitSound = new Audio::Sound{ "assets/audio/player_hit.wav", Audio::Sound::Type::Sound };
+	explosionSound = new Audio::Sound{ "assets/audio/player_explosion.wav", Audio::Sound::Type::Sound };
+
+	fireSound->setVolume(0.5f);
+	hitSound->setVolume(0.5f);
+	explosionSound->setVolume(0.5f);
 }
 
 Player::~Player()
 {
 	CollisionSystem::instance().unregisterObject(this);
+
+	delete fireSound;
+	delete hitSound;
+	delete explosionSound;
 }
 
 void Player::update()
 {
-	GameObject::update();
-
-	retrieveInput();
-	keepInView();
-	updateCollider();
-
-	// shooting logic
-	timeSinceLastShot += Time::deltaTime;
-	if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
+	if (!isDead())
 	{
-		fireProjectile();
-		timeSinceLastShot = 0.0f;
+		GameObject::update();
+
+		retrieveInput();
+		keepInView();
+
+		// shooting logic
+		timeSinceLastShot += Time::deltaTime;
+		if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
+		{
+			fireSound->replay();
+			fireProjectile();
+			timeSinceLastShot = 0.0f;
+		}
+
+		// immunity logic
+		if (collisionTimer > 0.0f)
+		{
+			collisionTimer -= Time::deltaTime;
+		}
 	}
 }
 
@@ -67,11 +94,34 @@ void Player::fixedUpdate()
 
 void Player::onCollision(const CollisionEvent& event)
 {
-	if (m_collision) return;
+	if (isImmune()) return;
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
-		m_collision = true;
+		collisionTimer = immunity;
+		GameManager::instance().score->reset();
+		removeLife(1);
+
+		if (lives != 0)
+			hitSound->replay();
+		else
+			explosionSound->play();
 	}
+}
+
+/** Add a life to the player. */
+void Player::addLife(const int add)
+{
+	lives += add;
+	lives = std::min(lives, maxLives);
+	GameManager::instance().updateLivesDisplay(lives);
+}
+
+/** Remove a life from the player. */
+void Player::removeLife(const int sub)
+{
+	lives -= sub;
+	lives = std::max(lives, 0);
+	GameManager::instance().updateLivesDisplay(lives);
 }
 
 /**
@@ -80,6 +130,7 @@ void Player::onCollision(const CollisionEvent& event)
  */
 void Player::applySpaceBraking(float brakeForce)
 {
+	// continuously apply a force to the velocity of the player until they are fully stopped
 	float currentSpeed = length(velocity);
 	if (currentSpeed > 0.f)
 	{
@@ -122,14 +173,14 @@ void Player::thrust()
 	}
 }
 
+/** Fire a projectile with the correct rotations and adds it to the game world. */
 void Player::fireProjectile() const
 {
 	// create or instantiate projectile
 	float2 projectileStart = position +
-		float2(std::cos(angle * (PI / 180.f)) * 60.f,
-			std::sin(angle * (PI / 180.f)) * 60.f);
+		float2(std::cos(angle * (PI / 180.f)) * 30.f,
+			std::sin(angle * (PI / 180.f)) * 30.f);
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
-
 	GameWorld::instance().addObject(newProjectile);
 }
