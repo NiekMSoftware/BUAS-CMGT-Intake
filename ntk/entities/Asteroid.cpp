@@ -26,7 +26,7 @@ Asteroid::~Asteroid()
 	asteroidPool = nullptr;
 	delete asteroidPool;
 
-	if (explosionSound) delete explosionSound;
+	delete explosionSound;
 }
 
 

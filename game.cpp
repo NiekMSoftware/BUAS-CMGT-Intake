@@ -5,9 +5,6 @@
 #include "precomp.h"
 #include "game.h"
 
-// TODO: Implement Asteroid explosion sound effect
-// TODO: Fix the bugs in the Wave System
-
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
