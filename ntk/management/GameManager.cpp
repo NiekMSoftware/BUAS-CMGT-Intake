@@ -60,11 +60,18 @@ GameManager& GameManager::instance()
 void GameManager::instantiate()
 {
 	score = new Score{ scoreLabel, scoreMultiplierLabel };
+	currentWave = 1;
 }
 
-void GameManager::clean()
+void GameManager::clean() const
 {
 	delete score;
+
+	delete scoreLabel;
+	delete scoreMultiplierLabel;
+	delete livesLabel;
+	delete waveLabel;
+	delete clusterLabel;
 }
 
 void GameManager::updateLivesDisplay(int currentLives) const
@@ -80,5 +87,27 @@ void GameManager::updateScoreMultiplierDisplay(float currentScoreMultiplier) con
 	if (scoreMultiplierLabel)
 	{
 		scoreMultiplierLabel->setText(std::format("Multiplier: {:.1f}", currentScoreMultiplier));
+	}
+}
+
+void GameManager::setWave(const int waveNumber)
+{
+	currentWave = waveNumber;
+	updateWaveDisplay();
+}
+
+void GameManager::updateWaveDisplay() const
+{
+	if (waveLabel)
+	{
+		waveLabel->setText(std::format("Wave {}", currentWave));
+	}
+}
+
+void GameManager::updateClusterDisplay() const
+{
+	if (clusterLabel)
+	{
+		clusterLabel->setText("Cluster Incoming!");
 	}
 }

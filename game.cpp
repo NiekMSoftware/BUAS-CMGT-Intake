@@ -5,14 +5,19 @@
 #include "precomp.h"
 #include "game.h"
 
+// TODO: Blink the 'Cluster Incoming' text
+// TODO: Make sure the asteroids spawn indifferent from one another and away from the player
+
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
-    setupGameManager();
+    setupGame();
     initWorld();
     initWaves();
+
+	GameManager::instance().updateWaveDisplay();
 }
 
 // -----------------------------------------------------------
@@ -53,54 +58,78 @@ void Game::Shutdown()
 	delete asteroidPool;
 }
 
-void Game::setupGameManager()
+void Game::setupLabels()
 {
-    scoreLabel = new Label{
-        std::format("Score: {}", 0),
-        float2{700, 10},
-        0xFFFFFF
-    };
+	lifeLabel = new Label{
+		std::format("Lives: {}", 0),
+		float2(10, 10),
+		0xFFFFFF
+	};
 
-    scoreMultiplierLabel = new Label{
-        std::format("Multiplier: {:.1f}", 1.0f),
-        float2{700, 25},
-        0xFFFFFF
-    };
+	scoreLabel = new Label{
+		std::format("Score: {}", 0),
+		float2{700, 10},
+		0xFFFFFF
+	};
 
+	scoreMultiplierLabel = new Label{
+		std::format("Multiplier: {:.1f}", 1.0f),
+		float2{700, 25},
+		0xFFFFFF
+	};
+
+	waveLabel = new Label{
+		std::format("Wave {}", 0),
+		float2{SCRWIDTH / 2.f - 15, 10},
+		0xFFFFFF
+	};
+
+	clusterLabel = new Label{
+		"",
+		float2{SCRWIDTH / 2.f - 40, 25},
+		0xFFFFFF
+	};
+}
+
+void Game::setupGame()
+{
+    setupLabels();
+
+    GameManager::instance().setLivesLabel(lifeLabel);
     GameManager::instance().setScoreLabel(scoreLabel);
     GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+    GameManager::instance().setWaveLabel(waveLabel);
+    GameManager::instance().setClusterLabel(clusterLabel);
+
     GameManager::instance().instantiate();
 }
 
 void Game::initWorld()
 {
     GameWorld::instance().initialize();
+	CollisionSystem::instance().initialize();
 
     // load objects
     player = new Player();
-
-    lifeLabel = new Label{
-        std::format("Lives: {}", player->getLives()),
-        float2(10, 10),
-        0xFFFFFF
-    };
 
     GameWorld::instance().addObject(player);
     GameWorld::instance().addObject(scoreLabel);
     GameWorld::instance().addObject(scoreMultiplierLabel);
     GameWorld::instance().addObject(lifeLabel);
+    GameWorld::instance().addObject(waveLabel);
+    GameWorld::instance().addObject(clusterLabel);
 
-    // set the life label
-    GameManager::instance().setLivesLabel(lifeLabel);
+	asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
+	WaveSystem::instance().initialize(asteroidPool);
+
+	WaveSystem::instance().startWave();
+	WaveSystem::instance().spawnAsteroidWave();
+
+    // display player info
     GameManager::instance().updateLivesDisplay(player->getLives());
 }
 
 void Game::initWaves()
 {
-    asteroidPool = new AsteroidPool{ MAX_LARGE_ASTEROIDS };
-    WaveSystem::instance().initialize(asteroidPool);
-    WaveSystem::instance().startWave();
-
-    CollisionSystem::instance().initialize();
-    WaveSystem::instance().spawnAsteroidWave();
+    
 }

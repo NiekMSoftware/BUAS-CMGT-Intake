@@ -35,6 +35,7 @@ float2 WaveSystem::generateRandomPosition() const
 void WaveSystem::startWave()
 {
 	currentWave++;
+	GameManager::instance().setWave(currentWave);
 	currentWaveConfig = generateWaveConfig();
 	remainingAsteroids = currentWaveConfig.numLargeAsteroids;
 	waveActive = true;
@@ -52,6 +53,9 @@ void WaveSystem::spawnAsteroidWave() const
 		// Determine if this should be a special pattern spawn
 		if (Random::getRandomFloat(0.0f, 1.0f) < currentWaveConfig.specialChance)
 		{
+			// update the display to notify player
+			GameManager::instance().updateClusterDisplay();
+
 			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
 			{
 				float2 currentVel = asteroid->getVelocity();

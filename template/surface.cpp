@@ -119,43 +119,6 @@ void Surface::Print(const char* s, int x1, int y1, uint c)
 	}
 }
 
-void Surface::PrintScaled(const char* s, int x1, int y1, uint c, int scale)
-{
-	if (!fontInitialized)
-	{
-		// we will initialize the font on first use
-		InitCharset();
-		fontInitialized = true;
-	}
-	uint* t = pixels + x1 + y1 * width;
-	for (int i = 0; i < (int)(strlen(s)); i++, t += 6 * scale)
-	{
-		int pos = 0;
-		if ((s[i] >= 'A') && (s[i] <= 'Z')) pos = transl[(unsigned short)(s[i] - ('A' - 'a'))];
-		else pos = transl[(unsigned short)s[i]];
-		uint* a = t;
-		const char* u = (const char*)font[pos];
-		for (int v = 0; v < 5; v++, u++)
-		{
-			for (int h = 0; h < 5; h++, u++)
-			{
-				if (*u == 'o')
-				{
-					for (int sy = 0; sy < scale; sy++)
-					{
-						for (int sx = 0; sx < scale; sx++)
-						{
-							*(a + h * scale + sx + (v * scale + sy) * width) = c;
-						}
-					}
-				}
-			}
-			a += width * scale;
-		}
-	}
-}
-
-
 // Surface::Line: Draw a line between the specified screen coordinates.
 // Uses clipping for lines that are partially off-screen. Not efficient.
 void Surface::Line( float x1, float y1, float x2, float y2, uint c )
