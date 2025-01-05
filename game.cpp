@@ -19,6 +19,8 @@ void Game::Init()
 	GameManager::instance().updateWaveDisplay();
 }
 
+float t = 0.0f;
+
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
 // -----------------------------------------------------------
@@ -39,6 +41,7 @@ void Game::handleGameState()
 		break;
 
 	case Playing:
+		GameManager::instance().updateClusterDisplay();  // update this every frame for deltaTime reasons
 		GameManager::instance().update();
 		GameWorld::instance().update();
 		CollisionSystem::instance().update();
@@ -48,10 +51,6 @@ void Game::handleGameState()
 		if (Input::getKeyDown(GLFW_KEY_R))
 		{
 			reset();
-		}
-		else if (Input::getKeyDown(GLFW_KEY_ESCAPE))
-		{
-			
 		}
 		break;
 	}
@@ -73,7 +72,9 @@ void Game::Render()
 {
 	if (GameManager::instance().getCurrentState() == InMenu)
 	{
-		screen->Clear(0xFFFFFF);
+		screen->Clear(0);
+		screen->Print(APP_NAME, SCRWIDTH / 2 - 25, SCRHEIGHT / 2, 0xFFFFFF);
+		screen->Print("Press 'Enter' to start", SCRWIDTH / 2 - 60, SCRHEIGHT / 2 + 15, 0xFFFFFF);
 	}
 	else if (GameManager::instance().getCurrentState() == Playing)
 	{

@@ -69,11 +69,14 @@ void GameManager::instantiate()
 	score = new Score{ scoreLabel, scoreMultiplierLabel };
 	currentWave = 1;
 	currentState = InMenu;
+	clusterNotification = new Audio::Sound("assets/audio/clusterNotification.wav", Audio::Sound::Type::Sound);
+	clusterNotification->setVolume(0.5f);
 }
 
 void GameManager::clean() const
 {
 	delete score;
+	delete clusterNotification;
 	// Note: GameWorld takes care of the labels when it comes to cleaning
 }
 
@@ -129,10 +132,42 @@ void GameManager::updateWaveDisplay() const
 	}
 }
 
+// cluster timer text
+static const float TOTAL_TIME = 1.5f;
+static const float RUNTIME = 0.3f;
+static float timer = 0.0f;
+static float runtimeTimer = 0.0f;
+static bool showText = false;
+
 void GameManager::updateClusterDisplay() const
 {
 	if (clusterLabel)
 	{
-		clusterLabel->setText("Cluster Incoming!");
+		if (!clusterIncoming)
+		{
+			clusterLabel->setText("");
+			return;
+		}
+
+		// make the notification blink
+		timer += Time::deltaTime;
+		runtimeTimer += Time::deltaTime;
+
+		clusterLabel->setText(showText ? "Cluster Incoming!" : "");
+
+		// reset
+		if (timer >= RUNTIME)
+		{
+			clusterNotification->replay();
+			showText = !showText;
+			timer = 0.0f;
+		}
+
+		// stop after a set duration
+		if (runtimeTimer >= TOTAL_TIME)
+		{
+			runtimeTimer = 0.0f;
+			clusterIncoming = false;
+		}
 	}
 }

@@ -66,7 +66,7 @@ void CollisionSystem::checkCollision(GameObject* a, const CollisionCallback& cb1
 	const CollisionCallback& cb2)
 {
 	// only check collision for active game objects
-	if (!a->isActive() && !b->isActive()) return;
+	if (!a->isActive() || !b->isActive()) return;
 
 	// only retrieve the collider if the object is active
 	aabb col1;

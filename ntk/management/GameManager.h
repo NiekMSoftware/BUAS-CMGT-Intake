@@ -49,6 +49,7 @@ public:
 	void setWaveLabel(Label* label) { waveLabel = label; }
 	void setWave(int waveNumber);
 	void setClusterLabel(Label* label) { clusterLabel = label; }
+	void setClusterIncoming(const bool value) const { clusterIncoming = value; }
 
 	void updateLivesDisplay() const;
 	void updateScoreMultiplierDisplay(float currentScoreMultiplier) const;
@@ -77,4 +78,7 @@ private:
 
 	Player* player = nullptr;
 	GameState currentState = InMenu;
+
+	mutable bool clusterIncoming = false;
+	Audio::Sound* clusterNotification = nullptr;
 };

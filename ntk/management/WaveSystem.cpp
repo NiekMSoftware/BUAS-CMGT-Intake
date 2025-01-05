@@ -16,7 +16,7 @@ WaveConfig WaveSystem::generateWaveConfig() const
 	// Scale difficulty based on wave number
 	config.numLargeAsteroids = 1 + (currentWave / 2);  // Add one large asteroid every 2 waves
 	config.speedMultiplier = (currentWave != 1) ? 1.0f + (static_cast<float>(currentWave) * 0.3f) : 1.0f;
-	config.specialChance = std::min(0.3f, static_cast<float>(currentWave) * 0.05f);
+	config.specialChance = std::min(0.3f, static_cast<float>(currentWave) * 0.5f);
 
 	return config;
 }
@@ -70,7 +70,7 @@ void WaveSystem::spawnAsteroidWave() const
 		if (Random::getRandomFloat(0.0f, 1.0f) < currentWaveConfig.specialChance)
 		{
 			// update the display to notify player
-			GameManager::instance().updateClusterDisplay();
+			GameManager::instance().setClusterIncoming(true);
 
 			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
 			{
@@ -98,6 +98,8 @@ void WaveSystem::spawnAsteroidWave() const
 		}
 		else
 		{
+			GameManager::instance().setClusterIncoming(false);
+
 			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
 			{
 				float2 currentVel = asteroid->getVelocity();
