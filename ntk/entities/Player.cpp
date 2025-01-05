@@ -37,7 +37,7 @@ void Player::initialize()
 
 	// initialize health attributes
 	lives = 3;
-	maxLives = 5;
+	maxLives = 3;
 
 	fireSound = new Audio::Sound{ "assets/audio/laserShoot.wav", Audio::Sound::Type::Sound };
 	hitSound = new Audio::Sound{ "assets/audio/player_hit.wav", Audio::Sound::Type::Sound };
@@ -114,7 +114,7 @@ void Player::addLife(const int add)
 {
 	lives += add;
 	lives = std::min(lives, maxLives);
-	GameManager::instance().updateLivesDisplay(lives);
+	GameManager::instance().updateLivesDisplay();
 }
 
 /** Remove a life from the player. */
@@ -122,7 +122,14 @@ void Player::removeLife(const int sub)
 {
 	lives -= sub;
 	lives = std::max(lives, 0);
-	GameManager::instance().updateLivesDisplay(lives);
+	GameManager::instance().updateLivesDisplay();
+}
+
+void Player::reset()
+{
+	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
+	lives = maxLives;
+	GameManager::instance().updateLivesDisplay();
 }
 
 /**

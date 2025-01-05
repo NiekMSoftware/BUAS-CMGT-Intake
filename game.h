@@ -31,10 +31,12 @@ namespace Tmpl8
 		int2 mousePos;
 
 	private:
+		void handleGameState();
+
 		void setupLabels();
 		void setupGame();
 		void initWorld();
-		void initWaves();
+		void reset();
 
 		const int MAX_LARGE_ASTEROIDS = 12;
 

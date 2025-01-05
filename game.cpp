@@ -15,7 +15,6 @@ void Game::Init()
 {
     setupGame();
     initWorld();
-    initWaves();
 
 	GameManager::instance().updateWaveDisplay();
 }
@@ -25,8 +24,29 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick()
 {
-	GameWorld::instance().update();
-    CollisionSystem::instance().update();
+	handleGameState();
+}
+
+void Game::handleGameState()
+{
+	switch (GameManager::instance().getCurrentState())
+	{
+	case InMenu:
+		if (Input::getKeyDown(GLFW_KEY_ENTER))
+		{
+			GameManager::instance().setGameState(Playing);
+		}
+		break;
+
+	case Playing:
+		GameManager::instance().update();
+		GameWorld::instance().update();
+		CollisionSystem::instance().update();
+		break;
+
+	case GameOver:
+		break;
+	}
 }
 
 // -----------------------------------------------------------
@@ -34,7 +54,8 @@ void Game::Tick()
 // -----------------------------------------------------------
 void Game::FixedTick()
 {
-	GameWorld::instance().fixedUpdate();
+	if (GameManager::instance().getCurrentState() == Playing)
+		GameWorld::instance().fixedUpdate();
 }
 
 // -----------------------------------------------------------
@@ -42,9 +63,24 @@ void Game::FixedTick()
 // -----------------------------------------------------------
 void Game::Render()
 {
-	screen->Clear(0);
+	if (GameManager::instance().getCurrentState() == InMenu)
+	{
+		screen->Clear(0xFFFFFF);
+	}
+	else if (GameManager::instance().getCurrentState() == Playing)
+	{
+		screen->Clear(0x0C1F3F);
+		GameWorld::instance().render(screen);
+	}
+	else if (GameManager::instance().getCurrentState() == GameOver)
+	{
+		screen->Clear(0xFF0000);
 
-	GameWorld::instance().render(screen);
+		if (Input::getKeyDown(GLFW_KEY_R))
+		{
+			reset();
+		}
+	}
 }
 
 // -----------------------------------------------------------
@@ -126,10 +162,13 @@ void Game::initWorld()
 	WaveSystem::instance().spawnAsteroidWave();
 
     // display player info
-    GameManager::instance().updateLivesDisplay(player->getLives());
+	GameManager::instance().setPlayer(player);
+    GameManager::instance().updateLivesDisplay();
 }
 
-void Game::initWaves()
+void Game::reset()
 {
-    
+	GameManager::instance().reset();
+
+	GameManager::instance().setGameState(Playing);
 }

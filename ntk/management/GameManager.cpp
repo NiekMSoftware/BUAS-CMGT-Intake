@@ -1,4 +1,5 @@
 ﻿#include "precomp.h"
+#include "Player.h"
 #include "GameManager.h"
 
 // -----------------------------------------------------------
@@ -10,6 +11,12 @@ Score::Score(Label* sL, Label* mL, const int initialScore, const float initialMu
 {
 	updateScoreDisplay();
 	updateMultiplierDisplay();
+}
+
+void Score::reset()
+{
+	score = 0;
+	scoreMultiplier = 1.f;
 }
 
 void Score::resetMultiplier()
@@ -61,24 +68,40 @@ void GameManager::instantiate()
 {
 	score = new Score{ scoreLabel, scoreMultiplierLabel };
 	currentWave = 1;
+	currentState = InMenu;
 }
 
 void GameManager::clean() const
 {
 	delete score;
-
-	delete scoreLabel;
-	delete scoreMultiplierLabel;
-	delete livesLabel;
-	delete waveLabel;
-	delete clusterLabel;
+	// Note: GameWorld takes care of the labels when it comes to cleaning
 }
 
-void GameManager::updateLivesDisplay(int currentLives) const
+void GameManager::update()
+{
+	if (player->isDead())
+	{
+		// game over
+		currentState = GameOver;
+	}
+}
+
+void GameManager::reset() const
+{
+	score->reset();
+	player->reset();
+
+	// update ui
+	updateLivesDisplay();
+	score->updateScoreDisplay();
+	score->updateMultiplierDisplay();
+}
+
+void GameManager::updateLivesDisplay() const
 {
 	if (livesLabel)
 	{
-		livesLabel->setText(std::format("Lives: {}", currentLives));
+		livesLabel->setText(std::format("Lives: {}", player->getLives()));
 	}
 }
 

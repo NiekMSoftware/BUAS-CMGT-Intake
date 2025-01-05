@@ -1,9 +1,12 @@
 ﻿#pragma once
 
+class Player;
+
 struct Score
 {
 	Score(Label* sL, Label* mL, int initialScore = 0, float initialMultiplier = 1.0f);
 
+	void reset();
 	void resetMultiplier();
 	void addScore(int v);
 	void incrementMultiplier();
@@ -11,15 +14,22 @@ struct Score
 	int getCurrentScore() const { return score; }
 	float getCurrentMultiplier() const { return scoreMultiplier; }
 
-private:
 	void updateScoreDisplay();
 	void updateMultiplierDisplay();
 
+private:
 	int score;
 	float scoreMultiplier;
 
 	Label* scoreLabel;
 	Label* multiplierLabel;
+};
+
+enum GameState
+{
+	InMenu,
+	Playing,
+	GameOver
 };
 
 class GameManager
@@ -28,6 +38,8 @@ public:
 	static GameManager& instance();
 	void instantiate();
 	void clean() const;
+	void update();
+	void reset() const;
 
 	// setting label
 	void setScoreLabel(Label* label) { scoreLabel = label; }
@@ -38,10 +50,16 @@ public:
 	void setWave(int waveNumber);
 	void setClusterLabel(Label* label) { clusterLabel = label; }
 
-	void updateLivesDisplay(int currentLives) const;
+	void updateLivesDisplay() const;
 	void updateScoreMultiplierDisplay(float currentScoreMultiplier) const;
 	void updateWaveDisplay() const;
 	void updateClusterDisplay() const;
+
+	void setPlayer(Player* p) { player = p; }
+	Player* getPlayer() const { return player; }
+
+	void setGameState(const GameState newState) { currentState = newState; }
+	GameState getCurrentState() const { return currentState; }
 
 	Score* score;
 
@@ -56,4 +74,7 @@ private:
 
 	Label* clusterLabel = nullptr;
 	mutable float blinkTimer = 0.0f;
+
+	Player* player = nullptr;
+	GameState currentState = InMenu;
 };
