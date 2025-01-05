@@ -275,6 +275,7 @@ void AsteroidPool::returnAsteroidToPool(GameObject* asteroid)
 		activeAsteroids.erase(it);
 	}
 
+	// deactivate game object
 	asteroid->setActive(false);
 
 	float scale = asteroid->getScale();
