@@ -22,6 +22,7 @@ class AsteroidPool
 public:
 	~AsteroidPool();
 	AsteroidPool(int maxLargeAsteroids = 10);
+	void reset();
 
 	static const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& initializeConfigs();
 	static const AsteroidConfig& getConfig(AsteroidSize size);

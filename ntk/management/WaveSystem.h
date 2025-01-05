@@ -18,6 +18,7 @@ public:
 
 	void initialize(AsteroidPool* asteroidPool);
 	void startWave();
+	void reset();
 
 	// Getters for game state
 	bool isWaveActive() const { return waveActive; }

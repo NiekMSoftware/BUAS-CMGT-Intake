@@ -95,6 +95,8 @@ void GameManager::reset() const
 	updateLivesDisplay();
 	score->updateScoreDisplay();
 	score->updateMultiplierDisplay();
+
+	clusterLabel->setText("");
 }
 
 void GameManager::updateLivesDisplay() const

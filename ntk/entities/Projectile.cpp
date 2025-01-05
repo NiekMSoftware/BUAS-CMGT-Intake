@@ -36,6 +36,12 @@ Projectile::~Projectile()
 
 void Projectile::update()
 {
+	if (GameManager::instance().getCurrentState() == GameOver)
+	{
+		GameWorld::instance().removeObject(this);
+		return;
+	}
+
 	updateCollider();
 
 	if (position.x > SCRWIDTH)

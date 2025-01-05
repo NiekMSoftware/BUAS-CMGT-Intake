@@ -37,6 +37,19 @@ AsteroidPool::AsteroidPool(int maxLargeAsteroids)
 	initializePools(maxLargeAsteroids);
 }
 
+void AsteroidPool::reset()
+{
+	// return all active asteroids to their pools
+	while (!activeAsteroids.empty())
+	{
+		GameObject* asteroid = activeAsteroids.back();
+		activeAsteroids.pop_back();
+		returnAsteroidToPool(asteroid);
+	}
+
+	OutputDebugString("[LOG] AsteroidPool::reset - All active asteroids returned to pools.\n");
+}
+
 const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initializeConfigs()
 {
 	// generate sprites

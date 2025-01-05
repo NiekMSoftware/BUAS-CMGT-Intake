@@ -41,6 +41,22 @@ void WaveSystem::startWave()
 	waveActive = true;
 }
 
+void WaveSystem::reset()
+{
+	if (pool)
+	{
+		pool->reset();
+	}
+
+	currentWave = 0;
+	remainingAsteroids = 0;
+	waveActive = false;
+
+	OutputDebugString("[LOG] WaveSystem::reset - System reset; starting from wave 0.\n");
+	startWave();
+	spawnAsteroidWave();
+}
+
 void WaveSystem::spawnAsteroidWave() const
 {
 	if (remainingAsteroids <= 0) return;

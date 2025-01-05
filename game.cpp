@@ -45,6 +45,14 @@ void Game::handleGameState()
 		break;
 
 	case GameOver:
+		if (Input::getKeyDown(GLFW_KEY_R))
+		{
+			reset();
+		}
+		else if (Input::getKeyDown(GLFW_KEY_ESCAPE))
+		{
+			
+		}
 		break;
 	}
 }
@@ -75,11 +83,8 @@ void Game::Render()
 	else if (GameManager::instance().getCurrentState() == GameOver)
 	{
 		screen->Clear(0xFF0000);
-
-		if (Input::getKeyDown(GLFW_KEY_R))
-		{
-			reset();
-		}
+		screen->Print("Game Over!", SCRWIDTH / 2 - 15, SCRHEIGHT / 2, 0xFFFFFF);
+		screen->Print("Press 'R' to restart", SCRWIDTH / 2 - 40, SCRHEIGHT / 2 + 15, 0xFFFFFF);
 	}
 }
 
@@ -169,6 +174,7 @@ void Game::initWorld()
 void Game::reset()
 {
 	GameManager::instance().reset();
+	WaveSystem::instance().reset();
 
 	GameManager::instance().setGameState(Playing);
 }

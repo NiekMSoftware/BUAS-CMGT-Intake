@@ -128,6 +128,7 @@ void Player::removeLife(const int sub)
 void Player::reset()
 {
 	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
+	velocity = { 0.f, 0.f };
 	lives = maxLives;
 	GameManager::instance().updateLivesDisplay();
 }
