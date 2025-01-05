@@ -15,8 +15,9 @@ public:
 	void removeLife(int sub);
 
 	int getLives() const { return lives; }
+	bool isDead() const { return lives <= 0; }
 
-	bool isDead() const { return lives == 0; }
+	void reset();
 
 private:
 	void applySpaceBraking(float brakeForce);

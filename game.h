@@ -31,9 +31,13 @@ namespace Tmpl8
 		int2 mousePos;
 
 	private:
-		void spawnInitialAsteroids();
+		void handleGameState();
 
-	private:
+		void setupLabels();
+		void setupGame();
+		void initWorld();
+		void reset();
+
 		const int MAX_LARGE_ASTEROIDS = 12;
 
 		Player* player = nullptr;
@@ -42,5 +46,7 @@ namespace Tmpl8
 		Label* scoreLabel = nullptr;
 		Label* scoreMultiplierLabel = nullptr;
 		Label* lifeLabel = nullptr;
+		Label* waveLabel = nullptr;
+		Label* clusterLabel = nullptr;
 	};
 } // namespace Tmpl8

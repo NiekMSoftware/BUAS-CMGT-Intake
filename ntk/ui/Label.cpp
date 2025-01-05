@@ -22,5 +22,5 @@ void Label::initialize()
 
 void Label::render(Surface* screen)
 {
-	screen->PrintScaled(text.c_str(), static_cast<int>(position.x), static_cast<int>(position.y), color, (int)scale);
+	screen->Print(text.c_str(), static_cast<int>(position.x), static_cast<int>(position.y), color);
 }

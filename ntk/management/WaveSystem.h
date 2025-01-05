@@ -18,16 +18,17 @@ public:
 
 	void initialize(AsteroidPool* asteroidPool);
 	void startWave();
+	void reset();
 
 	// Getters for game state
 	bool isWaveActive() const { return waveActive; }
 	int getCurrentWav() const { return currentWave; }
 	int getRemainingAsteroids() const { return remainingAsteroids; }
 
-	void onAsteroidDestroyed();
+	void onAsteroidReturned();
 
 	/** Spawns a single asteroid for the current wave at a random position */
-	void spawnWaveAsteroid();
+	void spawnAsteroidWave() const;
 
 private:
 	WaveSystem() : pool(nullptr), currentWaveConfig(), currentWave(0), remainingAsteroids(0), waveActive(false)

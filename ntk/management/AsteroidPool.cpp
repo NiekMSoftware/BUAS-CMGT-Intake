@@ -37,8 +37,26 @@ AsteroidPool::AsteroidPool(int maxLargeAsteroids)
 	initializePools(maxLargeAsteroids);
 }
 
+void AsteroidPool::reset()
+{
+	// return all active asteroids to their pools
+	while (!activeAsteroids.empty())
+	{
+		GameObject* asteroid = activeAsteroids.back();
+		activeAsteroids.pop_back();
+		returnAsteroidToPool(asteroid);
+	}
+
+	OutputDebugString("[LOG] AsteroidPool::reset - All active asteroids returned to pools.\n");
+}
+
 const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initializeConfigs()
 {
+	// generate sprites
+	ResourceHolder::Instance().LoadSprite("assets/borrelnootje_white.png", "bn_w", 1);
+	ResourceHolder::Instance().LoadSprite("assets/borrelnootje_brown.png", "bn_b", 1);
+	ResourceHolder::Instance().LoadSprite("assets/borrelnootje_orange.png", "bn_o", 1);
+
 	static std::vector<std::pair<AsteroidSize, AsteroidConfig>> configs{
 		{
 			AsteroidSize::Large, {
@@ -46,7 +64,8 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 				.speed = 50.f,
 				.rotSpeed = 25.f,
 				.size = 3.f,
-				.sprite = ResourceHolder::Instance().CreateSquare("asteroid", 32, 32)
+				.sprite = ResourceHolder::Instance().GetSprite("bn_w"),
+				.explosionSound = "assets/audio/meteor_large_explosion.wav"
 			}
 		},
 		{
@@ -55,7 +74,8 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 				.speed = 150.f,
 				.rotSpeed = 50.f,
 				.size = 1.5f,
-				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
+				.sprite = ResourceHolder::Instance().GetSprite("bn_b"),
+				.explosionSound = "assets/audio/meteor_medium_explosion.wav"
 			}
 		},
 		{
@@ -64,7 +84,8 @@ const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& AsteroidPool::initia
 				.speed = 200.f,
 				.rotSpeed = 100.f,
 				.size = 0.75f,
-				.sprite = ResourceHolder::Instance().GetSprite("asteroid")
+				.sprite = ResourceHolder::Instance().GetSprite("bn_o"),
+				.explosionSound = "assets/audio/meteor_small_explosion.wav"
 			}
 		}
 	};
@@ -151,12 +172,13 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	asteroid->setPooled(true);
 	asteroid->setAsteroidPool(this);
 	asteroid->setLayer(Layer::Asteroids);
+	asteroid->setExplosionSound(config.explosionSound);
 
 	GameWorld::instance().addObject(asteroid);
 	return asteroid;
 }
 
-void AsteroidPool::destroyAsteroid(GameObject* asteroid)
+void AsteroidPool::handleAsteroid(GameObject* asteroid)
 {
 	float scale = asteroid->getScale();
 	AsteroidSize currentSize = {};
@@ -176,7 +198,7 @@ void AsteroidPool::destroyAsteroid(GameObject* asteroid)
 		splitAsteroid(asteroid, currentSize);
 	}
 
-	returnToPool(asteroid);
+	returnAsteroidToPool(asteroid);
 }
 
 void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize currentSize)
@@ -245,7 +267,7 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 	}
 }
 
-void AsteroidPool::returnToPool(GameObject* asteroid)
+void AsteroidPool::returnAsteroidToPool(GameObject* asteroid)
 {
 	auto it = std::find(activeAsteroids.begin(), activeAsteroids.end(), asteroid);
 	if (it != activeAsteroids.end())
@@ -253,6 +275,7 @@ void AsteroidPool::returnToPool(GameObject* asteroid)
 		activeAsteroids.erase(it);
 	}
 
+	// deactivate game object
 	asteroid->setActive(false);
 
 	float scale = asteroid->getScale();
@@ -266,7 +289,7 @@ void AsteroidPool::returnToPool(GameObject* asteroid)
 		}
 	}
 
-	WaveSystem::instance().onAsteroidDestroyed();
+	WaveSystem::instance().onAsteroidReturned();
 }
 
 bool AsteroidPool::hasActiveAsteroids() const

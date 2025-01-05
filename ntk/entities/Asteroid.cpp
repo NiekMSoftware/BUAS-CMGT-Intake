@@ -25,6 +25,8 @@ Asteroid::~Asteroid()
 	CollisionSystem::instance().unregisterObject(this);
 	asteroidPool = nullptr;
 	delete asteroidPool;
+
+	delete explosionSound;
 }
 
 
@@ -46,6 +48,20 @@ void Asteroid::onCollision(const CollisionEvent& event)
 	{
 		GameManager::instance().score->incrementMultiplier();
 		m_collision = true;
-		asteroidPool->destroyAsteroid(this);
+
+		if (explosionSound)
+			explosionSound->play();
+
+		asteroidPool->handleAsteroid(this);
 	}
+}
+
+void Asteroid::setExplosionSound(const std::string& soundPath)
+{
+	// Delete previously allocated sound
+	delete explosionSound;
+
+	// Create a new sound
+	explosionSound = new Audio::Sound(soundPath, Audio::Sound::Type::Sound);
+	explosionSound->setVolume(0.5f);
 }
