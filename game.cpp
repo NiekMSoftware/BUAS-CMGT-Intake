@@ -13,7 +13,6 @@
 // -----------------------------------------------------------
 void Game::Init()
 {
-    setupGame();
     initWorld();
 
 	GameManager::instance().updateWaveDisplay();
@@ -131,23 +130,17 @@ void Game::setupLabels()
 		float2{SCRWIDTH / 2.f - 40, 25},
 		0xFFFFFF
 	};
-}
 
-void Game::setupGame()
-{
-    setupLabels();
-
-    GameManager::instance().setLivesLabel(lifeLabel);
-    GameManager::instance().setScoreLabel(scoreLabel);
-    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
-    GameManager::instance().setWaveLabel(waveLabel);
-    GameManager::instance().setClusterLabel(clusterLabel);
-
-    GameManager::instance().instantiate();
+	GameManager::instance().setLivesLabel(lifeLabel);
+	GameManager::instance().setScoreLabel(scoreLabel);
+	GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+	GameManager::instance().setWaveLabel(waveLabel);
+	GameManager::instance().setClusterLabel(clusterLabel);
 }
 
 void Game::initWorld()
 {
+    GameManager::instance().instantiate();
     GameWorld::instance().initialize();
 	CollisionSystem::instance().initialize();
 
