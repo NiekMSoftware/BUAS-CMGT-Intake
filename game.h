@@ -34,6 +34,7 @@ namespace Tmpl8
 		void handleGameState();
 
 		void setupLabels();
+		void setupGame();
 		void initWorld();
 		void reset();
 

@@ -5,20 +5,16 @@
 #include "precomp.h"
 #include "game.h"
 
-// TODO: Blink the 'Cluster Incoming' text
-// TODO: Make sure the asteroids spawn indifferent from one another and away from the player
-
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
 void Game::Init()
 {
+    setupGame();
     initWorld();
 
 	GameManager::instance().updateWaveDisplay();
 }
-
-float t = 0.0f;
 
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
@@ -130,17 +126,23 @@ void Game::setupLabels()
 		float2{SCRWIDTH / 2.f - 40, 25},
 		0xFFFFFF
 	};
+}
 
-	GameManager::instance().setLivesLabel(lifeLabel);
-	GameManager::instance().setScoreLabel(scoreLabel);
-	GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
-	GameManager::instance().setWaveLabel(waveLabel);
-	GameManager::instance().setClusterLabel(clusterLabel);
+void Game::setupGame()
+{
+    setupLabels();
+
+    GameManager::instance().setLivesLabel(lifeLabel);
+    GameManager::instance().setScoreLabel(scoreLabel);
+    GameManager::instance().setScoreMultiplierLabel(scoreMultiplierLabel);
+    GameManager::instance().setWaveLabel(waveLabel);
+    GameManager::instance().setClusterLabel(clusterLabel);
+
+    GameManager::instance().instantiate();
 }
 
 void Game::initWorld()
 {
-    GameManager::instance().instantiate();
     GameWorld::instance().initialize();
 	CollisionSystem::instance().initialize();
 
