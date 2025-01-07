@@ -4,7 +4,6 @@
 
 // -----------------------------------------------------------
 // Score implementation
-// -----------------------------------------------------------
 
 Score::Score(Label* sL, Label* mL, const int initialScore, const float initialMultiplier)
 	: score(initialScore), scoreMultiplier(initialMultiplier), scoreLabel(sL), multiplierLabel(mL)
@@ -54,9 +53,11 @@ void Score::updateMultiplierDisplay()
 	}
 }
 
+// End of Score
+// -----------------------------------------------------------
+
 // -----------------------------------------------------------
 // Game Manager implementation
-// -----------------------------------------------------------
 
 GameManager& GameManager::instance()
 {
@@ -171,3 +172,6 @@ void GameManager::updateClusterDisplay() const
 		}
 	}
 }
+
+// End of GameManager
+// -----------------------------------------------------------

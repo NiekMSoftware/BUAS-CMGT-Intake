@@ -10,10 +10,11 @@ void Player::initialize()
 	rh.LoadSprite("assets/playership.png", "player", 9);
 	m_sprite = rh.GetSprite("player");
 	setLayer(Layer::Player);
+	name = "Player";
 
 	position = { SCRWIDTH / 2.f, SCRHEIGHT / 2.f };
 
-	// initialize computable attributes
+	// initialize input related attributes
 	thrustInput = 0.f;
 	angle = 0.f;
 
@@ -27,8 +28,7 @@ void Player::initialize()
 	// timing initialization
 	timeSinceLastShot = 0.0f;
 
-	// register object
-	name = "Player";
+	// register object for collisions
 	CollisionSystem::instance().registerObject(this,
 		[this](const CollisionEvent& event)
 		{
@@ -39,6 +39,7 @@ void Player::initialize()
 	lives = 3;
 	maxLives = 3;
 
+	// initialize audio
 	fireSound = new Audio::Sound{ "assets/audio/laserShoot.wav", Audio::Sound::Type::Sound };
 	hitSound = new Audio::Sound{ "assets/audio/player_hit.wav", Audio::Sound::Type::Sound };
 	explosionSound = new Audio::Sound{ "assets/audio/player_explosion.wav", Audio::Sound::Type::Sound };
@@ -50,6 +51,7 @@ void Player::initialize()
 
 Player::~Player()
 {
+	// properly deallocate members
 	CollisionSystem::instance().unregisterObject(this);
 
 	delete fireSound;
@@ -59,6 +61,7 @@ Player::~Player()
 
 void Player::update()
 {
+	// Only update the player if they aren't dead
 	if (!isDead())
 	{
 		GameObject::update();
@@ -66,7 +69,7 @@ void Player::update()
 		retrieveInput();
 		keepInView();
 
-		// shooting logic
+		// shoot only in an interval
 		timeSinceLastShot += Time::deltaTime;
 		if (Input::getKeyDown(GLFW_KEY_SPACE) && timeSinceLastShot >= firingInterval)
 		{
@@ -75,7 +78,7 @@ void Player::update()
 			timeSinceLastShot = 0.0f;
 		}
 
-		// immunity logic
+		// apply immunity time to player
 		if (collisionTimer > 0.0f)
 		{
 			collisionTimer -= Time::deltaTime;
@@ -94,7 +97,11 @@ void Player::fixedUpdate()
 
 void Player::onCollision(const CollisionEvent& event)
 {
+	// no collisions when immune
 	if (isImmune()) return;
+
+	// handle only asteroid collisions, could be buggy
+	// finding method found here: https://www.geeksforgeeks.org/stringnpos-in-c-with-examples/
 	if (event.other->getName().find("asteroid") != std::string::npos)
 	{
 		collisionTimer = immunity;
@@ -143,6 +150,7 @@ void Player::applySpaceBraking(float brakeForce)
 	float currentSpeed = length(velocity);
 	if (currentSpeed > 0.f)
 	{
+		// resharper refactored it to use std::min instead of a > comparison
 		float reductionAmount = std::min(brakeForce * Time::fixedDeltaTime, currentSpeed);
 		velocity = normalize(velocity) * (currentSpeed - reductionAmount);
 	}
@@ -154,16 +162,7 @@ void Player::retrieveInput()
 	float rotationValue = Input::getAxis(Input::Horizontal) * (rotationSpeed * rotationMod * Time::deltaTime);
 	rotate(rotationValue);
 
-	float thrustValue = Input::getAxis(Input::Vertical);
-	if (thrustValue != 0.f)
-	{
-		float forwardMovement = speed * thrustValue;
-		thrustInput = forwardMovement;
-	}
-	else
-	{
-		thrustInput = 0.f;
-	}
+	thrustInput = Input::getAxis(Input::Vertical) * speed;
 }
 
 /** Computes a forward direction and applies thrust to that direction. */
@@ -171,6 +170,7 @@ void Player::thrust()
 {
 	if (thrustInput != 0.f)
 	{
+		// normalize the speed to not go faster than the intended max speed
 		if (length(velocity) > maxSpeed)
 		{
 			velocity = normalize(velocity) * maxSpeed;
@@ -185,10 +185,11 @@ void Player::thrust()
 /** Fire a projectile with the correct rotations and adds it to the game world. */
 void Player::fireProjectile() const
 {
-	// create or instantiate projectile
-	float2 projectileStart = position +
-		float2(std::cos(angle * (PI / 180.f)) * 30.f,
-			std::sin(angle * (PI / 180.f)) * 30.f);
+	// spawn a new projectile based on the forward direction
+	float2 projectileStart = position + float2{
+		std::cos(angle * (PI / 180.f)) * 30.f,
+		std::sin(angle * (PI / 180.f)) * 30.f
+	};
 
 	Projectile* newProjectile = new Projectile(projectileStart, angle);
 	GameWorld::instance().addObject(newProjectile);

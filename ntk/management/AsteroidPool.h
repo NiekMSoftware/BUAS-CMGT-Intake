@@ -30,7 +30,7 @@ public:
 	void initializePools(int maxLargeAsteroids);
 	GameObject* spawnAsteroid(AsteroidSize size, const float2& position);
 
-	void handleAsteroid(GameObject* asteroid);
+	void returnAsteroid(GameObject* asteroid);
 	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
 	void returnAsteroidToPool(GameObject* asteroid);
 
@@ -42,7 +42,6 @@ private:
 	std::vector<GameObject*>* getPoolForSize(AsteroidSize size);
 	GameObject* createAsteroid(AsteroidSize size);
 
-private:
 	std::vector<GameObject*> largeAsteroids;
 	std::vector<GameObject*> mediumAsteroids;
 	std::vector<GameObject*> smallAsteroids;

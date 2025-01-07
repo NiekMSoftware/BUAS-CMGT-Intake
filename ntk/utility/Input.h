@@ -22,7 +22,6 @@ private:
 	~Input();
 	static void keyCallback(GLFWwindow*, int key, int, int action, int);
 
-private:
 	static std::vector<bool> keyStates;
 	static int cachedKey;
 };
