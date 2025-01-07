@@ -14,5 +14,6 @@ jpvanoosten - [Audio](https://github.com/jpvanoosten/Audio) developer
 
 Niek Melet - engine tools developer 
 
-### External resources used
+### External resources used and Credits
 [JSFXR](https://sfxr.me/)
+Retro Starfield background by Dean Demon, found on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?l=dutch&id=678983853)
