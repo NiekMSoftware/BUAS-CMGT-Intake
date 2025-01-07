@@ -41,6 +41,7 @@ namespace Tmpl8
 		const int MAX_LARGE_ASTEROIDS = 12;
 
 		Player* player = nullptr;
+		Sprite* starField = nullptr;
 		AsteroidPool* asteroidPool = nullptr;
 
 		Label* scoreLabel = nullptr;

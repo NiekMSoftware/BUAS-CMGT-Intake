@@ -28,7 +28,6 @@ private:
 
 	bool isImmune() const { return collisionTimer > 0.0f; }
 
-private:
 	float thrustInput = 0;
 
 	// speed attributes

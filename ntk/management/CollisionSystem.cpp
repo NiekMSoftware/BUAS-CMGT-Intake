@@ -47,6 +47,7 @@ void CollisionSystem::unregisterObject(GameObject* obj)
 
 void CollisionSystem::update()
 {
+	// iterate through all the registered colliders and prepare to notify listeners
 	const size_t objectCount = m_collisionObjects.size();
 	for (size_t i = 0; i < objectCount; i++)
 	{
@@ -71,44 +72,52 @@ void CollisionSystem::checkCollision(GameObject* a, const CollisionCallback& cb1
 	aabb col1 = a->getCollider();
 	aabb col2 = b->getCollider();
 
+	// check for collision
 	if (checkAABB(col1, col2))
 	{
 		float2 cp = calculateContactPoint(col1, col2);
 		float2 n = calculateCollisionNormal(col1, col2);
 
-		// notify
+		// notify listeners
 		cb1(CollisionEvent{ .other= b, .contactPoint= cp, .normal = n});
 		cb2(CollisionEvent{ .other= a, .contactPoint= cp, .normal = n});
 	}
 }
 
+/** Checks if two AABBs (axis-aligned bounding boxes) overlap in 2D space. */
 bool CollisionSystem::checkAABB(const aabb& a, const aabb& b)
 {
+	
 	return (a.bmin[0] <= b.bmax[0] && a.bmax[0] >= b.bmin[0]) &&
 			(a.bmin[1] <= b.bmax[1] && a.bmax[1] >= b.bmin[1]);
 }
 
-float2 CollisionSystem::calculateContactPoint(const aabb& a, const aabb& b) const
-{
-	return float2{
-		(std::max(a.bmin[0], b.bmin[0]) + std::min(a.bmax[0], b.bmax[0])) * 0.5f,
-		(std::max(a.bmin[1], b.bmin[1]) + std::min(a.bmax[1], b.bmax[1])) * 0.5f
-	};
-}
-
-float2 CollisionSystem::calculateCollisionNormal(const aabb& a, const aabb& b) const
-{
-	float2 centerA = {(a.bmin[0] + a.bmax[0]) * 0.5f, (a.bmin[1] + a.bmax[1]) * 0.5f};
-	float2 centerB = {(b.bmin[0] + b.bmax[0]) * 0.5f, (b.bmin[1] + b.bmax[1]) * 0.5f};
-
-	float2 normal = { centerB.x - centerA.x, centerB.y - centerA.y };
-	float l = length(normal);
-
-	if (l > 0)
+// ----------------------------------------------------
+// An AI assistant helped me with these methods to calculate the contact point and normal
+//
+	float2 CollisionSystem::calculateContactPoint(const aabb& a, const aabb& b) const
 	{
-		normal.x /= l;
-		normal.y /= l;
+		return float2{
+			(std::max(a.bmin[0], b.bmin[0]) + std::min(a.bmax[0], b.bmax[0])) * 0.5f,
+			(std::max(a.bmin[1], b.bmin[1]) + std::min(a.bmax[1], b.bmax[1])) * 0.5f
+		};
 	}
 
-	return normal;
-}
+	float2 CollisionSystem::calculateCollisionNormal(const aabb& a, const aabb& b) const
+	{
+		float2 centerA = {(a.bmin[0] + a.bmax[0]) * 0.5f, (a.bmin[1] + a.bmax[1]) * 0.5f};
+		float2 centerB = {(b.bmin[0] + b.bmax[0]) * 0.5f, (b.bmin[1] + b.bmax[1]) * 0.5f};
+
+		float2 normal = { centerB.x - centerA.x, centerB.y - centerA.y };
+		float l = length(normal);
+
+		if (l > 0)
+		{
+			normal.x /= l;
+			normal.y /= l;
+		}
+
+		return normal;
+	}
+//
+// ----------------------------------------------------

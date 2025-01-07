@@ -178,7 +178,7 @@ GameObject* AsteroidPool::createAsteroid(AsteroidSize size)
 	return asteroid;
 }
 
-void AsteroidPool::handleAsteroid(GameObject* asteroid)
+void AsteroidPool::returnAsteroid(GameObject* asteroid)
 {
 	float scale = asteroid->getScale();
 	AsteroidSize currentSize = {};
@@ -205,15 +205,16 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 {
 	// Determine the next smaller size
 	AsteroidSize nextSize;
-	if (currentSize == AsteroidSize::Large) {
+	if (currentSize == AsteroidSize::Large)
+	{
 		nextSize = AsteroidSize::Medium;
 	}
-	else if (currentSize == AsteroidSize::Medium) {
+	else if (currentSize == AsteroidSize::Medium) 
+	{
 		nextSize = AsteroidSize::Small;
 	}
-	else {
+	else 
 		return; // Don't split if already smallest
-	}
 
 	// Get the original asteroid's properties
 	float2 originalPos = asteroid->getPosition();
@@ -232,7 +233,8 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 	const float BASE_SPLIT_OFFSET = 20.0f;
 	const float OFFSET_VARIANCE = 5.0f;
 
-	for (float angleOffset : splitAngles) {
+	for (float angleOffset : splitAngles) 
+	{
 		float splitAngle = originalAngle + angleOffset;
 
 		// Randomize the offset distance for each piece
@@ -246,7 +248,8 @@ void AsteroidPool::splitAsteroid(const GameObject* asteroid, const AsteroidSize 
 
 		GameObject* newAsteroid = spawnAsteroid(nextSize, newPos);
 
-		if (newAsteroid) {
+		if (newAsteroid) 
+		{
 			// Add some speed variance to each piece
 			float speedVariance = 0.2f;
 			float baseSpeed = getConfig(nextSize).speed;

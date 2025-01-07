@@ -17,7 +17,8 @@ void Asteroid::initialize()
 		{
 			m_collision = false;
 			this->onCollision(event);
-		});
+		}
+	);
 }
 
 Asteroid::~Asteroid()
@@ -44,6 +45,9 @@ void Asteroid::update()
 void Asteroid::onCollision(const CollisionEvent& event)
 {
 	if (m_collision) return;
+
+	// Only listen to Projectile based collisions
+	// Player already listens to the Asteroid
 	if (event.other->getName().find("Projectile") != std::string::npos)
 	{
 		GameManager::instance().score->incrementMultiplier();
@@ -52,7 +56,7 @@ void Asteroid::onCollision(const CollisionEvent& event)
 		if (explosionSound)
 			explosionSound->play();
 
-		asteroidPool->handleAsteroid(this);
+		asteroidPool->returnAsteroid(this);
 	}
 }
 

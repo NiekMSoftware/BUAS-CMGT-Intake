@@ -30,7 +30,6 @@ private:
 	template<typename T>
 	void RemoveResource(std::vector<std::pair<std::string, T*>>& container);
 
-private:
 	std::vector<std::pair<std::string, Surface*>> surfaceContainer;
 	std::vector<std::pair<std::string, Sprite*>> spriteContainer;
 };

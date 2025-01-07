@@ -5,9 +5,6 @@
 #include "precomp.h"
 #include "game.h"
 
-// TODO: Blink the 'Cluster Incoming' text
-// TODO: Make sure the asteroids spawn indifferent from one another and away from the player
-
 // -----------------------------------------------------------
 // Initialize the application
 // -----------------------------------------------------------
@@ -16,10 +13,11 @@ void Game::Init()
     setupGame();
     initWorld();
 
+	ResourceHolder::Instance().LoadSprite("assets/star_field.png", "star_field", 1);
+	starField = ResourceHolder::Instance().GetSprite("star_field");
+
 	GameManager::instance().updateWaveDisplay();
 }
-
-float t = 0.0f;
 
 // -----------------------------------------------------------
 // Main application tick function - Executed once per frame
@@ -78,7 +76,7 @@ void Game::Render()
 	}
 	else if (GameManager::instance().getCurrentState() == Playing)
 	{
-		screen->Clear(0x0C1F3F);
+		starField->Draw(screen, 0, 0);
 		GameWorld::instance().render(screen);
 	}
 	else if (GameManager::instance().getCurrentState() == GameOver)
@@ -98,6 +96,14 @@ void Game::Shutdown()
 	GameWorld::instance().clean();
 
 	delete asteroidPool;
+
+	// Delete the local star field
+	starField = nullptr;
+	delete starField;
+
+	// Delete the player object
+	player = nullptr;
+	delete player;
 }
 
 void Game::setupLabels()

@@ -39,7 +39,6 @@ private:
 	/** Generated a random position within the screen bounds. */
 	float2 generateRandomPosition() const;
 
-private:
 	AsteroidPool* pool;
 	WaveConfig currentWaveConfig;
 

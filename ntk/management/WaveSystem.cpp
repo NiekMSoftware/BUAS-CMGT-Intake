@@ -72,6 +72,7 @@ void WaveSystem::spawnAsteroidWave() const
 			// update the display to notify player
 			GameManager::instance().setClusterIncoming(true);
 
+			// inline initialization, Resharper recommended this
 			if (GameObject* asteroid = pool->spawnAsteroid(AsteroidSize::Large, position))
 			{
 				float2 currentVel = asteroid->getVelocity();

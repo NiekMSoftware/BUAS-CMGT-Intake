@@ -33,7 +33,6 @@ public:
 private:
 	GameWorld() = default;
 
-private:
 	int count;
 	int capacity;
 
