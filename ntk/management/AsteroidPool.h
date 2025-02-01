@@ -14,7 +14,7 @@ struct AsteroidConfig
 	float rotSpeed;
 	float size;
 	Sprite* sprite;
-	Audio::Sound* sound;
+	std::string explosionSound;
 };
 
 class AsteroidPool
@@ -22,6 +22,7 @@ class AsteroidPool
 public:
 	~AsteroidPool();
 	AsteroidPool(int maxLargeAsteroids = 10);
+	void reset();
 
 	static const std::vector<std::pair<AsteroidSize, AsteroidConfig>>& initializeConfigs();
 	static const AsteroidConfig& getConfig(AsteroidSize size);
@@ -29,9 +30,9 @@ public:
 	void initializePools(int maxLargeAsteroids);
 	GameObject* spawnAsteroid(AsteroidSize size, const float2& position);
 
-	void destroyAsteroid(GameObject* asteroid);
+	void returnAsteroid(GameObject* asteroid);
 	void splitAsteroid(const GameObject* asteroid, AsteroidSize currentSize);
-	void returnToPool(GameObject* asteroid);
+	void returnAsteroidToPool(GameObject* asteroid);
 
 	bool hasActiveAsteroids() const;
 
@@ -41,7 +42,6 @@ private:
 	std::vector<GameObject*>* getPoolForSize(AsteroidSize size);
 	GameObject* createAsteroid(AsteroidSize size);
 
-private:
 	std::vector<GameObject*> largeAsteroids;
 	std::vector<GameObject*> mediumAsteroids;
 	std::vector<GameObject*> smallAsteroids;

@@ -50,7 +50,10 @@ void GameWorld::clean()
 void GameWorld::update()
 {
 	// Remove inactive objects during update, but respect pooled objects
-	std::erase_if(worldObjects, [](const GameObject* obj) {
+	// Initially an AI tool suggested this, I looked further into how the std::erase_if()
+	// worked, from there on I kinda figured how this would work
+	std::erase_if(worldObjects, [](const GameObject* obj) 
+		{
 		    if (!obj || (!obj->isActive() && !obj->isObjectPooled())) 
 			{
 			    delete obj; 
@@ -85,23 +88,23 @@ void GameWorld::render(Surface* screen) const
 	std::vector<std::pair<GameObject*, int>> sortedObjects;
 	sortedObjects.reserve(worldObjects.size());
 
-	for (GameObject* obj : worldObjects) {
+	for (GameObject* obj : worldObjects) 
+	{
 		// Double-check object state before rendering
-		if (obj && obj->isActive()) {
+		if (obj && obj->isActive()) 
 			sortedObjects.emplace_back(obj, static_cast<int>(obj->getLayer()));
-		}
 	}
 
 	// Sort objects by layer value (lower numbers rendered first)
-	ranges::sort(sortedObjects,
-	             [](const auto& a, const auto& b) {
-		             return a.second < b.second;
-	             });
+	std::sort(sortedObjects.begin(), sortedObjects.end(), [](const auto& lhs, const auto& rhs) 
+		{
+			return lhs.second < rhs.second;
+		}
+	);
 
 	// Render objects in sorted order
-	for (const auto& [obj, layer] : sortedObjects) {
+	for (const auto& [obj, layer] : sortedObjects)
 		obj->render(screen);
-	}
 }
 
 /** Adds a game object to the game world. */
@@ -113,10 +116,6 @@ void GameWorld::addObject(GameObject* go)
 		OutputDebugString("[ERROR] GameWorld::addObject - Attempting to add null GameObject!\n");
 		return;
 	}
-
-	// Debug: Print pointer address before insertion
-	OutputDebugString(std::format("[DEBUG] GameWorld::addObject - Adding object at address: {}\n",
-		reinterpret_cast<uintptr_t>(go)).c_str());
 
 	// increase the capacity if more objects would be needed
 	if (count >= capacity)

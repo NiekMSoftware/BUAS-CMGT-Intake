@@ -7,6 +7,7 @@ struct CollisionEvent
 	float2 normal;
 };
 
+// using from <function>, a callback that handles collision events and notifies its listeners
 using CollisionCallback = std::function<void(const CollisionEvent&)>;
 
 struct CollisionRegistration
@@ -31,9 +32,14 @@ public:
 private:
 	void checkCollision(GameObject* a, const CollisionCallback& cb1, GameObject* b, const CollisionCallback& cb2);
 	bool checkAABB(const aabb& a, const aabb& b);
-	float2 calculateContactPoint(const aabb& a, const aabb& b) const;
-	float2 calculateCollisionNormal(const aabb& a, const aabb& b) const;
 
-private:
+	// ----------
+	// AI generated methods
+	// 
+		float2 calculateContactPoint(const aabb& a, const aabb& b) const;
+		float2 calculateCollisionNormal(const aabb& a, const aabb& b) const;
+	//
+	// ----------
+
 	std::vector<CollisionRegistration> m_collisionObjects;
 };

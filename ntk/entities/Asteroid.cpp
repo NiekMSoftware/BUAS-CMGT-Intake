@@ -17,7 +17,8 @@ void Asteroid::initialize()
 		{
 			m_collision = false;
 			this->onCollision(event);
-		});
+		}
+	);
 }
 
 Asteroid::~Asteroid()
@@ -25,6 +26,8 @@ Asteroid::~Asteroid()
 	CollisionSystem::instance().unregisterObject(this);
 	asteroidPool = nullptr;
 	delete asteroidPool;
+
+	delete explosionSound;
 }
 
 
@@ -42,10 +45,27 @@ void Asteroid::update()
 void Asteroid::onCollision(const CollisionEvent& event)
 {
 	if (m_collision) return;
+
+	// Only listen to Projectile based collisions
+	// Player already listens to the Asteroid
 	if (event.other->getName().find("Projectile") != std::string::npos)
 	{
 		GameManager::instance().score->incrementMultiplier();
 		m_collision = true;
-		asteroidPool->destroyAsteroid(this);
+
+		if (explosionSound)
+			explosionSound->play();
+
+		asteroidPool->returnAsteroid(this);
 	}
+}
+
+void Asteroid::setExplosionSound(const std::string& soundPath)
+{
+	// Delete previously allocated sound
+	delete explosionSound;
+
+	// Create a new sound
+	explosionSound = new Audio::Sound(soundPath, Audio::Sound::Type::Sound);
+	explosionSound->setVolume(0.5f);
 }

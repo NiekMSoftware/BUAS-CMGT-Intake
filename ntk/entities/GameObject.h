@@ -60,7 +60,6 @@ protected:
 
 	void keepInView();
 
-protected:
 	// attributes
 	float2 position = 0;
 	float2 velocity = 0;
@@ -80,5 +79,4 @@ protected:
 
 private:
 	bool m_active = true;
-
 };
