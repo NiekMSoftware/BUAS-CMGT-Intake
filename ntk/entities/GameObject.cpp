@@ -44,11 +44,11 @@ void GameObject::fixedUpdate()
 
 void GameObject::render(Surface* screen)
 {
-	// Calculate center-based coordinates of the sprite
-	const float factor = 0.5f * scale;
+	// Determine the center of the sprite taking 'scale' accounted for
+	const float scalar = 0.5f * scale;
 	const float2 spriteSize{
-		static_cast<float>(m_sprite->GetWidth()) * factor,
-		static_cast<float>(m_sprite->GetHeight()) * factor
+		static_cast<float>(m_sprite->GetWidth()) * scalar,
+		static_cast<float>(m_sprite->GetHeight()) * scalar
 	};
 
 	// calculate center
@@ -98,7 +98,7 @@ void GameObject::renderCollider(Surface* target, uint color) const
 	);
 }
 
-/** TODO: Enter a good description of this method */
+/** Determine what the GameObject should do upon collision */
 void GameObject::onCollision(const CollisionEvent&)
 {
 	if (m_collision) return;
@@ -106,8 +106,9 @@ void GameObject::onCollision(const CollisionEvent&)
 }
 
 /**
- * Moves the position to a new position by translating it (make sure to multiply by delta time).
+ * Moves the position to a new position by translating it.
  * @param translation The translation to compute to.
+ * @note Make sure to multiply this by deltaTime for smoother translations.
  */
 void GameObject::translate(const float2& translation)
 {
@@ -163,7 +164,8 @@ void GameObject::initializeCollider()
 /**
  * Updates the collider's AABB bounds based on the game object's transform state.
  */
-void GameObject::updateCollider() {
+void GameObject::updateCollider()
+{
 	if (!m_sprite) return;
 
 	const float width = static_cast<float>(m_sprite->GetWidth()) * scale;
